@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "row",
         borderRadius: 5,
-        paddingTop: 15,
-        paddingBottom: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
         paddingLeft: 30,
         paddingRight: 30,
         marginTop: 10,
@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: "Avenir",
         width: '100%',
-        height: 20
+        height: 50
     }
 });

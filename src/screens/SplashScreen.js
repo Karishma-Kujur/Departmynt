@@ -33,7 +33,7 @@ const SplashScreen = (props) => {
         >
             <Image source={Wallpaper} style={styles.wallpaper} />
             <View style={styles.actionsContainer}>
-                <Button label="GET STATRED" onPress={() => navigation.navigate('Sign Up')} />
+                <Button label="GET STARTED" onPress={() => navigation.navigate('Sign Up')} />
                 <View style={styles.linkContainer}>
                 <Text  style={styles.text}>{"Existing user? "}</Text>
                     <Link label="Login" onPress={() => navigation.navigate('Login')} />
