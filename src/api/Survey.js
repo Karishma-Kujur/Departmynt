@@ -4,7 +4,7 @@ import { getFormattedString } from '../helpers'
 export function getSurveyQuestions() {
     return new Promise((resolve, reject) => {
         const url = `${Constants.URL.wc}/quiz-survey-master/v1/questions?quizID=2?consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}`
-         axios.get(url).then(response => {
+        axios.get(url).then(response => {
             resolve(getSurveyQuestionsFromResult(response.data))
         }).catch(err => {
             reject(err)
@@ -47,7 +47,6 @@ const getSurveyQuestionsFromResult = (result) => {
             question: getFormattedString(product.name),
             required: product.required === "1" ? true : false,
             multiselect: (product.type === "0" || product.type === "1") ? false : true,
-            answerType: product.answerEditor === 'rich' ? 'image' : 'text',
             answers: getAnswer(product.answers),
         })
     })
@@ -57,9 +56,11 @@ const getSurveyQuestionsFromResult = (result) => {
 const getAnswer = (list) => {
     const answers = []
     list.forEach((answer, index) => {
+        let answerText = getFormattedString(answer[0])
         answers.push({
             id: index,
-            answer: getFormattedString(answer[0]),
+            answer: answerText,
+            answerType: (answerText && answerText.includes('www.departmynt.co')) ? 'image' : 'text',
             keyAttribute: answer[1]
         })
     })

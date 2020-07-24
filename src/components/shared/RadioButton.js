@@ -5,7 +5,7 @@ import UnSelected from '../../assets/images/unselected.png'
 import NoImage from '../../assets/images/noImage.png'
 
 const RadioButtonComponent = (props) => {
-    const { items, selectedAnswer, setAnswer, selectedId, changeSelectedId, answerType } = props
+    const { items, selectedAnswer, setAnswer, selectedId, changeSelectedId } = props
     const fullWidth = Dimensions.get('window').width;
 
     const imageStyle = [
@@ -39,7 +39,7 @@ const RadioButtonComponent = (props) => {
                             {selectedId === item.id ?
                                 <Image source={Selected} style={imageStyle} /> :
                                 <Image source={UnSelected} style={imageStyle} />}
-                        {answerType === 'image' ?
+                        {item.answerType === 'image' ?
                             <Image source={item.answer ? {
                                 uri: item.answer,
                             } : NoImage}

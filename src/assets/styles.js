@@ -302,7 +302,7 @@ export default StyleSheet.create({
 	},
 	bottom: {
 		width: DIMENSION_WIDTH - 20,
-		marginBottom: 10
+		marginBottom: 15
 	},
 	titleContainer: {
 		paddingTop: 30,

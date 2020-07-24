@@ -5,7 +5,7 @@ import UnChecked from '../../assets/images/unchecked.jpeg'
 import NoImage from '../../assets/images/noImage.png'
 
 const MultiSelect = (props) => {
-    const { items, selectedId, changeSelectedId, answerType } = props
+    const { items, selectedId, changeSelectedId } = props
     const fullWidth = Dimensions.get('window').width;
 
     const imageStyle = [
@@ -45,7 +45,7 @@ const MultiSelect = (props) => {
                             {selectedId && selectedId.includes(item.id) ?
                                 <Image source={Checked} style={imageStyle} /> :
                                 <Image source={UnChecked} style={imageStyle} />}
-                        {answerType === 'image' ?
+                        {item.answerType === 'image' ?
                             <Image source={item.answer ? {
                                 uri: item.answer,
                             } : NoImage}
