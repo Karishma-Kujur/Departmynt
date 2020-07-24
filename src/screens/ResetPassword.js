@@ -52,7 +52,7 @@ const ResetPassword = (props) => {
   return (
     <KeyboardAvoidingView style={{flex: 1}} 
     behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
-      <View style={styles.formContainer}>
+      <View style={styles.containerMatches}>
         <View style={styles.top}>
           <Text style={styles.title}>Reset Password</Text>
         </View>

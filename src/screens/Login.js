@@ -93,7 +93,7 @@ const LoginScreen = (props) => {
                     SurveyApi.getSurveyQuestions()
                     .then((questionResult) => {
                         setLoader(false)
-                        if(answerResult.length === questionResult.length) {
+                        if(answerResult && answerResult.length === questionResult.length) {
                             UserAction.setUser(userData)
                             navigation.navigate('Home')
                         }
@@ -122,7 +122,7 @@ const LoginScreen = (props) => {
     return (
         <KeyboardAvoidingView style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
-            <View style={styles.formContainer}>
+            <View style={styles.containerMatches}>
                 <Spinner
                     visible={spinner}
                 />

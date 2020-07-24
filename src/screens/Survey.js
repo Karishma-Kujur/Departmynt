@@ -43,7 +43,7 @@ const SurveyScreen = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        if(!questions.length)
+        if(!questions || !questions.length)
             getSurveyQuestions()
     }, [isFocused])
 
@@ -198,8 +198,8 @@ const SurveyScreen = (props) => {
                     </ScrollView>
 
                     <View style={{
-                        display: 'flex', flexDirection: 'row', width: width - 30,
-                         alignItems: 'center', justifyContent: 'center'
+                        display: 'flex', flexDirection: 'row', width: width-20,
+                         alignItems: 'center', justifyContent: 'space-between'
                     }}>
                         <Button
                             onPress={handleOnPressSave}
@@ -225,7 +225,7 @@ const SurveyScreen = (props) => {
 }
 const mapStateToProps = ({ survey }) => {
     return {
-        questions: survey.surveyQuestions,
+        questions: survey.surveyQuestions || [],
         answeredQuestions: survey.answeredQuestions
     };
 }

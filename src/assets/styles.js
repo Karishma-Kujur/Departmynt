@@ -300,13 +300,6 @@ export default StyleSheet.create({
 		width: DIMENSION_WIDTH,
 		height: DIMENSION_HEIGHT
 	},
-	top: {
-		marginHorizontal: 10,
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		textAlign: "center"
-	},
 	bottom: {
 		width: DIMENSION_WIDTH - 20,
 		marginBottom: 10
@@ -318,9 +311,18 @@ export default StyleSheet.create({
 		justifyContent: "flex-start",
 		alignItems: 'center'
 	},
+	top: {
+		paddingTop: 30,
+		marginHorizontal: 10,
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		textAlign: "center"
+	},
 	formButton: {
 		flex: 1,
-		justifyContent: 'flex-end'
+		justifyContent: 'flex-end',
+		marginBottom: 20
 	},
 	linkContainer: {
 		width: '100%',

@@ -90,7 +90,7 @@ const ForgotPassword = (props) => {
   return (
     <KeyboardAvoidingView style={{flex: 1}} 
     behavior = {Platform.OS === 'ios' ? "padding" : "height"} enabled>
-      <View style={styles.formContainer}>
+      <View style={styles.containerMatches}>
         <Spinner visible={spinner} />
 
         <View style={styles.top}>

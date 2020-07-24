@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Constants from '../appConfig/Constants';
-
+import { getFormattedString } from '../helpers'
 export function getSurveyQuestions() {
     return new Promise((resolve, reject) => {
         const url = `${Constants.URL.wc}/quiz-survey-master/v1/questions?quizID=2?consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}`
@@ -44,7 +44,7 @@ const getSurveyQuestionsFromResult = (result) => {
     surveyList.forEach((product) => {
         surveyQuestions.push({
             id: product.id,
-            question: product.name,
+            question: getFormattedString(product.name),
             required: product.required === "1" ? true : false,
             multiselect: (product.type === "0" || product.type === "1") ? false : true,
             answerType: product.answerEditor === 'rich' ? 'image' : 'text',
@@ -59,7 +59,7 @@ const getAnswer = (list) => {
     list.forEach((answer, index) => {
         answers.push({
             id: index,
-            answer: answer[0],
+            answer: getFormattedString(answer[0]),
             keyAttribute: answer[1]
         })
     })

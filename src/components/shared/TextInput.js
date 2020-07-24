@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     textInput: {
         fontSize: 16,
         fontFamily: "Avenir",
-        width: '100%'
+        width: '100%',
+        height: 20
     }
 });

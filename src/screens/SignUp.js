@@ -68,11 +68,11 @@ const SignUpScreen = (props) => {
         }
     }
 
-    const validateInput = (value, setError, confirmPassword=false) => {
+    const validateInput = (value, setError, confirmPassword = false) => {
         if (value === '') {
             setError(true)
         }
-        else if(confirmPassword && value !== password) {
+        else if (confirmPassword && value !== password) {
             setError(true)
         }
     }
@@ -123,7 +123,7 @@ const SignUpScreen = (props) => {
             if (value !== '') {
                 validatorObj.onError(false)
             }
-            else if(confirmPassword && value !== password) {
+            else if (confirmPassword && value !== password) {
                 setConfirmPasswordError(true)
             }
             else {
@@ -138,7 +138,7 @@ const SignUpScreen = (props) => {
     return (
         <KeyboardAvoidingView style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
-            <View style={styles.formContainer}>
+            <View style={styles.containerMatches}>
                 <Spinner
                     visible={spinner}
                 />

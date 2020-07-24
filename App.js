@@ -10,6 +10,7 @@ const { store, persistor } = configureStore();
 
 class App extends React.Component {
   render() {
+    console.disableYellowBox = true;
     return (
       <NavigationContainer>
         <Provider store={store}>
