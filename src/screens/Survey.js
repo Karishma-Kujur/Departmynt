@@ -18,6 +18,7 @@ const SurveyScreen = (props) => {
     const [showTransition, changeShowTransition] = useState(true)
     const [surveyCount, changeSurveyCount] = useState(0)
     const [selectedId, changeSelectedId] = useState(null)
+    const [textAnswer, setTextAnswer] = useState('')
     const [progressStatus, changeProgressStatus] = useState(0)
     const [spinner, setLoader] = useState('')
     const [answers, changeAnswers] = useState({
@@ -44,7 +45,7 @@ const SurveyScreen = (props) => {
     const isFocused = useIsFocused()
     useEffect(() => {
         if(!questions || !questions.length)
-            getSurveyQuestions()
+        getSurveyQuestions()
     }, [isFocused])
 
     useEffect(() => {
@@ -69,7 +70,11 @@ const SurveyScreen = (props) => {
     }
 
     const handleOnPressNext = () => {
-        if (surveyQuestion.multiselect) {
+        if(surveyQuestion.textInput) {
+            setAnswer(textAnswer)
+            setTextAnswer('')
+        }
+        else if (surveyQuestion.multiselect) {
             setAnswer(selectedId)
         }
         let answer = answers.results.find((element) => element.id === surveyQuestion.id)
@@ -103,7 +108,7 @@ const SurveyScreen = (props) => {
 
     const setAnswer = (text) => {
         let answersObj = { ...answers }
-        if (surveyQuestion.multiselect) {
+        if (surveyQuestion.multiselect && !surveyQuestion.textInput) {
             text && text.forEach((id) => {
                 let obj = surveyQuestion.answers.find((answer) => answer.id === id)
                 answersObj.results.push({
@@ -169,11 +174,12 @@ const SurveyScreen = (props) => {
                         {surveyQuestion.answers.length === 0 &&
                             <View style={styles.textInputContainer}>
                                 <TextInput
+                                    defaultValue=''
                                     multiline
                                     numberOfLines={4}
                                     style={styles.textInput}
-                                    onChangeText={text => setAnswer(text)}
-                                // value={value}
+                                    onChangeText={text => setTextAnswer(text)}
+                                    value={textAnswer}
                                 />
                             </View>
                         }
@@ -196,8 +202,8 @@ const SurveyScreen = (props) => {
                     </ScrollView>
 
                     <View style={{
-                        display: 'flex', flexDirection: 'row', width: width-20,
-                         alignItems: 'center', justifyContent: 'space-between'
+                        display: 'flex', flexDirection: 'row', width: width - 20,
+                        alignItems: 'center', justifyContent: 'space-between'
                     }}>
                         <Button
                             onPress={handleOnPressSave}

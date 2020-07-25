@@ -46,6 +46,7 @@ const getSurveyQuestionsFromResult = (result) => {
             id: product.id,
             question: getFormattedString(product.name),
             required: product.required === "1" ? true : false,
+            textInput: !product.answers.length,
             multiselect: (product.type === "0" || product.type === "1") ? false : true,
             answers: getAnswer(product.answers),
         })
