@@ -83,8 +83,8 @@ const LoginScreen = (props) => {
                                     navigation.navigate('Home')
                                 }
                                 else {
-                                    let filteredQuestions = getFilteredQuestions(answerResult, questionResult)
-                                    SurveyAction.setSurveyQuestions(filteredQuestions)
+                                    let answeredQuestions = (answerResult && answerResult.length) || 0
+                                    SurveyAction.setSurveyQuestions(questionResult, answeredQuestions, questionResult.length)
                                     navigation.navigate('Survey')
                                 }
                             })

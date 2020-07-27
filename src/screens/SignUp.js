@@ -9,6 +9,8 @@ import styles from '../assets/styles';
 import * as SignupAction from '../actions/SignupAction';
 import * as UserAction from '../actions/UserAction';
 import * as LoginApi from '../api/Login';
+import * as SurveyApi from '../api/Survey'
+import * as SurveyAction from '../actions/SurveyAction'
 import { validateFormField } from '../helpers'
 import Spinner from 'react-native-loading-spinner-overlay';
 import _ from 'lodash'
@@ -16,7 +18,7 @@ import _ from 'lodash'
 const { width, height } = Dimensions.get("window");
 
 const SignUpScreen = (props) => {
-    const { navigation, UserAction } = props
+    const { navigation, UserAction, SurveyAction } = props
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -81,14 +83,22 @@ const SignUpScreen = (props) => {
             .then((result) => {
                 LoginApi.login(data)
                     .then((userResult) => {
-                        setLoader(false)
                         let userData = {
                             ...userResult,
                             userName: email,
                             password: password
                         }
                         UserAction.setUser(userData)
-                        navigation.navigate('Survey')
+                        SurveyApi.getSurveyQuestions()
+                            .then((questionResult) => {
+                                setLoader(false)
+                                    SurveyAction.setSurveyQuestions(questionResult, 0, questionResult.length)
+                                    navigation.navigate('Survey')
+                            })
+                            .catch((error) => {
+                                setLoader(false)
+                                Alert.alert('Error', 'Some error has occured! Please contact the adminitrator or try after sometime')
+                            })
                     })
                     .catch((error) => {
                         setLoader(false)
@@ -183,7 +193,8 @@ const SignUpScreen = (props) => {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        UserAction: bindActionCreators(UserAction, dispatch)
+        UserAction: bindActionCreators(UserAction, dispatch),
+        SurveyAction: bindActionCreators(SurveyAction, dispatch)
     };
 }
 

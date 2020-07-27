@@ -35,6 +35,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: "Avenir",
         width: '100%',
-        height: 30
+        height: 40
     }
 });

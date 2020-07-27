@@ -15,8 +15,9 @@ import MultiSelect from '../components/shared/MultiSelect'
 const { width, height } = Dimensions.get("window");
 
 const SurveyScreen = (props) => {
+    const { navigation, SurveyAction, questions, answeredQuestions, totalQuestions } = props
     const [showTransition, changeShowTransition] = useState(true)
-    const [surveyCount, changeSurveyCount] = useState(0)
+    const [surveyCount, changeSurveyCount] = useState(answeredQuestions)
     const [selectedId, changeSelectedId] = useState(null)
     const [textAnswer, setTextAnswer] = useState('')
     const [progressStatus, changeProgressStatus] = useState(0)
@@ -25,7 +26,6 @@ const SurveyScreen = (props) => {
         quizId: 2,
         results: []
     })
-    const { navigation, SurveyAction, questions, answeredQuestions } = props
     const surveyQuestion = (questions && questions.length > surveyCount) ? questions[surveyCount] : null
 
     const getSurveyQuestions = () => {
@@ -42,17 +42,17 @@ const SurveyScreen = (props) => {
 
     }
 
-    const isFocused = useIsFocused()
-    useEffect(() => {
-        if(!questions || !questions.length)
-        getSurveyQuestions()
-    }, [isFocused])
+    // const isFocused = useIsFocused()
+    // useEffect(() => {
+    //     if(!questions || !questions.length)
+    //     getSurveyQuestions()
+    // }, [isFocused])
 
     useEffect(() => {
         if (questions.length > 0) {
-            changeProgressStatus(1 / questions.length)
+            changeProgressStatus((answeredQuestions+1) / totalQuestions)
         }
-    }, [questions])
+    }, [answeredQuestions, totalQuestions])
 
     const handleOnPressSave = () => {
         setLoader(true)
@@ -152,7 +152,7 @@ const SurveyScreen = (props) => {
                 <>
                     <ScrollView>
                         <View style={styles.questionContainer}>
-                            <Text style={styles.question}>{surveyQuestion.question}</Text>
+                            <Text style={styles.question}>{"("+(surveyCount+1)+"/"+questions.length+") "+surveyQuestion.question}</Text>
                         </View>
                         {surveyQuestion.answers.length > 0 && !surveyQuestion.multiselect &&
                             <RadioButton
@@ -230,7 +230,8 @@ const SurveyScreen = (props) => {
 const mapStateToProps = ({ survey }) => {
     return {
         questions: survey.surveyQuestions || [],
-        answeredQuestions: survey.answeredQuestions
+        answeredQuestions: survey.answeredQuestions || 0,
+        totalQuestions: survey.totalQuestions || 0
     };
 }
 

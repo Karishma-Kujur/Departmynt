@@ -3,11 +3,13 @@ import axios from 'axios';
 import Constants from '../appConfig/Constants';
 import *  as types from '../constants/ActionTypes';
 
-export function setSurveyQuestions(result) {
+export function setSurveyQuestions(result, answered, total) {
     return (dispatch) => {
             dispatch({
                 type: types.GET_SURVEY_QUESTION_SUCCESS,
-                surveyQuestions: result
+                surveyQuestions: result,
+                answered: answered,
+                total: total
             })
     };
 }
