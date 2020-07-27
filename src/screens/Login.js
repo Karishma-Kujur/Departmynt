@@ -5,33 +5,35 @@ import { bindActionCreators } from 'redux';
 import Button from '../components/shared/Button'
 import TextInput from '../components/shared/TextInput'
 import Link from '../components/shared/Link'
+import { validateFormField } from '../helpers'
 import * as LoginApi from '../api/Login';
 import * as SurveyApi from '../api/Survey'
 import * as SurveyAction from '../actions/SurveyAction'
 import * as UserAction from '../actions/UserAction';
 import styles from '../assets/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
+import _ from 'lodash'
 
 const { width, height } = Dimensions.get("window");
 
 const LoginScreen = (props) => {
     const { navigation, UserAction, SurveyAction } = props
     const [userName, setUserName] = useState('')
-    const [userNameError, setUserNameError] = useState(false)
     const [password, setPassword] = useState('')
-    const [passwordError, setPasswordError] = useState(false)
     const [spinner, setLoader] = useState('')
+    const [errorObject, updateErrorObject] = useState({})
     const validator = {
         userName: {
             type: 'string',
             field: 'userName',
-            onError: setUserNameError,
             onChange: setUserName,
+            extras: {
+                email: true
+            }
         },
         password: {
             type: 'string',
             field: 'password',
-            onError: setPasswordError,
             onChange: setPassword,
             extras: {
             }
@@ -40,12 +42,6 @@ const LoginScreen = (props) => {
 
     const onChangeText = (value, validatorObj, onChange) => {
         if (validatorObj) {
-            if (value !== '') {
-                validatorObj.onError(false)
-            }
-            else {
-                validatorObj.onError(true)
-            }
             validatorObj.onChange(value)
             // validateFormField(value, validatorObj.field, validatorObj.type, newError, validatorObj.extras);
             // updateErrorObject({...errorObject, ...newError});
@@ -54,28 +50,17 @@ const LoginScreen = (props) => {
         }
     }
 
-    const validateInput = (value, setError) => {
-        if (value === '') {
-            setError(true)
-        }
-    }
-
     const getFilteredQuestions = (answeredQuestions, questions) => {
         let data = [...questions]
         answeredQuestions && answeredQuestions.forEach((questionId) => {
-           data =  data.filter((element)  => {
+            data = data.filter((element) => {
                 return element.id !== questionId
             })
         })
         return data
     }
 
-    const handleOnSubmit = () => {
-        validateInput(userName, setUserNameError);
-        validateInput(password, setPasswordError);
-        if (!userName || !password)
-            return null;
-
+    const loginApi = () => {
         const data = {
             "username": userName,
             "password": password
@@ -89,34 +74,44 @@ const LoginScreen = (props) => {
                     password: password
                 }
                 SurveyApi.getSurveyStatus(userData.id)
-                .then((answerResult) => {
-                    SurveyApi.getSurveyQuestions()
-                    .then((questionResult) => {
-                        setLoader(false)
-                        if(answerResult && answerResult.length === questionResult.length) {
-                            UserAction.setUser(userData)
-                            navigation.navigate('Home')
-                        }
-                        else {
-                            let filteredQuestions = getFilteredQuestions(answerResult, questionResult)
-                            SurveyAction.setSurveyQuestions(filteredQuestions)
-                            navigation.navigate('Survey')
-                        }
+                    .then((answerResult) => {
+                        SurveyApi.getSurveyQuestions()
+                            .then((questionResult) => {
+                                setLoader(false)
+                                if (answerResult && answerResult.length === questionResult.length) {
+                                    UserAction.setUser(userData)
+                                    navigation.navigate('Home')
+                                }
+                                else {
+                                    let filteredQuestions = getFilteredQuestions(answerResult, questionResult)
+                                    SurveyAction.setSurveyQuestions(filteredQuestions)
+                                    navigation.navigate('Survey')
+                                }
+                            })
+                            .catch((error) => {
+                                setLoader(false)
+                                Alert.alert('Error', 'Some error has occured! Please contact the adminitrator or try after sometime')
+                            })
                     })
                     .catch((error) => {
                         setLoader(false)
                         Alert.alert('Error', 'Some error has occured! Please contact the adminitrator or try after sometime')
                     })
-                })
-                .catch((error) => {
-                    setLoader(false)
-                    Alert.alert('Error', 'Some error has occured! Please contact the adminitrator or try after sometime')
-                })
             })
             .catch((error) => {
                 setLoader(false)
                 Alert.alert('Invalid User name or Password', 'Please enter valid user name and password')
             })
+    }
+
+    const handleOnSubmit = () => {
+        const newError = {}
+        validateFormField(userName, validator.userName.field, validator.userName.type, newError, validator.userName.extras);
+        validateFormField(password, validator.password.field, validator.password.type, newError, validator.password.extras);
+        if (_.isEmpty(newError)) {
+            loginApi()
+        }
+        updateErrorObject({ ...newError })
     }
 
     return (
@@ -136,14 +131,14 @@ const LoginScreen = (props) => {
                         onChangeText={text => onChangeText(text, validator.userName)}
                         value={userName}
                     />
-                    {userNameError && <Text style={styles.errorMessage}>*Please Enter your User Name</Text>}
+                    {errorObject.userName && <Text style={styles.errorMessage}>*Please Enter a valid email Id</Text>}
                     <TextInput
                         name="Password"
                         mode="password"
                         onChangeText={text => onChangeText(text, validator.password)}
                         value={password}
                     />
-                    {passwordError && <Text style={styles.errorMessage}>*Please Enter your Email Id</Text>}
+                    {errorObject.password && <Text style={styles.errorMessage}>*Please Enter your Email Id</Text>}
                 </ScrollView>
                 <View style={styles.formButton}>
                     <Button label="Login" onPress={handleOnSubmit} />

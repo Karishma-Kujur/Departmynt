@@ -9,42 +9,38 @@ import styles from '../assets/styles';
 import * as SignupAction from '../actions/SignupAction';
 import * as UserAction from '../actions/UserAction';
 import * as LoginApi from '../api/Login';
+import { validateFormField } from '../helpers'
 import Spinner from 'react-native-loading-spinner-overlay';
+import _ from 'lodash'
 
 const { width, height } = Dimensions.get("window");
 
 const SignUpScreen = (props) => {
     const { navigation, UserAction } = props
     const [firstName, setFirstName] = useState('')
-    const [firstNameError, setFirstNameError] = useState(false)
     const [lastName, setLastName] = useState('')
-    const [lastNameError, setLastNameError] = useState(false)
     const [email, setEmail] = useState('')
-    const [emailError, setEmailError] = useState(false)
     const [password, setPassword] = useState('')
-    const [passwordError, setPasswordError] = useState(false)
     const [confirmPassword, setConfirmPassword] = useState(false)
-    const [confirmPasswordError, setConfirmPasswordError] = useState(false)
-    const [formError, setFormError] = useState(false)
+    const [errorObject, updateErrorObject] = useState({})
     const [spinner, setLoader] = useState('')
 
     const validator = {
         firstName: {
             type: 'string',
             field: 'firstName',
-            onError: setFirstNameError,
             onChange: setFirstName,
+            extras: {}
         },
         lastName: {
             type: 'string',
             field: 'lastName',
-            onError: setLastNameError,
             onChange: setLastName,
+            extras: {}
         },
         email: {
             type: 'string',
             field: 'email',
-            onError: setEmailError,
             onChange: setEmail,
             extras: {
                 email: true
@@ -53,39 +49,26 @@ const SignUpScreen = (props) => {
         password: {
             type: 'string',
             field: 'password',
-            onError: setPasswordError,
             onChange: setPassword,
             extras: {
+                password: true,
+                confirmPassword: true,
+                passwordValue: '',
             }
         },
         confirmPassword: {
             type: 'string',
             field: 'confirmPassword',
-            onError: setConfirmPasswordError,
             onChange: setConfirmPassword,
             extras: {
+                password: true,
+                confirmPassword: true,
+                passwordValue: '',
             }
         }
     }
 
-    const validateInput = (value, setError, confirmPassword = false) => {
-        if (value === '') {
-            setError(true)
-        }
-        else if (confirmPassword && value !== password) {
-            setError(true)
-        }
-    }
-
-    const handleSignup = () => {
-        validateInput(email, setEmailError);
-        validateInput(firstName, setFirstNameError);
-        validateInput(lastName, setLastNameError);
-        validateInput(password, setPasswordError);
-        validateInput(confirmPassword, setConfirmPasswordError, true);
-
-        if (!email || !firstName || !lastName || !password || !confirmPassword || confirmPassword !== password)
-            return null;
+    const handleSignUpApi = () => {
         const data = {
             "email": email,
             "first_name": firstName,
@@ -118,20 +101,27 @@ const SignUpScreen = (props) => {
             })
     }
 
-    const onChangeText = (value, validatorObj, confirmPassword) => {
+
+    const handleSignup = () => {
+        const newError = {}
+        validateFormField(email, validator.email.field, validator.email.type, newError, validator.email.extras);
+        validateFormField(firstName, validator.firstName.field, validator.firstName.type, newError, validator.firstName.extras)
+        validateFormField(lastName, validator.lastName.field, validator.lastName.type, newError, validator.lastName.extras)
+        validator.password.extras.passwordValue = confirmPassword
+        validateFormField(password, validator.password.field, validator.password.type, newError, validator.password.extras)
+        validator.confirmPassword.extras.passwordValue = password
+        validateFormField(confirmPassword, validator.confirmPassword.field, validator.confirmPassword.type, newError, validator.confirmPassword.extras)
+
+        if (_.isEmpty(newError)) {
+            handleSignUpApi()
+        }
+        updateErrorObject({ ...newError })
+    }
+
+    const onChangeText = (value, validatorObj) => {
         if (validatorObj) {
-            if (value !== '') {
-                validatorObj.onError(false)
-            }
-            else if (confirmPassword && value !== password) {
-                setConfirmPasswordError(true)
-            }
-            else {
-                validatorObj.onError(true)
-            }
             validatorObj.onChange(value)
         }
-
     }
 
 
@@ -151,33 +141,33 @@ const SignUpScreen = (props) => {
                         onChangeText={text => onChangeText(text, validator.firstName)}
                         value={firstName}
                     />
-                    {firstNameError && <Text style={styles.errorMessage}>*Please Enter your First Name</Text>}
+                    {errorObject.firstName && <Text style={styles.errorMessage}>*Please Enter your First Name</Text>}
                     <TextInput
                         name="Last Name"
                         onChangeText={text => onChangeText(text, validator.lastName)}
                         value={lastName}
                     />
-                    {lastNameError && <Text style={styles.errorMessage}>*Please Enter your Last Name</Text>}
+                    {errorObject.lastName && <Text style={styles.errorMessage}>*Please Enter your Last Name</Text>}
                     <TextInput
                         name="Email"
                         onChangeText={text => onChangeText(text, validator.email)}
                         value={email}
                     />
-                    {emailError && <Text style={styles.errorMessage}>*Please Enter your Email Id</Text>}
+                    {errorObject.email && <Text style={styles.errorMessage}>*Please Enter your Email Id</Text>}
                     <TextInput
                         name="Password"
                         mode="password"
                         onChangeText={text => onChangeText(text, validator.password)}
                         value={password}
                     />
-                    {passwordError && <Text style={styles.errorMessage}>*Please Enter your Password</Text>}
+                    {errorObject.password && <Text style={styles.errorMessage}>*Please Enter your Password</Text>}
                     <TextInput
                         name="Confirm Password"
                         mode="password"
-                        onChangeText={text => onChangeText(text, validator.confirmPassword, true)}
+                        onChangeText={text => onChangeText(text, validator.confirmPassword)}
                         value={confirmPassword}
                     />
-                    {confirmPasswordError && <Text style={styles.errorMessage}>*Your entered password doesnot match</Text>}
+                    {errorObject.confirmPassword && <Text style={styles.errorMessage}>*Your entered password doesnot match</Text>}
                 </ScrollView>
                 <View style={styles.formButton}>
                     <Button label="Begin Survey" onPress={handleSignup} />
