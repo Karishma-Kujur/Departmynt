@@ -11,6 +11,7 @@ import * as SurveyAction from '../actions/SurveyAction';
 import * as SurveyApi from '../api/Survey'
 import RadioButton from '../components/shared/RadioButton'
 import MultiSelect from '../components/shared/MultiSelect'
+import _ from 'lodash'
 
 const { width, height } = Dimensions.get("window");
 
@@ -70,14 +71,16 @@ const SurveyScreen = (props) => {
     }
 
     const handleOnPressNext = () => {
+        let resultObj = {}
         if(surveyQuestion.textInput) {
-            setAnswer(textAnswer)
+            resultObj = setAnswer(textAnswer)
             setTextAnswer('')
         }
         else if (surveyQuestion.multiselect) {
-            setAnswer(selectedId)
+            resultObj = setAnswer(selectedId)
         }
-        let answer = answers.results.find((element) => element.id === surveyQuestion.id)
+        resultObj = !_.isEmpty(resultObj) ? resultObj : answers; 
+        let answer = resultObj.results.find((element) => element.id === surveyQuestion.id)
         if ((surveyQuestion.required && answer) || !surveyQuestion.required) {
             if (surveyCount < questions.length - 1) {
                 if (showTransition && surveyCount >= (questions.length - 1) / 2) {
@@ -90,7 +93,7 @@ const SurveyScreen = (props) => {
 
             } else {
                 setLoader(true)
-                let data = { ...answers }
+                let data = { ...resultObj }
                 data.results = JSON.stringify(data.results)
                 SurveyApi.submitAnswers(data)
                     .then((result) => {
@@ -114,7 +117,9 @@ const SurveyScreen = (props) => {
                 answersObj.results.push({
                     id: surveyQuestion.id,
                     answer: obj.answer,
-                    answerKey: obj.keyAttribute
+                    answerKey: obj.keyAttribute,
+                    question: surveyQuestion.question,
+                    isImage:obj.answerType === 'image'
                 })
             })
         }
@@ -125,7 +130,8 @@ const SurveyScreen = (props) => {
                     found = true
                     return {
                         id: surveyQuestion.id,
-                        answer: text
+                        answer: text,
+                        question: surveyQuestion.question
                     }
                 }
                 else return answer
@@ -133,11 +139,13 @@ const SurveyScreen = (props) => {
             if (!found) {
                 answersObj.results.push({
                     id: surveyQuestion.id,
-                    answer: text
+                    answer: text,
+                    question: surveyQuestion.question,
                 })
             }
         }
         changeAnswers(answersObj)
+        return answersObj;
     }
 
     return (

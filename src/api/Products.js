@@ -90,6 +90,18 @@ export function getOrderHistory(userId) {
     });
 }
 
+export function removeFromMatches(data) {
+    return new Promise((resolve, reject) => {
+        const url = `${Constants.URL.wc}/user/loseIt?consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}`
+        axios.post(url, data).then(response => {
+            resolve(response.data)
+        }).catch(err => {
+            console.log(err);
+            reject(err)
+        })
+    });
+}
+
 const getProjectsFromResult = (result) => {
     const productsList = result
     const products = []

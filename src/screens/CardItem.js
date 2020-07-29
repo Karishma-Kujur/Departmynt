@@ -123,6 +123,32 @@ const CardItem = ({
             })
     }
 
+    const handleOnClickLoseIt = () => {
+        const data = {
+            userId: user.id,
+            productId: productId
+        }
+        ProductsApi.removeFromMatches(data)
+            .then((result) => {
+                setDialogMessage('Not your Style? Got it!')
+                showDialog(true)
+                changeShowSize(false)
+                setTimeout(() => {
+                    showDialog(false)
+                    setDialogMessage('')
+                }, 2000);
+            })
+            .catch((error) => {
+                changeShowSize(false)
+                setDialogMessage('Error occured while removing from Tote!')
+                showDialog(true)
+                setTimeout(() => {
+                    showDialog(false)
+                    setDialogMessage('')
+                }, 2000);
+            })
+    }
+
     return (
         <View style={styles.containerCardItem}>
             <Spinner
@@ -185,15 +211,7 @@ const CardItem = ({
                         </Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity onPress={() => {
-                                setDialogMessage('Not your Style? Got it!')
-                                showDialog(true)
-                                changeShowSize(false)
-                                setTimeout(() => {
-                                    showDialog(false)
-                                    setDialogMessage('')
-                                }, 2000);
-                            }}
+                            <TouchableOpacity onPress={handleOnClickLoseIt}
                                 style={styles.button}>
                                 <Text style={styles.flash}>
                                     Lose It
