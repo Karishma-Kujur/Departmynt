@@ -32,7 +32,7 @@ const RadioButtonComponent = (props) => {
                 return (
                     <TouchableOpacity onPress={() => {
                         changeSelectedId(item.id)
-                            setAnswer(item.answer)
+                            setAnswer(item)
                         }
                         }>
                             <View style={{ flexDirection: 'row', marginLeft: 20, marginBottom: 10 }}>

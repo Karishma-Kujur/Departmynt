@@ -130,8 +130,10 @@ const SurveyScreen = (props) => {
                     found = true
                     return {
                         id: surveyQuestion.id,
-                        answer: text,
-                        question: surveyQuestion.question
+                        answer: _.isObject(text) ? text.answer : text,
+                        answerKey: _.isObject(text) ? text.keyAttribute : 0,
+                        question: surveyQuestion.question,
+                        isImage: _.isObject(text) ? text.answerType === 'image' : false
                     }
                 }
                 else return answer
@@ -139,8 +141,10 @@ const SurveyScreen = (props) => {
             if (!found) {
                 answersObj.results.push({
                     id: surveyQuestion.id,
-                    answer: text,
+                    answer: _.isObject(text) ? text.answer : text,
+                    answerKey: _.isObject(text) ? text.keyAttribute : 0,
                     question: surveyQuestion.question,
+                    isImage: _.isObject(text) ? text.answerType === 'image' : false
                 })
             }
         }

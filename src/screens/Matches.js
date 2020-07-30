@@ -33,8 +33,9 @@ const MatchesScreen = (props) => {
         ProductAction.setMatches([])
         ProductApi.getCategory(user.id)
             .then((result) => {
-                let categories = result.join('+')
-                ProductApi.getProducts(categories)
+                let categories = result.category && result.category.join('+')
+                let exclude = result.lose && result.lose.join(',')
+                ProductApi.getProducts(categories, exclude)
                     .then((data) => {
                         setLoader(false)
                         ProductAction.setMatches(data)
@@ -49,6 +50,10 @@ const MatchesScreen = (props) => {
                 setLoader(false)
             })
 
+    }
+
+    const handleRefreshMatches = () => {
+        getProducts()
     }
 
     const isFocused = useIsFocused()
@@ -106,7 +111,7 @@ const MatchesScreen = (props) => {
                                 productId={item.id}
                                 attributes={item.attributes}
                                 user={user}
-                                
+                                handleRefresh={handleRefreshMatches}
                             />
                         </Card>))}
                 </CardStack>

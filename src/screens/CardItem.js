@@ -20,7 +20,8 @@ const CardItem = ({
     price,
     productId,
     attributes,
-    user
+    user,
+    handleRefresh
 }) => {
     // Custom styling
     const fullWidth = Dimensions.get('window').width;
@@ -137,6 +138,7 @@ const CardItem = ({
                     showDialog(false)
                     setDialogMessage('')
                 }, 2000);
+                handleRefresh()
             })
             .catch((error) => {
                 changeShowSize(false)
