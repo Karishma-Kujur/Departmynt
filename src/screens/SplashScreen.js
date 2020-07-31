@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, ImageBackground } from 'react-native';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import Button from '../components/shared/Button'
 import Link from '../components/shared/Link'
-import Wallpaper from '../assets/images/Wallpaper.png'
+import Wallpaper from '../assets/images/Wallpaper1.png'
 const { width, height } = Dimensions.get("window");
 
 const SplashScreen = (props) => {
@@ -31,16 +31,20 @@ const SplashScreen = (props) => {
             config={config}
             style={styles.container}
         >
-            <Image source={Wallpaper} style={styles.wallpaper} />
-            <View style={styles.actionsContainer}>
-                <Button label="GET STARTED" onPress={() => navigation.navigate('Sign Up')} />
-                <View style={styles.linkContainer}>
-                <Text  style={styles.text}>{"Existing user? "}</Text>
-                    <Link label="Login" onPress={() => navigation.navigate('Login')} />
-                    <Text  style={styles.text}>{"Or "}</Text>
-                    <Link label="Forgot my password" onPress={() => navigation.navigate('Forgot Password')} />
+            <ImageBackground source={Wallpaper} style={styles.wallpaperContainer}>
+                <View style={styles.wallpaperContainer}>
+                    <Text style={styles.titleText}>We wanna get to know ya!</Text>
                 </View>
-            </View>
+                <View style={styles.actionsContainer}>
+                    <Button label="GET STATRED" onPress={() => navigation.navigate('Sign Up')} />
+                    <View style={styles.linkContainer}>
+                        <Text style={styles.text}>{"Existing user? "}</Text>
+                        <Link label="Login" onPress={() => navigation.navigate('Login')} />
+                        <Text style={styles.text}>{"Or "}</Text>
+                        <Link label="Forgot my password" onPress={() => navigation.navigate('Forgot Password')} />
+                    </View>
+                </View>
+            </ImageBackground>
         </GestureRecognizer>
     );
 }
@@ -56,17 +60,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#f7ce26',
         width: width,
         height: height,
+        flex: 1
+    },
+    wallpaperContainer: {
+        flex: 8,
+        width: width,
+        borderBottomLeftRadius: 80
     },
     wallpaper: {
-        width: width,
-        height: height,
-        flex: 6
+        width: '100%',
+        height: '100%',
+
     },
     actionsContainer: {
-        flex: 1,
+        flex: 2,
+        display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'flex-end',
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
+        marginBottom: 20,
+        marginTop: 10
     },
     text: {
         textAlign: 'center'
@@ -74,7 +88,13 @@ const styles = StyleSheet.create({
     linkContainer: {
         width: width - 20,
         flexDirection: 'row',
-        justifyContent: 'center',
-        flex: 4
+        justifyContent: 'center'
+    },
+    titleText: {
+        marginLeft: 20,
+        marginRight: 20,
+        width: width - 100,
+        marginTop: 30,
+        fontSize: 30
     }
 });

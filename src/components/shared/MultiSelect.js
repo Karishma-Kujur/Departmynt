@@ -6,8 +6,6 @@ import NoImage from '../../assets/images/noImage.png'
 
 const MultiSelect = (props) => {
     const { items, selectedId, changeSelectedId } = props
-    const fullWidth = Dimensions.get('window').width;
-
     const imageStyle = [
         {
             alignItems: 'flex-start',
@@ -18,10 +16,11 @@ const MultiSelect = (props) => {
 
     const answerImageStyle = [
         {
-            width: fullWidth / 2 - 20,
-            height: 200,
+            width: undefined,
+            height: 250,
             margin: 2,
-            borderRadius: 8,
+            borderRadius: 5,
+            aspectRatio: 0.5,
         }
     ];
 
@@ -31,29 +30,32 @@ const MultiSelect = (props) => {
                 return (
                     <TouchableOpacity onPress={() => {
                         let ids = [...selectedId || []]
-                            if (ids.includes(item.id)) {
-                                ids = ids.filter(id =>
-                                    id !== item.id
-                                )
-                            } else {
-                                ids.push(item.id)
-                            }
-                            changeSelectedId(ids)
+                        if (ids.includes(item.id)) {
+                            ids = ids.filter(id =>
+                                id !== item.id
+                            )
+                        } else {
+                            ids.push(item.id)
                         }
-                        }>
-                            <View style={{ flexDirection: 'row', marginLeft: 20, marginBottom: 15 }}>
+                        changeSelectedId(ids)
+                    }
+                    }>
+                        <View style={{ flexDirection: 'row', marginLeft: 20, marginBottom: 15 }}>
                             {selectedId && selectedId.includes(item.id) ?
                                 <Image source={Checked} style={imageStyle} /> :
                                 <Image source={UnChecked} style={imageStyle} />}
-                        {item.answerType === 'image' ?
-                            <Image source={item.answer ? {
-                                uri: item.answer,
-                            } : NoImage}
-                            style={answerImageStyle} /> :
-                            <Text style={{ fontSize: 16, marginLeft: 5, marginRight: 10 }}>{item.answer}</Text>
-                        }
-                    </View>
-                        </TouchableOpacity>
+                            {item.answerType === 'image' ?
+                                <View style={{ marginLeft: 50 }}>
+                                    <Image source={item.answer ? {
+                                        uri: item.answer,
+                                    } : NoImage}
+                                        style={answerImageStyle} />
+                                </View>
+                                :
+                                <Text style={{ fontSize: 16, marginLeft: 5, marginRight: 10 }}>{item.answer}</Text>
+                            }
+                        </View>
+                    </TouchableOpacity>
                 )
             })}
         </View>

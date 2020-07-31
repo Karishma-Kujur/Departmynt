@@ -6,7 +6,6 @@ import NoImage from '../../assets/images/noImage.png'
 
 const RadioButtonComponent = (props) => {
     const { items, selectedAnswer, setAnswer, selectedId, changeSelectedId } = props
-    const fullWidth = Dimensions.get('window').width;
 
     const imageStyle = [
         {
@@ -19,10 +18,11 @@ const RadioButtonComponent = (props) => {
 
     const answerImageStyle = [
         {
-            width: fullWidth / 2 - 20,
-            height: 200,
-            marginLeft: 20,
-            borderRadius: 8,
+            width: undefined,
+            height: 250,
+            margin: 2,
+            borderRadius: 5,
+            aspectRatio: 0.5,
         }
     ];
 
@@ -32,22 +32,24 @@ const RadioButtonComponent = (props) => {
                 return (
                     <TouchableOpacity onPress={() => {
                         changeSelectedId(item.id)
-                            setAnswer(item)
-                        }
-                        }>
-                            <View style={{ flexDirection: 'row', marginLeft: 20, marginBottom: 10 }}>
+                        setAnswer(item)
+                    }
+                    }>
+                        <View style={{ flexDirection: 'row', marginLeft: 20, marginBottom: 10 }}>
                             {selectedId === item.id ?
                                 <Image source={Selected} style={imageStyle} /> :
                                 <Image source={UnSelected} style={imageStyle} />}
-                        {item.answerType === 'image' ?
-                            <Image source={item.answer ? {
-                                uri: item.answer,
-                            } : NoImage}
-                            style={answerImageStyle} /> :
-                            <Text style={{ fontSize: 16, marginLeft: 5, marginRight: 10 }}>{item.answer}</Text>
-                        }
-                    </View>
-                        </TouchableOpacity>
+                            {item.answerType === 'image' ?
+                                <View style={{ marginLeft: 50 }}>
+                                    <Image source={item.answer ? {
+                                        uri: item.answer,
+                                    } : NoImage}
+                                        style={answerImageStyle} />
+                                </View> :
+                                <Text style={{ fontSize: 16, marginLeft: 5, marginRight: 10 }}>{item.answer}</Text>
+                            }
+                        </View>
+                    </TouchableOpacity>
                 )
             })}
         </View>

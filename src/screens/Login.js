@@ -138,7 +138,7 @@ const LoginScreen = (props) => {
                         onChangeText={text => onChangeText(text, validator.password)}
                         value={password}
                     />
-                    {errorObject.password && <Text style={styles.errorMessage}>*Please Enter your Email Id</Text>}
+                    {errorObject.password && <Text style={styles.errorMessage}>*Please Enter your password</Text>}
                 </ScrollView>
                 <View style={styles.formButton}>
                     <Button label="Login" onPress={handleOnSubmit} />
