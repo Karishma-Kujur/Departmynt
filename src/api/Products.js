@@ -14,15 +14,24 @@ export function getCategory(userId) {
     });
 }
 
-export function getProducts(categories, exclude) {
+export function getProductIds(userId) {
+    return new Promise((resolve, reject) => {
+        const url = `${Constants.URL.wc}/user/getMatchedProduct?consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&userId=${userId}`
+        axios.get(url).then(response => {
+            resolve(response.data)
+        }).catch(err => {
+            console.log(err);
+            reject(err)
+        })
+    });
+}
+
+export function getProducts(productIds) {
     return new Promise((resolve, reject) => {
         let url = ''
-        if (categories) {
-            if(exclude)
-            url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&category=${categories}&exclude=${exclude}`
-            else
-            url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&category=${categories}`
-        }
+        if (productIds)
+                    url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&include=${productIds}`
+            // url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&category=${categories}`
         else
             url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}`
         axios.get(url).then(response => {
