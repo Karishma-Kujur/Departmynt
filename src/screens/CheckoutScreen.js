@@ -108,7 +108,6 @@ const CheckoutScreen = (props) => {
       !user.billing.first_name ||
       !user.billing.last_name ||
       !user.billing.address_1 ||
-      !user.billing.address_2 ||
       !user.billing.city ||
       !user.billing.state ||
       !user.billing.postcode ||

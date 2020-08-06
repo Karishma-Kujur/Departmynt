@@ -43,7 +43,7 @@ const AddAddress = (props) => {
   };
 
   const handleSaveAddress = () => {
-      if(firstNameError || lastNameError || emailError || address1Error || address2Error || cityError || postCodeError ||stateError || countryError || phoneError )
+      if(firstNameError || lastNameError || emailError || address1Error || cityError || postCodeError ||stateError || countryError || phoneError )
       return null
     let data = {
       billing: {
@@ -183,11 +183,6 @@ const AddAddress = (props) => {
                   changeAddress('address_2', text);
                 }}
               />
-              {address2Error && (
-                <Text style={styles.errorMessage}>
-                  *Please Enter Address Line 2
-                </Text>
-              )}
               <Text style={styles.accountTextConatiner}>City</Text>
               <TextInput
                 style={styles.accountTextInput}

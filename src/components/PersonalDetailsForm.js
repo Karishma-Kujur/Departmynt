@@ -35,13 +35,6 @@ const PresonalDetailsForm = (props) => {
                 value={details.lastName}
                 onChangeText={text => changePersonalDetails('lastName', text)}
             />
-            <Text style={styles.accountTextConatiner}>Phone number</Text>
-            <TextInput
-                style={styles.accountTextInput}
-                secureTextEntry={false}
-                value={details.phoneNumber}
-                onChangeText={text => changePersonalDetails('phoneNumber', text)}
-            />
         </View>
     )
 }
