@@ -46,7 +46,7 @@ const RadioButtonComponent = (props) => {
                                     } : NoImage}
                                         style={answerImageStyle} />
                                 </View> :
-                                <Text style={{ fontSize: 16, marginLeft: 5, marginRight: 10 }}>{item.answer}</Text>
+                                <Text style={{ fontSize: 16, marginLeft: 5, marginRight: 12 }}>{item.answer}</Text>
                             }
                         </View>
                     </TouchableOpacity>
