@@ -3,7 +3,7 @@ import * as Progress from 'react-native-progress'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { useIsFocused } from '@react-navigation/native'
-import { View, StyleSheet, Dimensions, Text, ScrollView, TouchableOpacity, FlatList, ImageBackground, TextInput } from 'react-native'
+import { View, StyleSheet, Dimensions, Text, ScrollView, TouchableOpacity, FlatList, TextInput } from 'react-native'
 import Button from '../components/shared/Button'
 import styles from '../assets/styles';
 import SurveyItem from '../components/SurveyItem'

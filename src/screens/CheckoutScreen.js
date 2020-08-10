@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {useIsFocused} from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { useIsFocused } from '@react-navigation/native';
 import PopupDialog, {
   DialogContent,
   DialogTitle,
@@ -17,7 +17,6 @@ import {
   TouchableOpacity,
   Image,
   Linking,
-  Platform,
   Alert,
 } from 'react-native';
 import Button from '../components/shared/Button';
@@ -25,20 +24,21 @@ import Back from '../assets/images/back.png';
 import Link from '../components/shared/Link';
 import * as ProductApi from '../api/Products';
 import * as ToteApi from '../api/Tote';
+import * as PaymentAction from '../actions/PaymentAction'; 
 import styles from '../assets/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {Title} from 'react-native-paper';
+import { Title } from 'react-native-paper';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DeepLinking from 'react-native-deep-linking';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const CheckoutScreen = (props) => {
-  const {navigation, tote, user} = props;
+  const { navigation, tote, user, PaymentAction } = props;
   const [spinner, setLoader] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
 
-  const handleUrl = ({url}) => {
+  const handleUrl = ({ url }) => {
     Linking.canOpenURL(url).then((supported) => {
       if (supported) {
         setLoader(false);
@@ -104,6 +104,7 @@ const CheckoutScreen = (props) => {
   };
 
   const handleDeliveryMethodPress = () => {
+    setLoader(true);
     if (
       !user.billing.first_name ||
       !user.billing.last_name ||
@@ -156,7 +157,9 @@ const CheckoutScreen = (props) => {
           };
           ToteApi.clearTote(userData)
             .then((resultData) => {
-              openLink(result);
+              setLoader(false);
+              PaymentAction.setOrderDetails(result)
+              navigation.navigate('Payment');
             })
             .catch((error) => {
               setLoader(false);
@@ -178,7 +181,7 @@ const CheckoutScreen = (props) => {
           }}>
           <Image
             source={Back}
-            style={{width: 24, height: 24, borderRadius: 12}}
+            style={{ width: 24, height: 24, borderRadius: 12 }}
           />
         </TouchableOpacity>
         <Text style={styles.title}>Payment</Text>
@@ -188,7 +191,7 @@ const CheckoutScreen = (props) => {
           style={{
             padding: 20,
           }}>
-          {user.billing.first_name === '' ? (
+          {user.billing && user.billing.first_name === '' ? (
             <View
               style={{
                 flexDirection: 'row',
@@ -201,40 +204,40 @@ const CheckoutScreen = (props) => {
               />
             </View>
           ) : (
-            <>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  marginTop: 10,
-                }}>
-                <Title style={{justifyContent: 'center'}}>
-                  Delivery Address
+              <>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: 10,
+                  }}>
+                  <Title style={{ justifyContent: 'center' }}>
+                    Delivery Address
                 </Title>
-                <Link
-                  label="Edit"
-                  onPress={() => navigation.navigate('Add Address')}
-                />
-              </View>
+                  <Link
+                    label="Edit"
+                    onPress={() => navigation.navigate('Add Address')}
+                  />
+                </View>
 
-              <Text
-                style={{
-                  marginTop: 10,
-                  marginBottom: 8,
-                  fontWeight: 'bold',
-                  fontSize: 14,
-                }}>
-                {user.billing.first_name + ' ' + user.billing.last_name}
-              </Text>
-              <Text>{user.billing.email}</Text>
-              <Text>{user.billing.address_1}</Text>
-              <Text>{user.billing.address_2}</Text>
-              <Text>{user.billing.city}</Text>
-              <Text>{user.billing.postcode}</Text>
-              <Text>{user.billing.state}</Text>
-              <Text style={{marginTop: 10}}>{user.billing.phone}</Text>
-            </>
-          )}
+                <Text
+                  style={{
+                    marginTop: 10,
+                    marginBottom: 8,
+                    fontWeight: 'bold',
+                    fontSize: 14,
+                  }}>
+                  {user.billing.first_name + ' ' + user.billing.last_name}
+                </Text>
+                <Text>{user.billing.email}</Text>
+                <Text>{user.billing.address_1}</Text>
+                {user.billing.address_2 ? <Text>{user.billing.address_2}</Text>: <></>}
+                <Text>{user.billing.city}</Text>
+                <Text>{user.billing.postcode}</Text>
+                <Text>{user.billing.state}</Text>
+                <Text style={{ marginTop: 10 }}>{user.billing.phone}</Text>
+              </>
+            )}
         </View>
       </ScrollView>
       <View style={styles.bottom}>
@@ -273,11 +276,17 @@ const CheckoutScreen = (props) => {
     </View>
   );
 };
-const mapStateToProps = ({tote, user, payment}) => {
+const mapStateToProps = ({ tote, user, payment }) => {
   return {
     tote,
     user,
   };
 };
 
-export default connect(mapStateToProps, null)(CheckoutScreen);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    PaymentAction: bindActionCreators(PaymentAction, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutScreen);
