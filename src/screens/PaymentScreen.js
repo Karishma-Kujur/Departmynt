@@ -13,7 +13,7 @@ const PaymentScreen = (props) => {
 
     return (
         <View style={{ flex: 1 }}>
-         <Spinner visible={spinner} />
+            <Spinner visible={spinner} />
             <WebView
                 style={{
                     justifyContent: 'center',
@@ -25,16 +25,21 @@ const PaymentScreen = (props) => {
                     console.warn("current state is ", JSON.stringify(e, null, 2));
                     if (e.url && e.url.includes('www.departmynt.co/checkout/order-received')) {
                         navigation.navigate('Order Placed');
+                        setLoader(false)
                     }
                 }}
                 source={{ uri: `https://www.departmynt.co/wp-json/process/payment?username=${user.userName}&password=${user.password}&order_key=${orderDetails.order_key}&orderId=${orderDetails.id}` }}
                 onLoadStart={syntheticEvent => {
                     const { nativeEvent } = syntheticEvent;
-                    setLoader(nativeEvent.loading)
-                  }}
+                    if (!nativeEvent.url.includes('www.departmynt.co/checkout/order-received')) {
+                        setLoader(nativeEvent.loading)
+                    }
+                }}
                 onLoadEnd={(syntheticEvent) => {
                     const { nativeEvent } = syntheticEvent;
-                    setLoader(nativeEvent.loading)
+                    if (!nativeEvent.url.includes('www.departmynt.co/checkout/order-received')) {
+                        setLoader(nativeEvent.loading)
+                    }
                 }}
             />
         </View>
