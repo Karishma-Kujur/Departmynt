@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, Image, Dimensions, ImageBackground } from 'reac
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import Button from '../components/shared/CustomButton'
 import Wallpaper from '../assets/images/screen.jpg'
-import Icon2 from '../assets/images/icon2.svg'
-import Icon1 from '../assets/images/icon.svg'
+import Icon1 from '../assets/images/icon.png'
+import Icon2 from '../assets/images/icon2.png'
 const { width, height } = Dimensions.get("window");
 
 const SplashScreen = (props) => {
@@ -33,10 +33,10 @@ const SplashScreen = (props) => {
             style={styles.container}
         >
             <View style={styles.icon1Container}>
-                <Icon1 />
+                <Image source={Icon1} style={styles.iconStyle}/>
             </View>
             <View style={styles.icon2Container}>
-                <Icon2 />
+                <Image source={Icon2} style={styles.icon2Style}/>
             </View>
             <View style={styles.imageViewContainer}>
                 <View style={styles.mainContainer}>
@@ -46,7 +46,7 @@ const SplashScreen = (props) => {
                 </View>
             </View>
             <View style={styles.textViewContainer}>
-                <View style={styles.mainContainer}>
+                <View style={styles.formButton}>
                     <View style={styles.titleContainer}>
                         <Text style={styles.titleStyle}>Your matches</Text>
                         <Text style={styles.titleStyle}>are waiting!</Text>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     titleStyle: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: "400",
         fontFamily: 'Baskerville'
     },
@@ -129,35 +129,44 @@ const styles = StyleSheet.create({
         borderBottomColor: 'rgb(209, 140, 3)',
     },
     marginContainer: {
-        marginTop: 10,
+        marginTop: 5,
         marginBottom: 5
     },
     icon1Container: {
         position: 'absolute',
-        top: height-250, 
-        left: width-180, 
-        right: 0, 
+        top: height - 180,
+        left: width - 220,
+        right: 0,
         bottom: 0,
-        width: 300,
-        height: 300,
-        opacity: 0.8
+        opacity: 0.8,
+        width: 500
     },
     icon2Container: {
         position: 'absolute',
-        top: 0,
-        left: 0, 
-        right: 0, 
+        top: 150,
+        left: -220,
+        right: 0,
         bottom: 0,
-        width: 300,
-        height: 300,
-        opacity: 0.8,
-        backgroundColor: 'white'
+        height: height/2,
     },
-    icon1Style: {
-        width: 100,
-        height: 100
+    iconStyle: {
+        width: 400,
+        height: 200
+    },
+    icon2Style: {
+        width: 400,
+        height: 400
     },
     textStyle: {
         fontFamily: 'AvenirNext-Bold'
-    }
+    },
+    formButton: {
+		flex: 1,
+		justifyContent: 'flex-end',
+        marginBottom: 20,
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+	},
 });

@@ -12,7 +12,8 @@ export default StyleSheet.create({
 		height: DIMENSION_HEIGHT
     },
     mainContainer: {
-        width: '100%',
+		marginTop: 50,
+		width: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -21,27 +22,27 @@ export default StyleSheet.create({
 	line: {
 		borderBottomColor: TEXT_COLOR,
 		borderBottomWidth: 5,
-		width: '60%'
+		width: '60%',
+		marginBottom: 20
 	},
     homeContainer: {
-		marginTop: 50,
 		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
 		width: DIMENSION_WIDTH-100,
-		height: DIMENSION_HEIGHT-180,
-		backgroundColor: '#506160',
-		opacity: 0.5
+		backgroundColor: 'rgba(33, 59, 59, 0.7)',
+		opacity: 1,
+		paddingBottom: 40
     },
     containerMessage: {
 		alignItems: "center",
 		justifyContent: "center",
-		height: 50
+		height: 60
 	},
     homeText: {
 		color: TEXT_COLOR,
 		paddingBottom: 10,
-        fontSize: 16
+		fontSize: 16,
 	},
 	homeTitle: {
         marginTop: 20,

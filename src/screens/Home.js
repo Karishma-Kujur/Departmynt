@@ -114,9 +114,7 @@ const HomeScreen = (props) => {
             />
             <ScrollView>
                 <View style={commonStyles.titleContainer}>
-                    <TouchableOpacity onPress={() => { navigation.openDrawer() }}>
-                        <Image source={Logo} style={imageStyle} />
-                    </TouchableOpacity>
+                    <Image source={Logo} style={imageStyle} />
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={styles.homeContainer}>
