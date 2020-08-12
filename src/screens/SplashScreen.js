@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Image, Dimensions, ImageBackground } from 'react-native';
 import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
-import Button from '../components/shared/Button'
-import Link from '../components/shared/Link'
-import Wallpaper from '../assets/images/Wallpaper1.png'
+import Button from '../components/shared/CustomButton'
+import Wallpaper from '../assets/images/screen.jpg'
+import Icon2 from '../assets/images/icon2.svg'
+import Icon1 from '../assets/images/icon.svg'
 const { width, height } = Dimensions.get("window");
 
 const SplashScreen = (props) => {
@@ -31,20 +32,41 @@ const SplashScreen = (props) => {
             config={config}
             style={styles.container}
         >
-            <ImageBackground source={Wallpaper} style={styles.wallpaperContainer}>
-                <View style={styles.wallpaperContainer}>
-                    <Text style={styles.titleText}>We wanna get to know ya!</Text>
-                </View>
-                <View style={styles.actionsContainer}>
-                    <Button label="GET STARTED" onPress={() => navigation.navigate('Sign Up')} />
-                    <View style={styles.linkContainer}>
-                        <Text style={styles.text}>{"Existing user? "}</Text>
-                        <Link label="Login" onPress={() => navigation.navigate('Login')} />
-                        <Text style={styles.text}>{"Or "}</Text>
-                        <Link label="Forgot my password" onPress={() => navigation.navigate('Forgot Password')} />
+            <View style={styles.icon1Container}>
+                <Icon1 />
+            </View>
+            <View style={styles.icon2Container}>
+                <Icon2 />
+            </View>
+            <View style={styles.imageViewContainer}>
+                <View style={styles.mainContainer}>
+                    <View style={styles.imageContainer}>
+                        <Image source={Wallpaper} style={styles.imageStyle} />
                     </View>
                 </View>
-            </ImageBackground>
+            </View>
+            <View style={styles.textViewContainer}>
+                <View style={styles.mainContainer}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.titleStyle}>Your matches</Text>
+                        <Text style={styles.titleStyle}>are waiting!</Text>
+                    </View>
+                    <View style={styles.line} />
+                </View>
+                <View style={styles.marginContainer}>
+                    <Button onPress={() => navigation.navigate('Sign Up')}
+                        label='Get Started' />
+                </View>
+                <View style={styles.mainContainer}>
+                    <View style={styles.marginContainer}>
+                        <Text style={styles.textStyle}>Already have an account?</Text>
+                    </View>
+                </View>
+                <View style={styles.marginContainer}>
+                    <Button onPress={() => navigation.navigate('Login')}
+                        label='Log In' />
+                </View>
+            </View>
         </GestureRecognizer>
     );
 }
@@ -57,44 +79,85 @@ export default connect(mapStateToProps, null)(SplashScreen)
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#f7ce26',
+        backgroundColor: 'rgb(246, 226, 222)',
         width: width,
         height: height,
         flex: 1
     },
-    wallpaperContainer: {
-        flex: 8,
-        width: width,
-        borderBottomLeftRadius: 80
+    imageViewContainer: {
+        flex: 6
     },
-    wallpaper: {
+    textViewContainer: {
+        flex: 4
+    },
+    mainContainer: {
         width: '100%',
-        height: '100%',
-
-    },
-    actionsContainer: {
-        flex: 2,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end',
-        paddingLeft: 10,
-        paddingRight: 10,
-        marginBottom: 20,
-        marginTop: 10
+        justifyContent: 'center',
+        alignItems: 'center'
     },
-    text: {
-        textAlign: 'center'
+    imageContainer: {
+        marginTop: 50,
+        width: width - 80,
     },
-    linkContainer: {
-        width: width - 20,
-        flexDirection: 'row',
-        justifyContent: 'center'
+    imageStyle: {
+        width: '100%',
+        height: '100%'
     },
-    titleText: {
-        marginLeft: 20,
-        marginRight: 20,
-        width: width - 100,
-        marginTop: 30,
-        fontSize: 30
+    titleContainer: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 20
+    },
+    titleStyle: {
+        fontSize: 20,
+        fontWeight: "400",
+        fontFamily: 'Baskerville'
+    },
+    line: {
+        width: '60%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomWidth: 5,
+        borderBottomColor: 'rgb(209, 140, 3)',
+    },
+    marginContainer: {
+        marginTop: 10,
+        marginBottom: 5
+    },
+    icon1Container: {
+        position: 'absolute',
+        top: height-250, 
+        left: width-180, 
+        right: 0, 
+        bottom: 0,
+        width: 300,
+        height: 300,
+        opacity: 0.8
+    },
+    icon2Container: {
+        position: 'absolute',
+        top: 0,
+        left: 0, 
+        right: 0, 
+        bottom: 0,
+        width: 300,
+        height: 300,
+        opacity: 0.8,
+        backgroundColor: 'white'
+    },
+    icon1Style: {
+        width: 100,
+        height: 100
+    },
+    textStyle: {
+        fontFamily: 'AvenirNext-Bold'
     }
 });

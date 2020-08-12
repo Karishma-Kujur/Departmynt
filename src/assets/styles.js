@@ -22,7 +22,7 @@ export default StyleSheet.create({
 		marginTop: 10,
 		marginBottom: 20,
 		// marginBottom: 10,
-		height: DIMENSION_HEIGHT-50
+		height: DIMENSION_HEIGHT - 50
 	},
 	// COMPONENT - CARD ITEM
 	containerCardItem: {
@@ -205,27 +205,6 @@ export default StyleSheet.create({
 		color: DARK_GRAY,
 		fontSize: 13
 	},
-
-	// // COMPONENT - MESSAGE
-	homeContainer: {
-		marginTop: 100,
-		flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-		width: DIMENSION_WIDTH,
-		height: DIMENSION_HEIGHT
-	},
-	containerMessage: {
-		// flex: 1,
-		alignItems: "center",
-		justifyContent: "center",
-		// flexDirection: "row",
-		width: DIMENSION_WIDTH,
-		height: 50
-	},
-	homeText: { paddingBottom: 10, fontSize: 16 },
-	homeTitle: { paddingBottom: 10, fontSize: 22, color: DARK_GRAY, fontWeight: 'bold', width: '100%', textAlign: 'center' },
-
 	avatar: {
 		borderRadius: 30,
 		width: 60,
@@ -450,7 +429,7 @@ export default StyleSheet.create({
 	errorMessage: {
 		fontSize: 12,
 		color: 'red',
-		marginLeft:10
+		marginLeft: 10
 	},
 	transitionContainer: {
 		flex: 1,
@@ -515,5 +494,5 @@ export default StyleSheet.create({
 		fontSize: 16,
 		borderWidth: 1,
 		padding: 5
-	},
+	}
 });
