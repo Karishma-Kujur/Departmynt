@@ -33,10 +33,10 @@ const SplashScreen = (props) => {
             style={styles.container}
         >
             <View style={styles.icon1Container}>
-                <Image source={Icon1} style={styles.iconStyle}/>
+                <Image source={Icon1} style={styles.iconStyle} />
             </View>
             <View style={styles.icon2Container}>
-                <Image source={Icon2} style={styles.icon2Style}/>
+                <Image source={Icon2} style={styles.icon2Style} />
             </View>
             <View style={styles.imageViewContainer}>
                 <View style={styles.mainContainer}>
@@ -134,8 +134,8 @@ const styles = StyleSheet.create({
     },
     icon1Container: {
         position: 'absolute',
-        top: height - 180,
-        left: width - 220,
+        top: height - 150,
+        left: width - 180,
         right: 0,
         bottom: 0,
         opacity: 0.8,
@@ -147,26 +147,28 @@ const styles = StyleSheet.create({
         left: -220,
         right: 0,
         bottom: 0,
-        height: height/2,
+        height: height / 2,
     },
     iconStyle: {
-        width: 400,
-        height: 200
+        width: 300,
+        height: undefined,
+        aspectRatio: 1.8,
     },
     icon2Style: {
         width: 400,
-        height: 400
+        height: undefined,
+        aspectRatio: 1,
     },
     textStyle: {
         fontFamily: 'AvenirNext-Bold'
     },
     formButton: {
-		flex: 1,
-		justifyContent: 'flex-end',
+        flex: 1,
+        justifyContent: 'flex-end',
         marginBottom: 20,
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
-	},
+    },
 });

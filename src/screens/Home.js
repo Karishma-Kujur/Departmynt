@@ -21,15 +21,15 @@ const HomeScreen = (props) => {
     const [spinner, setLoader] = useState('')
     const menuList = [
         {
-            name: 'View Rack',
+            name: 'View rack',
             onClick: () => { navigation.navigate('View Rack') }
         },
         {
-            name: 'View Tote',
+            name: 'View tote',
             onClick: () => { navigation.navigate('View Tote') }
         },
         {
-            name: 'View Favorites',
+            name: 'View favorites',
             onClick: () => { navigation.navigate('View Favorites') }
         },
         // {
@@ -37,15 +37,15 @@ const HomeScreen = (props) => {
         //     onClick: () => { navigation.navigate('My Chart') }
         // },
         {
-            name: 'Order History',
+            name: 'Order history',
             onClick: () => { navigation.navigate('Order History') }
         },
         {
-            name: 'My Account',
+            name: 'My account',
             onClick: () => { navigation.navigate('My Account') }
         },
         {
-            name: 'Log Out',
+            name: 'Log out',
             onClick: () => {
                 setLoader(true)
                 LoginApi.logout()
