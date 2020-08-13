@@ -44,6 +44,10 @@
 		44054BE186004BDA924EE094 /* BaskervilleItalicBT.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 919CCD5186C34095A6A1B5D1 /* BaskervilleItalicBT.ttf */; };
 		BDB7EB1017004E15B9EE7BD7 /* BASKRV_L.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADB361F114CB4DC4B5AC3B00 /* BASKRV_L.ttf */; };
 		294E0CC6630F4C5C98A58DEE /* baskvl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB452B5F98394EACA2928CE4 /* baskvl.ttf */; };
+		558654A84629449DAE49C95E /* Alice-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 30243F18430F484FA594DD60 /* Alice-Regular.ttf */; };
+		46B22B9FDC6D4741BC7566AB /* belleza.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 393271CA36754C86A66A80BF /* belleza.ttf */; };
+		B27349C5B5ED4210A5CDACEE /* open-sans-light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F5560B7D9E547EF98F4C13B /* open-sans-light.ttf */; };
+		6784306D5FB74C729889AE91 /* open-sans-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6D4FA33E8D144203B8D08317 /* open-sans-regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +111,10 @@
 		919CCD5186C34095A6A1B5D1 /* BaskervilleItalicBT.ttf */ = {isa = PBXFileReference; name = "BaskervilleItalicBT.ttf"; path = "../assets/fonts/BaskervilleItalicBT.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		ADB361F114CB4DC4B5AC3B00 /* BASKRV_L.ttf */ = {isa = PBXFileReference; name = "BASKRV_L.ttf"; path = "../assets/fonts/BASKRV_L.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		EB452B5F98394EACA2928CE4 /* baskvl.ttf */ = {isa = PBXFileReference; name = "baskvl.ttf"; path = "../assets/fonts/baskvl.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		30243F18430F484FA594DD60 /* Alice-Regular.ttf */ = {isa = PBXFileReference; name = "Alice-Regular.ttf"; path = "../assets/fonts/Alice-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		393271CA36754C86A66A80BF /* belleza.ttf */ = {isa = PBXFileReference; name = "belleza.ttf"; path = "../assets/fonts/belleza.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8F5560B7D9E547EF98F4C13B /* open-sans-light.ttf */ = {isa = PBXFileReference; name = "open-sans-light.ttf"; path = "../assets/fonts/open-sans-light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6D4FA33E8D144203B8D08317 /* open-sans-regular.ttf */ = {isa = PBXFileReference; name = "open-sans-regular.ttf"; path = "../assets/fonts/open-sans-regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +253,10 @@
 				919CCD5186C34095A6A1B5D1 /* BaskervilleItalicBT.ttf */,
 				ADB361F114CB4DC4B5AC3B00 /* BASKRV_L.ttf */,
 				EB452B5F98394EACA2928CE4 /* baskvl.ttf */,
+				30243F18430F484FA594DD60 /* Alice-Regular.ttf */,
+				393271CA36754C86A66A80BF /* belleza.ttf */,
+				8F5560B7D9E547EF98F4C13B /* open-sans-light.ttf */,
+				6D4FA33E8D144203B8D08317 /* open-sans-regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -416,6 +428,10 @@
 				44054BE186004BDA924EE094 /* BaskervilleItalicBT.ttf in Resources */,
 				BDB7EB1017004E15B9EE7BD7 /* BASKRV_L.ttf in Resources */,
 				294E0CC6630F4C5C98A58DEE /* baskvl.ttf in Resources */,
+				558654A84629449DAE49C95E /* Alice-Regular.ttf in Resources */,
+				46B22B9FDC6D4741BC7566AB /* belleza.ttf in Resources */,
+				B27349C5B5ED4210A5CDACEE /* open-sans-light.ttf in Resources */,
+				6784306D5FB74C729889AE91 /* open-sans-regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
