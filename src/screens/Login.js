@@ -123,7 +123,7 @@ const LoginScreen = (props) => {
                 />
 
                 <View style={styles.top}>
-                    <Text style={styles.title}>Login</Text>
+                    <Text style={styles.centerTitle}>Login</Text>
                 </View>
                 <ScrollView>
                     <TextInput
@@ -139,6 +139,9 @@ const LoginScreen = (props) => {
                         value={password}
                     />
                     {errorObject.password && <Text style={styles.errorMessage}>*Please Enter your password</Text>}
+                    <View style={{width: '100%', alignItems: 'flex-end', marginTop: 10}}>
+                        <Link label="Forgot your password ?" onPress={() => navigation.navigate('Forgot Password')} />
+                    </View>
                 </ScrollView>
                 <View style={styles.formButton}>
                     <Button label="Login" onPress={handleOnSubmit} />

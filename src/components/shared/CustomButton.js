@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15
     },
     text: {
-        fontSize: 24,
+        fontSize: 20,
         fontFamily: 'belleza'
     }
 })

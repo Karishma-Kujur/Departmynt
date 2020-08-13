@@ -94,7 +94,7 @@ const ForgotPassword = (props) => {
         <Spinner visible={spinner} />
 
         <View style={styles.top}>
-          <Text style={styles.title}>Forgot Password</Text>
+          <Text style={styles.centerTitle}>Forgot Password</Text>
         </View>
         <ScrollView>
           <TextInput

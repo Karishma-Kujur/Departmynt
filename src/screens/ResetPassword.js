@@ -54,7 +54,7 @@ const ResetPassword = (props) => {
     behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
       <View style={styles.containerMatches}>
         <View style={styles.top}>
-          <Text style={styles.title}>Reset Password</Text>
+          <Text style={styles.centerTitle}>Reset Password</Text>
         </View>
         <ScrollView>
           <TextInput

@@ -15,6 +15,16 @@ export const getFormattedString = (text) => {
     return formattedString;
 }
 
+export const formatList = (list) => {
+    return list.map((item) => {
+      return ({
+        ...item,
+        label: item.name,
+        value: item.sortname
+      })
+    })
+  }
+
 export const validateFormField = ( value, field, type, errorObject, extras ) => {
     if(!field || !type){
         return

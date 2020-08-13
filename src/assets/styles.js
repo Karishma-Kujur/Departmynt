@@ -310,6 +310,8 @@ export default StyleSheet.create({
 	},
 	title: { paddingBottom: 10, marginLeft: 20, fontSize: 22, color: DARK_GRAY, textAlign: "center" },
 
+	centerTitle: { paddingBottom: 10, fontSize: 22, color: DARK_GRAY, textAlign: "center"},
+
 	icon: {
 		fontSize: 20,
 		color: DARK_GRAY,
@@ -495,5 +497,8 @@ export default StyleSheet.create({
 		fontSize: 16,
 		borderWidth: 1,
 		padding: 5
+	},
+	label: {
+		fontSize: 18
 	}
 });

@@ -21,6 +21,7 @@ import * as UserApi from '../api/User';
 import * as UserAction from '../actions/UserAction';
 import styles from '../assets/styles';
 import RNPickerSelect from 'react-native-picker-select';
+import { formatList } from '../helpers'
 
 const { width, height } = Dimensions.get('window');
 
@@ -40,36 +41,11 @@ const AddAddress = (props) => {
   const [stateList, setStateList] = useState([])
   const [cityList, setCityList] = useState([])
 
-  const formatList = (list) => {
-    return list.map((item) => {
-      return ({
-        ...item,
-        label: item.name,
-        value: item.id
-      })
-    })
+  const isValidPostCode = (postCode) => {
+    return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(postCode);
   }
 
   const changeAddress = (field, value) => {
-    if(field === 'country') {
-      const stateList = formatList(csc.getStatesOfCountry(value))
-      setStateList(stateList)
-    }
-    else if(field === 'state') {
-      const cityList = formatList(csc.getCitiesOfState(value))
-      setCityList(cityList)
-    }
-    else if(field === 'city') {
-      let url = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,
-      +Mountain+View,+CA&key=AIzaSyA1wB97zjAzc0nbBttKp3uheStixkt4SDI`
-      fetch(url)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
     let newAddress = { ...address };
     newAddress[field] = value;
     setAddress(newAddress);
@@ -127,7 +103,9 @@ const AddAddress = (props) => {
         </View>
         <View style={{ height: height - 150 }}>
           <View style={styles.accountBodyContainer}>
-            <ScrollView>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+            >
               <Text style={styles.accountTextConatiner}>First Name</Text>
               <TextInput
                 style={styles.accountTextInput}
@@ -223,8 +201,9 @@ const AddAddress = (props) => {
                 style={styles.accountTextInput}
                 secureTextEntry={false}
                 value={address.postcode}
+                keyboardType='numeric'
                 onChangeText={(text) => {
-                  if (text === '') {
+                  if (text === '' || !isValidPostCode(text)) {
                     setPostCodeError(true);
                   } else if (postCodeError) {
                     setPostCodeError(false);
@@ -268,38 +247,13 @@ const AddAddress = (props) => {
                   },
                 }}
               />
+              {countryError && (
+                <Text style={styles.errorMessage}>
+                  *Please Enter your Country Name
+                </Text>
+              )}
               <Text style={styles.accountTextConatiner}>State</Text>
-              <RNPickerSelect
-                value={address.state}
-                onValueChange={(value) => changeAddress('state', value)}
-                items={stateList}
-                useNativeAndroidPickerStyle={false}
-                Icon={() => {
-                  return <Chevron size={1} color="gray" />;
-                }}
-                style={{
-                  inputIOS: {
-                    fontSize: 16,
-                    paddingVertical: 2,
-                    paddingHorizontal: 5,
-                    borderWidth: 1,
-                    color: 'black',
-                    paddingRight: 20,
-                  },
-                  inputAndroid: {
-                    fontSize: 16,
-                    paddingVertical: 2,
-                    paddingHorizontal: 5,
-                    color: 'black',
-                    paddingRight: 20,
-                  },
-                  iconContainer: {
-                    top: 10,
-                    right: 7,
-                  },
-                }}
-              />
-              {/* <TextInput
+              <TextInput
                 style={styles.accountTextInput}
                 secureTextEntry={false}
                 value={address.state}
@@ -311,62 +265,14 @@ const AddAddress = (props) => {
                   }
                   changeAddress('state', text);
                 }}
-              /> */}
+              />
               {stateError && (
                 <Text style={styles.errorMessage}>
                   *Please Enter your State Name
                 </Text>
               )}
-              {/* <TextInput
-                style={styles.accountTextInput}
-                secureTextEntry={false}
-                value={address.country}
-                onChangeText={(text) => {
-                  if (text === '') {
-                    setCountryError(true);
-                  } else if (countryError) {
-                    setCountryError(false);
-                  }
-                  changeAddress('country', text);
-                }}
-              /> */}
-              {countryError && (
-                <Text style={styles.errorMessage}>
-                  *Please Enter your Country Name
-                </Text>
-              )}
               <Text style={styles.accountTextConatiner}>City</Text>
-              <RNPickerSelect
-                value={address.city}
-                onValueChange={(value) => changeAddress('city', value)}
-                items={cityList}
-                useNativeAndroidPickerStyle={false}
-                Icon={() => {
-                  return <Chevron size={1} color="gray" />;
-                }}
-                style={{
-                  inputIOS: {
-                    fontSize: 16,
-                    paddingVertical: 2,
-                    paddingHorizontal: 5,
-                    borderWidth: 1,
-                    color: 'black',
-                    paddingRight: 20,
-                  },
-                  inputAndroid: {
-                    fontSize: 16,
-                    paddingVertical: 2,
-                    paddingHorizontal: 5,
-                    color: 'black',
-                    paddingRight: 20,
-                  },
-                  iconContainer: {
-                    top: 10,
-                    right: 7,
-                  },
-                }}
-              />
-              {/* <TextInput
+              <TextInput
                 style={styles.accountTextInput}
                 secureTextEntry={false}
                 value={address.city}
@@ -378,7 +284,7 @@ const AddAddress = (props) => {
                   }
                   changeAddress('city', text);
                 }}
-              /> */}
+              />
               {cityError && (
                 <Text style={styles.errorMessage}>*Please Enter City Name</Text>
               )}
@@ -387,6 +293,7 @@ const AddAddress = (props) => {
                 style={styles.accountTextInput}
                 secureTextEntry={false}
                 value={address.phone}
+                keyboardType='numeric'
                 onChangeText={(text) => {
                   if (text === '') {
                     setPhoneError(true);

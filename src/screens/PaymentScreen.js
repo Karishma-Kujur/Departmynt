@@ -30,15 +30,13 @@ const PaymentScreen = (props) => {
                 source={{ uri: `https://www.departmynt.co/wp-json/process/payment?username=${user.userName}&password=${user.password}&order_key=${orderDetails.order_key}&orderId=${orderDetails.id}` }}
                 onLoadStart={syntheticEvent => {
                     const { nativeEvent } = syntheticEvent;
-                    if (!nativeEvent.url.includes('www.departmynt.co/checkout/order-received')) {
+                     if (!nativeEvent.url.includes('www.departmynt.co/checkout/order-received') || !nativeEvent.url.includes('www.departmynt.co/checkout/order-pay')) {
                         setLoader(nativeEvent.loading)
                     }
                 }}
                 onLoadEnd={(syntheticEvent) => {
                     const { nativeEvent } = syntheticEvent;
-                    if (!nativeEvent.url.includes('www.departmynt.co/checkout/order-received')) {
-                        setLoader(nativeEvent.loading)
-                    }
+                    setLoader(nativeEvent.loading)
                 }}
             />
         </View>

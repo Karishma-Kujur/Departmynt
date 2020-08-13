@@ -143,7 +143,7 @@ const SignUpScreen = (props) => {
                     visible={spinner}
                 />
                 <View style={styles.top}>
-                    <Text style={styles.title}>Sign Up</Text>
+                    <Text style={styles.centerTitle}>Sign Up</Text>
                 </View>
                 <ScrollView>
                     <TextInput

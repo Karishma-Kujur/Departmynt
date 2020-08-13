@@ -1,8 +1,12 @@
 import React, {useState} from 'react';
 import {Text, View, TextInput, KeyboardAvoidingView, Platform} from 'react-native';
+import csc from 'country-state-city'
 import RadioButton from '../components/shared/RadioButton';
 import styles from '../assets/styles';
 import {ScrollView} from 'react-native-gesture-handler';
+import { Chevron } from 'react-native-shapes';
+import RNPickerSelect from 'react-native-picker-select';
+import { formatList } from '../helpers'
 
 const defaultAddress = [
   {
@@ -13,6 +17,7 @@ const defaultAddress = [
 
 const AddressForm = (props) => {
   const {changeAddress, address} = props;
+  const countryList = formatList(csc.getAllCountries());
   return (
     <KeyboardAvoidingView style={{flex: 1}}
     behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
@@ -75,12 +80,36 @@ const AddressForm = (props) => {
             onChangeText={(text) => changeAddress('state', text)}
           />
           <Text style={styles.accountTextConatiner}>Country</Text>
-          <TextInput
-            style={styles.accountTextInput}
-            secureTextEntry={false}
-            value={address.country}
-            onChangeText={(text) => changeAddress('country', text)}
-          />
+          <RNPickerSelect
+                value={address.country}
+                onValueChange={(value) => changeAddress('country', value)}
+                items={countryList}
+                useNativeAndroidPickerStyle={false}
+                Icon={() => {
+                  return <Chevron size={1} color="gray" />;
+                }}
+                style={{
+                  inputIOS: {
+                    fontSize: 16,
+                    paddingVertical: 2,
+                    paddingHorizontal: 5,
+                    borderWidth: 1,
+                    color: 'black',
+                    paddingRight: 20,
+                  },
+                  inputAndroid: {
+                    fontSize: 16,
+                    paddingVertical: 2,
+                    paddingHorizontal: 5,
+                    color: 'black',
+                    paddingRight: 20,
+                  },
+                  iconContainer: {
+                    top: 10,
+                    right: 7,
+                  },
+                }}
+              />
           <Text style={styles.accountTextConatiner}>Phone</Text>
           <TextInput
             style={styles.accountTextInput}

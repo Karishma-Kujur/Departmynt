@@ -54,7 +54,7 @@ export default StyleSheet.create({
 		fontWeight: 'bold',
 		width: '100%',
 		textAlign: 'center',
-		fontFamily: Platform.OS === 'ios' ? 'OpenSans' : 'open-sans-regular'
+		fontFamily: Platform.OS === 'ios' ? 'OpenSans-Bold' : 'OpenSans-Bold'
 	},
 
 });

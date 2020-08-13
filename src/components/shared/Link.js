@@ -13,7 +13,7 @@ export default LinkContainer
 const styles = StyleSheet.create({
     text: {
         width: '100%',
-        // fontWeight: 'bold',
+        fontSize: 18,
         color: 'blue',
         marginRight: 5
     }
