@@ -20,9 +20,9 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
 	line: {
-		borderBottomColor: TEXT_COLOR,
+		borderBottomColor: 'rgb(246, 226, 222)',
 		borderBottomWidth: 5,
-		width: '60%',
+		width: '70%',
 		marginBottom: 20
 	},
     homeContainer: {
@@ -41,13 +41,14 @@ export default StyleSheet.create({
 	},
     homeText: {
 		color: TEXT_COLOR,
-		paddingBottom: 10,
-		fontSize: 16,
+		paddingBottom: 15,
+		fontSize: 20,
+		fontWeight: '400'
 	},
 	homeTitle: {
         marginTop: 20,
 		paddingBottom: 10,
-		fontSize: 22,
+		fontSize: 24,
 		color: TEXT_COLOR,
 		fontWeight: 'bold',
 		width: '100%',

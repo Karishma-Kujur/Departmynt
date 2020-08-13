@@ -115,12 +115,11 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     titleStyle: {
-        fontSize: 24,
-        fontWeight: "400",
-        fontFamily: 'Baskerville'
+        fontSize: 28,
+        fontFamily: 'BASKE1'
     },
     line: {
-        width: '60%',
+        width: '70%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -160,7 +159,9 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
     },
     textStyle: {
-        fontFamily: 'AvenirNext-Bold'
+        fontSize: 16,
+        fontFamily: 'BaskervilleBoldBT',
+        fontWeight: 'bold'
     },
     formButton: {
         flex: 1,

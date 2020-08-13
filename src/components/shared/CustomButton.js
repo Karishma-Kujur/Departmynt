@@ -19,16 +19,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     container: {
-        height: 40,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
         backgroundColor: 'white',
         borderRadius: 8,
-        paddingHorizontal:20
+        paddingHorizontal:20,
+        paddingVertical: 15
     },
     text: {
-        fontSize: 16,
-        fontFamily: 'Baskerville'
+        fontSize: 24,
+        fontFamily: 'BASKE1'
     }
 })

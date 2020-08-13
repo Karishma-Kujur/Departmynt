@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import { Directions } from "react-native-gesture-handler";
 
 const PRIMARY_COLOR = "#7444C0";
@@ -284,7 +284,7 @@ export default StyleSheet.create({
 		marginBottom: 15
 	},
 	titleContainer: {
-		paddingTop: 30,
+		paddingTop: Platform.os === 'ios' ? 30 : 10,
 		marginHorizontal: 10,
 		flexDirection: "row",
 		justifyContent: "flex-start",

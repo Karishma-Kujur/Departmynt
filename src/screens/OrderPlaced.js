@@ -12,7 +12,7 @@ const OrderPlaced = (props) => {
         <View style={styles.containerMatches}>
             <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: 150 }}>
                 <Image source={Success} style={{ width: 200, height: 200, borderRadius: 100 }} />
-                <Text style={{marginTop: 20, fontSize: 18, fontWeight: 'bold'}}>Order Successfully Placed!</Text>
+                <Text style={{marginTop: 20, fontSize: 18, fontWeight: 'bold', width: '100%', textAlign: 'center'}}>Order Successfully Placed!</Text>
                 <Text style={{margin: 20, fontSize: 16 }}>Your order has been successfully paced and has been processed for delivery.</Text>
             </View>
             <View style={styles.bottom}>
