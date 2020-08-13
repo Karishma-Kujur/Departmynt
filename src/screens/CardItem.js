@@ -98,6 +98,7 @@ const CardItem = ({
     }
 
     const handleOnClickBag = () => {
+        setLoader(true)
         const data = {
             user_id: user.id,
             product_id: productId,
@@ -105,6 +106,7 @@ const CardItem = ({
         }
         ToteApi.addToTote(data)
             .then((result) => {
+                setLoader(false)
                 setDialogMessage('Added to Bag!')
                 showDialog(true)
                 changeShowSize(false)
@@ -114,6 +116,7 @@ const CardItem = ({
                 }, 2000);
             })
             .catch((error) => {
+                setLoader(false)
                 changeShowSize(false)
                 setDialogMessage('Error occured while adding to bag!')
                 showDialog(true)
@@ -125,12 +128,14 @@ const CardItem = ({
     }
 
     const handleOnClickLoseIt = () => {
+        setLoader(true)
         const data = {
             userId: user.id,
             productId: productId
         }
         ProductsApi.removeFromMatches(data)
             .then((result) => {
+                setLoader(false)
                 setDialogMessage('Not your Style? Got it!')
                 showDialog(true)
                 changeShowSize(false)
@@ -138,9 +143,9 @@ const CardItem = ({
                     showDialog(false)
                     setDialogMessage('')
                 }, 2000);
-                handleRefresh()
             })
             .catch((error) => {
+                setLoader(false)
                 changeShowSize(false)
                 setDialogMessage('Error occured while removing from Tote!')
                 showDialog(true)
