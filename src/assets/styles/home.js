@@ -42,7 +42,7 @@ export default StyleSheet.create({
     homeText: {
 		color: TEXT_COLOR,
 		paddingBottom: 15,
-		fontSize: 20,
+		fontSize: 24,
 		fontWeight: '400',
 		fontFamily: Platform.OS === 'ios' ? 'OpenSans' : 'open-sans-regular'
 	},

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         width: fullWidth
     },
     modalView: {
-        width: '80%',
+        width: fullWidth-40,
         backgroundColor: 'rgb(246, 226, 222)',
         borderRadius: 15,
         padding: 5,
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
         // },
         // shadowOpacity: 0.25,
         // shadowRadius: 3.84,
-        elevation: 5
+        elevation: 5,
+        marginHorizontal: 50
     },
     modalText: {
         margin: 5,
         textAlign: "center",
-        fontWeight: 'bold'
     }
 });
 

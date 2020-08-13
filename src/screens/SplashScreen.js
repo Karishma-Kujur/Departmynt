@@ -67,6 +67,7 @@ const SplashScreen = (props) => {
                 </View>
                 <View style={styles.marginContainer}>
                     <Button onPress={() => navigation.navigate('Login')}
+                        isSmall={true}
                         label='Log In' />
                 </View>
             </View>
@@ -101,8 +102,8 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     imageContainer: {
-        marginTop: 50,
-        width: width - 80,
+        marginTop: 20,
+        width: width - 60,
     },
     imageStyle: {
         width: '100%',
@@ -114,16 +115,15 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20,
-        marginBottom: 20
+        marginTop: 30
     },
     titleStyle: {
         fontSize: 28,
-        fontFamily: 'Alice-Regular'
+        fontFamily: 'Alice-Regular',
+        marginBottom:10
     },
     matchesStyle: {
         fontSize: 28,
-        fontStyle: 'italic',
         fontFamily: 'Alice-Regular',
     },
     line: {
@@ -137,7 +137,8 @@ const styles = StyleSheet.create({
     },
     marginContainer: {
         marginTop: 5,
-        marginBottom: 5
+        marginBottom: 5,
+        width: '100%'
     },
     icon1Container: {
         position: 'absolute',
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
     icon2Container: {
         position: 'absolute',
         top: 120,
-        left: -220,
+        left: -250,
         right: 0,
         bottom: 0,
         height: height / 2,
@@ -168,7 +169,10 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 18,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        width: '100%',
+        alignSelf: 'center',
+        textAlign: "center",
     },
     formButton: {
         flex: 1,
