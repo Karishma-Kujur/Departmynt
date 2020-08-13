@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import { Directions } from "react-native-gesture-handler";
 
 
@@ -44,7 +44,7 @@ export default StyleSheet.create({
 		paddingBottom: 15,
 		fontSize: 20,
 		fontWeight: '400',
-		fontFamily: 'open-sans-regular'
+		fontFamily: Platform.OS === 'ios' ? 'OpenSans' : 'open-sans-regular'
 	},
 	homeTitle: {
         marginTop: 20,
@@ -54,7 +54,7 @@ export default StyleSheet.create({
 		fontWeight: 'bold',
 		width: '100%',
 		textAlign: 'center',
-		fontFamily: 'open-sans-regular'
+		fontFamily: Platform.OS === 'ios' ? 'OpenSans' : 'open-sans-regular'
 	},
 
 });

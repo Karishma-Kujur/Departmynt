@@ -56,7 +56,8 @@ const MatchesScreen = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        getProducts()
+        if(isFocused)
+            getProducts()
     }, [isFocused])
 
     useEffect(() => {

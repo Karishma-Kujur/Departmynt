@@ -123,7 +123,8 @@ const styles = StyleSheet.create({
     },
     matchesStyle: {
         fontSize: 28,
-        fontFamily: 'Alice-Regular'
+        fontStyle: 'italic',
+        fontFamily: 'Alice-Regular',
     },
     line: {
         width: '70%',
@@ -167,7 +168,6 @@ const styles = StyleSheet.create({
     },
     textStyle: {
         fontSize: 18,
-        fontFamily: 'open-sans-light',
         fontWeight: 'bold'
     },
     formButton: {

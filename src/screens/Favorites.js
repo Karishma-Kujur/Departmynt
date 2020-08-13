@@ -53,7 +53,8 @@ const FavoritesScreen = (props) => {
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    getFavorites();
+    if(isFocused)
+      getFavorites();
   }, [isFocused]);
   return (
     <AppLayout title={'Favorite'} spinner={spinner} openDrawer={() => { navigation.openDrawer() }}>
@@ -85,7 +86,7 @@ const FavoritesScreen = (props) => {
                 marginTop: height / 3,
               }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', width: '100%', textAlign: 'center'}}>
-                No items added to Favorites!
+                {spinner ? '': 'No items added to Favorites!'}
             </Text>
             </View>
           )}

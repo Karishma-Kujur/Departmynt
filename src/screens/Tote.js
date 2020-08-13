@@ -49,7 +49,8 @@ const ToteScreen = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        getTotes()
+        if(isFocused)
+            getTotes()
     }, [isFocused])
 
     useEffect(() => {
@@ -84,6 +85,7 @@ const ToteScreen = (props) => {
                             name={item.name}
                             price={item.price}
                             quantity={item.quantity}
+                            stockQuantity={item.stockQuantity}
                             attributes={item.attributes}
                             user={user}
                             toteEdited={handleRefreshTote}
@@ -108,7 +110,7 @@ const ToteScreen = (props) => {
                                 <Text style={{ fontSize: 16, marginBottom: 10 }}>{"$ " + total}</Text>
                             </View>
                         </> : <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: height / 3 }}>
-                            <Text style={{ fontSize: 16, fontWeight: 'bold', width: '100%', textAlign: 'center'}}> No items available in your cart</Text>
+                            <Text style={{ fontSize: 16, fontWeight: 'bold', width: '100%', textAlign: 'center'}}> {spinner ? '' : 'No items available in your cart'}</Text>
                         </View>
                     }
                 </View>

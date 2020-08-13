@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, Image, Dimensions, TouchableOpacity} from 'react-native';
-import {Chevron} from 'react-native-shapes';
+import React, { useState, useEffect } from 'react';
+import { Text, View, Image, Dimensions, TouchableOpacity, Platform } from 'react-native';
+import { Chevron } from 'react-native-shapes';
 import styles from '../assets/styles';
 import NoImage from '../assets/images/noImage.png';
 import AddToFavorite from '../assets/images/favorite.jpeg';
@@ -8,20 +8,6 @@ import AddToBag from '../assets/images/bag.jpeg';
 import * as ToteApi from '../api/Tote';
 import * as ProductsApi from '../api/Products';
 import RNPickerSelect from 'react-native-picker-select';
-
-const quantities = [
-  {label: '0', value: '0'},
-  {label: '1', value: '1'},
-  {label: '2', value: '2'},
-  {label: '3', value: '3'},
-  {label: '4', value: '4'},
-  {label: '5', value: '5'},
-  {label: '6', value: '6'},
-  {label: '7', value: '7'},
-  {label: '8', value: '8'},
-  {label: '9', value: '9'},
-  {label: '10', value: '10'},
-];
 
 const ToteItem = ({
   image,
@@ -35,6 +21,7 @@ const ToteItem = ({
   user,
   attributes,
   toteEdited,
+  stockQuantity
 }) => {
   const [selectedQuantity, changeQuantity] = useState(quantity);
   const [selectedSize, changeSize] = useState('');
@@ -42,6 +29,7 @@ const ToteItem = ({
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
   const [showDialog, changeShowDialog] = useState(false);
+  const [quantities, setQuantities] = useState([])
   // Custom styling
   const fullWidth = Dimensions.get('window').width;
   const favoriteImageStyle = [
@@ -88,31 +76,34 @@ const ToteItem = ({
           setColors(element.options);
           changeColor(element.options[0].value);
         }
+        if (stockQuantity) {
+          setQuantities(stockQuantity)
+        }
       });
     }
-  }, [attributes]);
+  }, [attributes, stockQuantity]);
 
-  const handleEditToteProduct = (item) => {
-    if (item === quantity) return;
+  const handleEditToteProduct = () => {
+    if (selectedQuantity === quantity) return;
     const data = {
       userId: user.id,
       productId: productId,
-      quantity: item,
+      quantity: selectedQuantity,
     };
-    if (item === '0') {
+    if (selectedQuantity === '0') {
       ToteApi.removeToteItem(data)
         .then((result) => {
-          changeQuantity(item);
+          changeQuantity(selectedQuantity);
           toteEdited();
         })
-        .catch((error) => {});
+        .catch((error) => { });
     } else {
       ToteApi.editTote(data)
         .then((result) => {
-          changeQuantity(item);
+          changeQuantity(selectedQuantity);
           toteEdited();
         })
-        .catch((error) => {});
+        .catch((error) => { });
     }
   };
 
@@ -128,25 +119,25 @@ const ToteItem = ({
           .then((result) => {
             toteEdited();
           })
-          .catch((error) => {});
+          .catch((error) => { });
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   const handleMoveToFavorites = () => {
     const data = {
-        userId: user.id,
-        productId: productId
-      };
+      userId: user.id,
+      productId: productId
+    };
     ToteApi.removeToteItem(data)
       .then((result) => {
-        ProductsApi.saveProducts({productId: productId})
+        ProductsApi.saveProducts({ productId: productId })
           .then((result) => {
             toteEdited();
           })
-          .catch((error) => {});
+          .catch((error) => { });
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 
   return (
@@ -157,8 +148,8 @@ const ToteItem = ({
             source={
               image
                 ? {
-                    uri: image,
-                  }
+                  uri: image,
+                }
                 : NoImage
             }
             style={imageStyle}
@@ -169,7 +160,7 @@ const ToteItem = ({
           <Text style={styles.priceToteItem}>{'$ ' + (price || '0')}</Text>
           {isFavorite && (
             <View style={styles.favoriteActionContainer}>
-              <View style={{borderWidth: 1, padding: 5}}>
+              <View style={{ borderWidth: 1, padding: 5 }}>
                 <TouchableOpacity onPress={handleMoveToBag}>
                   <Image source={AddToBag} style={bagImageStyle} />
                 </TouchableOpacity>
@@ -181,7 +172,7 @@ const ToteItem = ({
       <View>
         {!isFavorite && (
           <View style={styles.toteActionContainer}>
-            <View style={{borderWidth: 1, padding: 5}}>
+            <View style={{ borderWidth: 1, padding: 5 }}>
               <TouchableOpacity onPress={handleMoveToFavorites}>
                 <Image source={AddToFavorite} style={favoriteImageStyle} />
               </TouchableOpacity>
@@ -223,8 +214,8 @@ const ToteItem = ({
                 </View>
               </View>
             ) : (
-              <></>
-            )}
+                <></>
+              )}
             {colors && colors.length ? (
               <View>
                 <Text>Color</Text>
@@ -262,14 +253,19 @@ const ToteItem = ({
                 </View>
               </View>
             ) : (
-              <></>
-            )}
+                <></>
+              )}
             <View>
               <Text>Qty</Text>
               <View>
                 <RNPickerSelect
                   value={selectedQuantity}
-                  onValueChange={(value) => handleEditToteProduct(value)}
+                  onValueChange={(value) => {
+                    changeQuantity(value)
+                    if (Platform.OS === 'android')
+                      handleEditToteProduct(value)
+                  }}
+                  onDonePress={handleEditToteProduct}
                   items={quantities}
                   useNativeAndroidPickerStyle={false}
                   Icon={() => {
@@ -285,11 +281,11 @@ const ToteItem = ({
                       paddingRight: 20,
                     },
                     inputAndroid: {
-                        fontSize: 16,
-                        paddingVertical: 2,
-                        paddingHorizontal: 5,
-                        color: 'black',
-                        paddingRight: 20,
+                      fontSize: 16,
+                      paddingVertical: 2,
+                      paddingHorizontal: 5,
+                      color: 'black',
+                      paddingRight: 20,
                     },
                     iconContainer: {
                       top: 10,

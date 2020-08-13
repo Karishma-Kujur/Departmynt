@@ -53,7 +53,8 @@ const OrderHistory = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        getOrderHistory(user.id)
+        if(isFocused)
+            getOrderHistory(user.id)
     }, [isFocused])
 
     return (
@@ -77,7 +78,7 @@ const OrderHistory = (props) => {
                         )}
                     /> :
                     <View style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: height / 3 }}>
-                        <Text style={{ fontSize: 16, fontWeight: 'bold', width: '100%', textAlign: 'center'}}> No items ordered yet</Text>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold', width: '100%', textAlign: 'center'}}>{spinner ? '' : 'No items ordered yet'}</Text>
                     </View>
                 }
             </ScrollView>

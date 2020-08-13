@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {useIsFocused} from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { useIsFocused } from '@react-navigation/native';
 import {
   View,
   KeyboardAvoidingView,
@@ -25,10 +25,10 @@ import * as Accounts from '../constants/Accounts';
 import * as UserAction from '../actions/UserAction';
 import * as UserApi from '../api/User';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const AccountScreen = (props) => {
-  const {navigation, user, UserAction} = props;
+  const { navigation, user, UserAction } = props;
   const [removeCard, changeRemoveCard] = useState(false);
   const [editPersonalDetails, changeEditPersonalDetails] = useState(false);
   const [editAddress, changeEditAddress] = useState(false);
@@ -162,17 +162,18 @@ const AccountScreen = (props) => {
 
   const isFocused = useIsFocused();
   useEffect(() => {
-    getUserDetails();
+    if (isFocused)
+      getUserDetails();
   }, [isFocused]);
 
   const changeAddress = (field, value) => {
-    let newAddress = {...address};
+    let newAddress = { ...address };
     newAddress[field] = value;
     setAddress(newAddress);
   };
 
   const changePersonalDetails = (field, value) => {
-    let details = {...personalDetails};
+    let details = { ...personalDetails };
     details[field] = value;
     setPersonalDetails(details);
   };
@@ -190,15 +191,15 @@ const AccountScreen = (props) => {
         <Text style={styles.title}>My Account</Text>
       </View>
       <KeyboardAvoidingView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         enabled>
         <ScrollView>
-          <View style={{marginTop: 10}}>
+          <View style={{ marginTop: 10 }}>
             <FlatList
               data={menuList}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({item}) => (
+              renderItem={({ item }) => (
                 <>
                   <TouchableOpacity
                     onPress={() => {
@@ -215,12 +216,12 @@ const AccountScreen = (props) => {
                     }}>
                     <View style={styles.containerAccountTitle}>
                       <Text
-                        style={{fontWeight: 'bold', padding: 5, width: 180}}>
+                        style={{ fontWeight: 'bold', padding: 5, width: 180 }}>
                         {item.name}
                       </Text>
                       <View style={styles.titleButtonStyle}>
                         <TouchableOpacity onPress={item.onClick}>
-                          <Text style={{textDecorationLine: 'underline'}}>
+                          <Text style={{ textDecorationLine: 'underline' }}>
                             {item.button}
                           </Text>
                         </TouchableOpacity>
@@ -333,7 +334,7 @@ const AccountScreen = (props) => {
                         />
                       )}
                       {item.name === 'PRIVACY' && (
-                        <View style={{padding: 20}}>
+                        <View style={{ padding: 20 }}>
                           <Text
                             style={{
                               textDecorationLine: 'underline',
@@ -341,7 +342,7 @@ const AccountScreen = (props) => {
                             }}>
                             Change password
                           </Text>
-                          <Text style={{marginBottom: 10}}>
+                          <Text style={{ marginBottom: 10 }}>
                             Cancel subscription
                           </Text>
                           <Text
@@ -364,7 +365,7 @@ const AccountScreen = (props) => {
     </>
   );
 };
-const mapStateToProps = ({user}) => {
+const mapStateToProps = ({ user }) => {
   return {
     user: user,
   };

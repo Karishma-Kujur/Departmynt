@@ -241,10 +241,7 @@ const CardItem = ({
                     <DialogContent>
                         <ScrollView
                             horizontal={true}
-                            // contentContainerStyle={{ width: `${100 * 0.3}%` }}
                             showsHorizontalScrollIndicator={false}
-                            // scrollEventThrottle={200}
-                            // decelerationRate="fast"
                             pagingEnabled
                         >
                             {images.map((img) => {

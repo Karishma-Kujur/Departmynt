@@ -25,7 +25,8 @@ const ViewQuestions = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        SurveyAction.getSurveyQuestions()
+        if(isFocused)
+            SurveyAction.getSurveyQuestions()
     }, [isFocused])
 
     return (

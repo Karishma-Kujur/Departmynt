@@ -30,8 +30,8 @@ export function getProducts(productIds) {
     return new Promise((resolve, reject) => {
         let url = ''
         if (productIds)
-                    url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&include=${productIds}`
-            // url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&category=${categories}`
+            url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&include=${productIds}`
+        // url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}&category=${categories}`
         else
             url = `${Constants.URL.wc}/wc/v3/products?per_page=100&consumer_key=${Constants.Keys.ConsumerKey}&consumer_secret=${Constants.Keys.ConsumerSecret}`
         axios.get(url).then(response => {
@@ -125,10 +125,23 @@ const getProjectsFromResult = (result) => {
             description: product.description,
             price: product.price,
             attributes: getProductAttributes(product.attributes),
-            images: getProductImages(product.images)
+            images: getProductImages(product.images),
+            stockStatus: product.stock_status,
+            stockQuantity: getStockQuantity(product.stock_quantity || 10)
         })
     })
     return products;
+}
+
+const getStockQuantity = (quantities) => {
+    const data = []
+    for(let index = 0; index<= quantities; index++) {
+        data.push({
+            value: index.toString(),
+            label: index.toString()
+        })
+    }
+    return data
 }
 
 const getProductAttributes = (attributes) => {

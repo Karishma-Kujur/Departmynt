@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
         width: fullWidth
     },
     modalView: {
-        width: '100%',
-        backgroundColor: "white",
+        width: '80%',
+        backgroundColor: 'rgb(246, 226, 222)',
         borderRadius: 15,
         padding: 5,
         alignItems: "center",
@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
     modalText: {
         margin: 5,
         textAlign: "center",
-        fontWeight: 'bold',
-        width: '100%'
+        fontWeight: 'bold'
     }
 });
 

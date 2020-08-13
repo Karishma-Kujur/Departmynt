@@ -22,7 +22,6 @@ const PaymentScreen = (props) => {
                     marginTop: (Platform.OS) === 'ios' ? 20 : 0,
                 }}
                 onNavigationStateChange={(e) => {
-                    console.warn("current state is ", JSON.stringify(e, null, 2));
                     if (e.url && e.url.includes('www.departmynt.co/checkout/order-received')) {
                         navigation.navigate('Order Placed');
                         setLoader(false)

@@ -42,7 +42,8 @@ const OrderDetails = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        getTotes()
+        if(isFocused)
+            getTotes()
     }, [isFocused])
 
     const handleRefreshTote = () => {

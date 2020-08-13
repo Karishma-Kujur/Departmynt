@@ -103,8 +103,10 @@ const HomeScreen = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        getUserDetails()
-        getAllProducts()
+        if (isFocused) {
+            getUserDetails()
+            getAllProducts()
+        }
     }, [isFocused])
 
     return (
