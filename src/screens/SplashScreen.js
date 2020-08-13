@@ -48,7 +48,10 @@ const SplashScreen = (props) => {
             <View style={styles.textViewContainer}>
                 <View style={styles.formButton}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.titleStyle}>Your matches</Text>
+                        <View style={{display: 'flex', flexDirection: 'row'}}>
+                        <Text style={styles.titleStyle}>Your </Text>
+                        <Text style={styles.matchesStyle}>matches</Text>
+                            </View>
                         <Text style={styles.titleStyle}>are waiting!</Text>
                     </View>
                     <View style={styles.line} />
@@ -116,7 +119,11 @@ const styles = StyleSheet.create({
     },
     titleStyle: {
         fontSize: 28,
-        fontFamily: 'BASKE1'
+        fontFamily: 'Alice-Regular'
+    },
+    matchesStyle: {
+        fontSize: 28,
+        fontFamily: 'Alice-Regular'
     },
     line: {
         width: '70%',
@@ -124,7 +131,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomWidth: 5,
+        borderBottomWidth: 6,
         borderBottomColor: 'rgb(209, 140, 3)',
     },
     marginContainer: {
@@ -142,7 +149,7 @@ const styles = StyleSheet.create({
     },
     icon2Container: {
         position: 'absolute',
-        top: 150,
+        top: 120,
         left: -220,
         right: 0,
         bottom: 0,
@@ -159,8 +166,8 @@ const styles = StyleSheet.create({
         aspectRatio: 1,
     },
     textStyle: {
-        fontSize: 16,
-        fontFamily: 'BaskervilleBoldBT',
+        fontSize: 18,
+        fontFamily: 'open-sans-light',
         fontWeight: 'bold'
     },
     formButton: {

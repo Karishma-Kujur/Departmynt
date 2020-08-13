@@ -43,7 +43,8 @@ export default StyleSheet.create({
 		color: TEXT_COLOR,
 		paddingBottom: 15,
 		fontSize: 20,
-		fontWeight: '400'
+		fontWeight: '400',
+		fontFamily: 'open-sans-regular'
 	},
 	homeTitle: {
         marginTop: 20,
@@ -52,7 +53,8 @@ export default StyleSheet.create({
 		color: TEXT_COLOR,
 		fontWeight: 'bold',
 		width: '100%',
-		textAlign: 'center'
+		textAlign: 'center',
+		fontFamily: 'open-sans-regular'
 	},
 
 });

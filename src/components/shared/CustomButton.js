@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 24,
-        fontFamily: 'BASKE1'
+        fontFamily: 'belleza'
     }
 })
