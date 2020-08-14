@@ -469,7 +469,7 @@ export default StyleSheet.create({
 	},
 	containerAccountTitle: {
 		flexDirection: 'row',
-		backgroundColor: '#FFE9E6',
+		backgroundColor: 'rgb(246, 226, 222)',
 		padding: 10,
 		borderBottomWidth: 1,
 		borderColor: '#F5DFDC'

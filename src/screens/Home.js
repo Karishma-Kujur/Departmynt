@@ -21,11 +21,11 @@ const HomeScreen = (props) => {
     const [spinner, setLoader] = useState('')
     const menuList = [
         {
-            name: 'View rack',
+            name: 'View matches',
             onClick: () => { navigation.navigate('View Rack') }
         },
         {
-            name: 'View tote',
+            name: 'View bag',
             onClick: () => { navigation.navigate('View Tote') }
         },
         {
