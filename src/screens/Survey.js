@@ -155,7 +155,7 @@ const SurveyScreen = (props) => {
     return (
         <View style={styles.containerMatches}>
             <View style={styles.top}>
-                <Text style={styles.title}>Survey</Text>
+                <Text style={styles.centerTitle}>Survey</Text>
             </View>
             <View style={{ height: 8, alignItems: 'center' }}>
                 <Progress.Bar progress={progressStatus} width={width - 60} />

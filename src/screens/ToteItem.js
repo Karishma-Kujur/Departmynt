@@ -76,10 +76,10 @@ const ToteItem = ({
           setColors(element.options);
           changeColor(element.options[0].value);
         }
-        if (stockQuantity) {
-          setQuantities(stockQuantity)
-        }
       });
+    }
+    if (stockQuantity) {
+      setQuantities(stockQuantity)
     }
   }, [attributes, stockQuantity]);
 
@@ -255,46 +255,50 @@ const ToteItem = ({
             ) : (
                 <></>
               )}
-            <View>
-              <Text>Qty</Text>
+            {quantities && quantities.length ? (
               <View>
-                <RNPickerSelect
-                  value={selectedQuantity}
-                  onValueChange={(value) => {
-                    changeQuantity(value)
-                    if (Platform.OS === 'android')
-                      handleEditToteProduct(value)
-                  }}
-                  onDonePress={handleEditToteProduct}
-                  items={quantities}
-                  useNativeAndroidPickerStyle={false}
-                  Icon={() => {
-                    return <Chevron size={1} color="gray" />;
-                  }}
-                  style={{
-                    inputIOS: {
-                      fontSize: 16,
-                      paddingVertical: 2,
-                      paddingHorizontal: 5,
-                      borderWidth: 1,
-                      color: 'black',
-                      paddingRight: 20,
-                    },
-                    inputAndroid: {
-                      fontSize: 16,
-                      paddingVertical: 2,
-                      paddingHorizontal: 5,
-                      color: 'black',
-                      paddingRight: 20,
-                    },
-                    iconContainer: {
-                      top: 10,
-                      right: 7,
-                    },
-                  }}
-                />
+                <Text>Qty</Text>
+                <View>
+                  <RNPickerSelect
+                    value={selectedQuantity}
+                    onValueChange={(value) => {
+                      changeQuantity(value)
+                      if (Platform.OS === 'android')
+                        handleEditToteProduct(value)
+                    }}
+                    onDonePress={handleEditToteProduct}
+                    items={quantities}
+                    useNativeAndroidPickerStyle={false}
+                    Icon={() => {
+                      return <Chevron size={1} color="gray" />;
+                    }}
+                    style={{
+                      inputIOS: {
+                        fontSize: 16,
+                        paddingVertical: 2,
+                        paddingHorizontal: 5,
+                        borderWidth: 1,
+                        color: 'black',
+                        paddingRight: 20,
+                      },
+                      inputAndroid: {
+                        fontSize: 16,
+                        paddingVertical: 2,
+                        paddingHorizontal: 5,
+                        color: 'black',
+                        paddingRight: 20,
+                      },
+                      iconContainer: {
+                        top: 10,
+                        right: 7,
+                      },
+                    }}
+                  />
+                </View>
               </View>
-            </View>
+            ) : (
+                <></>
+              )}
           </View>
         )}
       </View>

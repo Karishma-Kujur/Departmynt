@@ -48,14 +48,16 @@ const SplashScreen = (props) => {
             <View style={styles.textViewContainer}>
                 <View style={styles.formButton}>
                     <View style={styles.titleContainer}>
-                        <View style={{display: 'flex', flexDirection: 'row'}}>
-                        <Text style={styles.titleStyle}>Your </Text>
-                        <Text style={styles.matchesStyle}>matches</Text>
-                            </View>
+                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                            <Text style={styles.titleStyle}>Your </Text>
+                            <Text style={styles.matchesStyle}>matches</Text>
+                        </View>
                         <Text style={styles.titleStyle}>are waiting!</Text>
                     </View>
                     <View style={styles.line} />
                 </View>
+            </View>
+            <View style={styles.buttonViewContainer}>
                 <View style={styles.marginContainer}>
                     <Button onPress={() => navigation.navigate('Sign Up')}
                         label='Get Started' />
@@ -92,7 +94,10 @@ const styles = StyleSheet.create({
         flex: 6
     },
     textViewContainer: {
-        flex: 4
+        flex: 2
+    },
+    buttonViewContainer: {
+        flex: 2
     },
     mainContainer: {
         width: '100%',
@@ -120,7 +125,7 @@ const styles = StyleSheet.create({
     titleStyle: {
         fontSize: 28,
         fontFamily: 'Alice-Regular',
-        marginBottom:10
+        marginBottom: 10
     },
     matchesStyle: {
         fontSize: 28,

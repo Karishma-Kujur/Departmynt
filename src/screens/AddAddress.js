@@ -38,8 +38,6 @@ const AddAddress = (props) => {
   const [stateError, setStateError] = useState(!user.billing.state || false);
   const [countryError, setCountryError] = useState(!user.billing.country || false);
   const [phoneError, setPhoneError] = useState(!user.billing.phone || false);
-  const [stateList, setStateList] = useState([])
-  const [cityList, setCityList] = useState([])
 
   const isValidPostCode = (postCode) => {
     return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(postCode);
@@ -219,7 +217,15 @@ const AddAddress = (props) => {
               <Text style={styles.accountTextConatiner}>Country</Text>
               <RNPickerSelect
                 value={address.country}
-                onValueChange={(value) => changeAddress('country', value)}
+                onValueChange={(value) => {
+                  if (value === '') {
+                    setCountryError(true);
+                  } else if (countryError) {
+                    setCountryError(false);
+                  }
+                  changeAddress('country', value)
+                }}
+
                 items={countryList}
                 useNativeAndroidPickerStyle={false}
                 Icon={() => {
