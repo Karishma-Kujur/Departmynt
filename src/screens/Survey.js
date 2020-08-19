@@ -11,13 +11,14 @@ import * as SurveyAction from '../actions/SurveyAction';
 import * as SurveyApi from '../api/Survey'
 import RadioButton from '../components/shared/RadioButton'
 import MultiSelect from '../components/shared/MultiSelect'
+import Spinner from 'react-native-loading-spinner-overlay';
 import _ from 'lodash'
 
 const { width, height } = Dimensions.get("window");
 
 const SurveyScreen = (props) => {
     const { navigation, SurveyAction, questions, answeredQuestions, totalQuestions } = props
-    const [showTransition, changeShowTransition] = useState(true)
+    const [showTransition, changeShowTransition] = useState(answeredQuestions < (questions.length - 1) / 2)
     const [surveyCount, changeSurveyCount] = useState(answeredQuestions)
     const [selectedId, changeSelectedId] = useState(null)
     const [textAnswer, setTextAnswer] = useState('')
@@ -51,7 +52,7 @@ const SurveyScreen = (props) => {
 
     useEffect(() => {
         if (questions.length > 0) {
-            changeProgressStatus((answeredQuestions+1) / totalQuestions)
+            changeProgressStatus((answeredQuestions + 1) / totalQuestions)
         }
     }, [answeredQuestions, totalQuestions])
 
@@ -72,14 +73,14 @@ const SurveyScreen = (props) => {
 
     const handleOnPressNext = () => {
         let resultObj = {}
-        if(surveyQuestion.textInput) {
+        if (surveyQuestion.textInput) {
             resultObj = setAnswer(textAnswer)
             setTextAnswer('')
         }
         else if (surveyQuestion.multiselect) {
             resultObj = setAnswer(selectedId)
         }
-        resultObj = !_.isEmpty(resultObj) ? resultObj : answers; 
+        resultObj = !_.isEmpty(resultObj) ? resultObj : answers;
         let answer = resultObj.results.find((element) => element.id === surveyQuestion.id)
         if ((surveyQuestion.required && answer) || !surveyQuestion.required) {
             if (surveyCount < questions.length - 1) {
@@ -119,7 +120,7 @@ const SurveyScreen = (props) => {
                     answer: obj.answer,
                     answerKey: obj.keyAttribute,
                     question: surveyQuestion.question,
-                    isImage:obj.answerType === 'image'
+                    isImage: obj.answerType === 'image'
                 })
             })
         }
@@ -154,6 +155,9 @@ const SurveyScreen = (props) => {
 
     return (
         <View style={styles.containerMatches}>
+            <Spinner
+                visible={spinner}
+            />
             <View style={styles.top}>
                 <Text style={styles.centerTitle}>Survey</Text>
             </View>
@@ -164,7 +168,7 @@ const SurveyScreen = (props) => {
                 <>
                     <ScrollView>
                         <View style={styles.questionContainer}>
-                            <Text style={styles.question}>{"("+(surveyCount+1)+"/"+questions.length+") "+surveyQuestion.question}</Text>
+                            <Text style={styles.question}>{"(" + (surveyCount + 1) + "/" + questions.length + ") " + surveyQuestion.question}</Text>
                         </View>
                         {surveyQuestion.answers.length > 0 && !surveyQuestion.multiselect &&
                             <RadioButton

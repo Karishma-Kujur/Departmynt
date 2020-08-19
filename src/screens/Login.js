@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
-import { View, StyleSheet, Dimensions, Text, Alert, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Dimensions, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from '../components/shared/Button'
@@ -13,6 +14,7 @@ import * as UserAction from '../actions/UserAction';
 import styles from '../assets/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import _ from 'lodash'
+import CustomAlert from '../components/shared/CustomAlert';
 
 const { width, height } = Dimensions.get("window");
 
@@ -21,6 +23,8 @@ const LoginScreen = (props) => {
     const [userName, setUserName] = useState('')
     const [password, setPassword] = useState('')
     const [spinner, setLoader] = useState('')
+    const [alertMessage, setAlertMessage] = useState('')
+    const [alert, showAlert] = useState(false)
     const [errorObject, updateErrorObject] = useState({})
     const validator = {
         userName: {
@@ -43,21 +47,9 @@ const LoginScreen = (props) => {
     const onChangeText = (value, validatorObj, onChange) => {
         if (validatorObj) {
             validatorObj.onChange(value)
-            // validateFormField(value, validatorObj.field, validatorObj.type, newError, validatorObj.extras);
-            // updateErrorObject({...errorObject, ...newError});
         } else {
             onChange(value)
         }
-    }
-
-    const getFilteredQuestions = (answeredQuestions, questions) => {
-        let data = [...questions]
-        answeredQuestions && answeredQuestions.forEach((questionId) => {
-            data = data.filter((element) => {
-                return element.id !== questionId
-            })
-        })
-        return data
     }
 
     const loginApi = () => {
@@ -90,17 +82,20 @@ const LoginScreen = (props) => {
                             })
                             .catch((error) => {
                                 setLoader(false)
-                                Alert.alert('Error', 'Some error has occured! Please contact the adminitrator or try after sometime')
+                                setAlertMessage('Some error has occured! Please contact the adminitrator or try after sometime.')
+                                showAlert(true)
                             })
                     })
                     .catch((error) => {
                         setLoader(false)
-                        Alert.alert('Error', 'Some error has occured! Please contact the adminitrator or try after sometime')
+                        setAlertMessage('Some error has occured! Please contact the adminitrator or try after sometime.')
+                        showAlert(true)
                     })
             })
             .catch((error) => {
                 setLoader(false)
-                Alert.alert('Invalid User name or Password', 'Please enter valid user name and password')
+                setAlertMessage('Please enter valid user name and password!')
+                showAlert(true)
             })
     }
 
@@ -117,6 +112,7 @@ const LoginScreen = (props) => {
     return (
         <KeyboardAvoidingView style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
+            <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
             <View style={styles.containerMatches}>
                 <Spinner
                     visible={spinner}
@@ -139,7 +135,7 @@ const LoginScreen = (props) => {
                         value={password}
                     />
                     {errorObject.password && <Text style={styles.errorMessage}>*Please Enter your password</Text>}
-                    <View style={{width: '100%', alignItems: 'flex-end', marginTop: 10}}>
+                    <View style={{ width: '100%', alignItems: 'flex-end', marginTop: 10 }}>
                         <Link label="Forgot your password ?" onPress={() => navigation.navigate('Forgot Password')} />
                     </View>
                 </ScrollView>

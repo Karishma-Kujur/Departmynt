@@ -8,6 +8,7 @@ import AddToBag from '../assets/images/bag.jpeg';
 import * as ToteApi from '../api/Tote';
 import * as ProductsApi from '../api/Products';
 import RNPickerSelect from 'react-native-picker-select';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const ToteItem = ({
   image,
@@ -30,6 +31,7 @@ const ToteItem = ({
   const [colors, setColors] = useState([]);
   const [showDialog, changeShowDialog] = useState(false);
   const [quantities, setQuantities] = useState([])
+  const [spinner, setLoader] = useState('')
   // Custom styling
   const fullWidth = Dimensions.get('window').width;
   const favoriteImageStyle = [
@@ -85,6 +87,7 @@ const ToteItem = ({
 
   const handleEditToteProduct = () => {
     if (selectedQuantity === quantity) return;
+    setLoader(true)
     const data = {
       userId: user.id,
       productId: productId,
@@ -93,6 +96,7 @@ const ToteItem = ({
     if (selectedQuantity === '0') {
       ToteApi.removeToteItem(data)
         .then((result) => {
+          setLoader(false)
           changeQuantity(selectedQuantity);
           toteEdited();
         })
@@ -100,14 +104,18 @@ const ToteItem = ({
     } else {
       ToteApi.editTote(data)
         .then((result) => {
+          setLoader(false)
           changeQuantity(selectedQuantity);
           toteEdited();
         })
-        .catch((error) => { });
+        .catch((error) => {
+          setLoader(false)
+        });
     }
   };
 
   const handleMoveToBag = () => {
+    setLoader(true)
     const data = {
       user_id: user.id,
       product_id: productId,
@@ -117,14 +125,20 @@ const ToteItem = ({
       .then((result) => {
         ProductsApi.removeFromFavorites(productId, user.id)
           .then((result) => {
+            setLoader(false)
             toteEdited();
           })
-          .catch((error) => { });
+          .catch((error) => {
+            setLoader(false)
+          });
       })
-      .catch((error) => { });
+      .catch((error) => {
+        setLoader(false)
+      });
   };
 
   const handleMoveToFavorites = () => {
+    setLoader(true)
     const data = {
       userId: user.id,
       productId: productId
@@ -133,15 +147,23 @@ const ToteItem = ({
       .then((result) => {
         ProductsApi.saveProducts({ productId: productId })
           .then((result) => {
+            setLoader(false)
             toteEdited();
           })
-          .catch((error) => { });
+          .catch((error) => {
+            setLoader(false)
+          });
       })
-      .catch((error) => { });
+      .catch((error) => {
+        setLoader(false)
+      });
   };
 
   return (
     <View style={styles.toteCardItem}>
+      <Spinner
+        visible={spinner}
+      />
       <View style={toteContainer}>
         <View>
           <Image
@@ -186,6 +208,7 @@ const ToteItem = ({
                     onValueChange={(value) => changeSize(value)}
                     items={sizes}
                     useNativeAndroidPickerStyle={false}
+                    placeholder={{}}
                     Icon={() => {
                       return <Chevron size={1} color="gray" />;
                     }}
@@ -224,6 +247,7 @@ const ToteItem = ({
                     value={selectedColor}
                     onValueChange={(value) => changeColor(value)}
                     items={colors}
+                    placeholder={{}}
                     useNativeAndroidPickerStyle={false}
                     Icon={() => {
                       return <Chevron size={1} color="gray" />;
@@ -269,6 +293,7 @@ const ToteItem = ({
                     onDonePress={handleEditToteProduct}
                     items={quantities}
                     useNativeAndroidPickerStyle={false}
+                    placeholder={{}}
                     Icon={() => {
                       return <Chevron size={1} color="gray" />;
                     }}

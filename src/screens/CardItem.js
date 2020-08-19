@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import { Text, View, Image, Dimensions, TouchableOpacity, ScrollView, Animated } from 'react-native';
 import { SliderBox } from "react-native-image-slider-box";
@@ -51,8 +52,6 @@ const CardItem = ({
     ]
 
     const [showSize, changeShowSize] = useState(false)
-    const [quantity, changeQuantity] = useState(1)
-    const [showAlert, changeShowAlert] = useState({ show: false })
     const [dialogMessage, setDialogMessage] = useState('')
     const [dialog, showDialog] = useState(false)
     const [spinner, setLoader] = useState('')

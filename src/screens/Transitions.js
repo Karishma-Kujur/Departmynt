@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Dimensions, Text, Alert, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { View, StyleSheet, Dimensions, Text, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from '../components/shared/Button'

@@ -85,6 +85,7 @@ const AddressForm = (props) => {
                 onValueChange={(value) => changeAddress('country', value)}
                 items={countryList}
                 useNativeAndroidPickerStyle={false}
+                placeholder={{}}
                 Icon={() => {
                   return <Chevron size={1} color="gray" />;
                 }}

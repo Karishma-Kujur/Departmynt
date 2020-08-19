@@ -285,7 +285,7 @@ export default StyleSheet.create({
 	},
 	titleContainer: {
 		marginHorizontal: 10,
-		marginVertical: Platform.OS === 'ios' ? 20 : 10,
+		marginTop: Platform.OS === 'ios' ? 20 : 10,
 		flexDirection: "row",
 		justifyContent: "flex-start",
 		alignItems: 'center'
@@ -304,6 +304,7 @@ export default StyleSheet.create({
 		marginBottom: 20
 	},
 	linkContainer: {
+		marginTop: 10,
 		width: '100%',
 		flexDirection: 'row',
 		justifyContent: 'center',
@@ -330,7 +331,6 @@ export default StyleSheet.create({
 
 	// CONTAINER - MATCHES
 	containerMatches: {
-		// backgroundColor: 'rgb(246, 226, 222)',
 		justifyContent: "space-between",
 		flex: 1,
 		paddingHorizontal: 10

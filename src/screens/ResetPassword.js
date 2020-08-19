@@ -28,10 +28,13 @@ const ResetPassword = (props) => {
       !password.length ||
       !confirmPassword.length
     ) {
-      if (!passwordError) setPasswordError(!password.length);
+      if (!passwordError) {
+        setPasswordError(!password.length);
+      }
 
-      if (!confirmPasswordError)
+      if (!confirmPasswordError) {
         setConfirmPasswordError(!confirmPassword.length);
+      }
 
       return;
     }
@@ -50,8 +53,10 @@ const ResetPassword = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} 
-    behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      enabled>
       <View style={styles.containerMatches}>
         <View style={styles.top}>
           <Text style={styles.centerTitle}>Reset Password</Text>

@@ -16,20 +16,20 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Linking,
-  Alert,
+  Linking
 } from 'react-native';
 import Button from '../components/shared/Button';
 import Back from '../assets/images/back.png';
 import Link from '../components/shared/Link';
 import * as ProductApi from '../api/Products';
 import * as ToteApi from '../api/Tote';
-import * as PaymentAction from '../actions/PaymentAction'; 
+import * as PaymentAction from '../actions/PaymentAction';
 import styles from '../assets/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Title } from 'react-native-paper';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import DeepLinking from 'react-native-deep-linking';
+import CustomAlert from '../components/shared/CustomAlert';
 
 const { width, height } = Dimensions.get('window');
 
@@ -37,6 +37,8 @@ const CheckoutScreen = (props) => {
   const { navigation, tote, user, PaymentAction } = props;
   const [spinner, setLoader] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alert, showAlert] = useState(false)
 
   const handleUrl = ({ url }) => {
     Linking.canOpenURL(url).then((supported) => {
@@ -99,7 +101,8 @@ const CheckoutScreen = (props) => {
         });
       } else Linking.openURL(url);
     } catch (error) {
-      Alert.alert(error.message);
+      setAlertMessage(error.message)
+      showAlert(true)
     }
   };
 
@@ -174,6 +177,7 @@ const CheckoutScreen = (props) => {
   return (
     <View style={styles.containerMatches}>
       <Spinner visible={spinner} />
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
       <View style={styles.titleContainer}>
         <TouchableOpacity
           onPress={() => {
@@ -216,7 +220,7 @@ const CheckoutScreen = (props) => {
                 </Title>
                   <Link
                     label="Edit"
-                    onPress={() => navigation.navigate('Add Address')}
+                    onPress={() => navigation.navigate('Add Address', {edit: true})}
                   />
                 </View>
 
@@ -231,7 +235,7 @@ const CheckoutScreen = (props) => {
                 </Text>
                 <Text>{user.billing.email}</Text>
                 <Text>{user.billing.address_1}</Text>
-                {user.billing.address_2 ? <Text>{user.billing.address_2}</Text>: <></>}
+                {user.billing.address_2 ? <Text>{user.billing.address_2}</Text> : <></>}
                 <Text>{user.billing.city}</Text>
                 <Text>{user.billing.postcode}</Text>
                 <Text>{user.billing.state}</Text>

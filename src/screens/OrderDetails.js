@@ -10,6 +10,7 @@ import Avatar from '../assets/images/avatar.jpeg'
 import * as ToteAction from '../actions/ToteAction';
 import * as ToteApi from '../api/Tote'
 import Spinner from 'react-native-loading-spinner-overlay';
+import CustomAlert from '../components/shared/CustomAlert';
 
 const { width, height } = Dimensions.get("window");
 
@@ -17,6 +18,8 @@ const OrderDetails = (props) => {
     const { navigation, ToteAction, toteItems } = props
     const [spinner, setLoader] = useState('')
     const [trackOrder, setTrackOrder] = useState(false)
+    const [alertMessage, setAlertMessage] = useState('')
+    const [alert, showAlert] = useState(false)
     const imageStyle = [
         {
             alignItems: 'flex-start',
@@ -36,7 +39,8 @@ const OrderDetails = (props) => {
             })
             .catch((error) => {
                 setLoader(false)
-                Alert.alert('Invalid User name or Password', 'Please enter valid user name and password')
+                setAlertMessage('Some error has occured! Please contact the adminitrator or try again after sometime.')
+                showAlert(true)
             })
     }
 
@@ -54,6 +58,7 @@ const OrderDetails = (props) => {
         <>
             {trackOrder ? <TrackOrder closeTackOrder={() => setTrackOrder(false)} /> :
                 <View style={styles.containerMatches}>
+                <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
                     <Spinner
                         visible={spinner}
                     />

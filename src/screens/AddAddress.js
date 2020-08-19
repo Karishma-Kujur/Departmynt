@@ -10,8 +10,7 @@ import {
   ScrollView,
   TextInput,
   KeyboardAvoidingView,
-  Platform,
-  Alert
+  Platform
 } from 'react-native';
 import csc from 'country-state-city'
 import { Chevron } from 'react-native-shapes';
@@ -22,22 +21,25 @@ import * as UserAction from '../actions/UserAction';
 import styles from '../assets/styles';
 import RNPickerSelect from 'react-native-picker-select';
 import { formatList } from '../helpers'
+import CustomAlert from '../components/shared/CustomAlert';
 
 const { width, height } = Dimensions.get('window');
 
 const AddAddress = (props) => {
-  const { navigation, user, UserAction } = props;
+  const { navigation, user, UserAction, route } = props;
   const [address, setAddress] = useState(user.billing);
-  const [firstNameError, setFirstNameError] = useState(!user.billing.first_name || false);
-  const [lastNameError, setLastNameError] = useState(!user.billing.last_name || false);
-  const [emailError, setEmailError] = useState(!user.billing.email || false);
-  const [address1Error, setAddress1Error] = useState(!user.billing.address_1 || false);
-  const [address2Error, setAddress2Error] = useState(!user.billing.address_2 || false);
-  const [cityError, setCityError] = useState(!user.billing.city || false);
-  const [postCodeError, setPostCodeError] = useState(!user.billing.postcode || false);
-  const [stateError, setStateError] = useState(!user.billing.state || false);
-  const [countryError, setCountryError] = useState(!user.billing.country || false);
-  const [phoneError, setPhoneError] = useState(!user.billing.phone || false);
+  const [firstNameError, setFirstNameError] = useState(route.params && route.params.edit ? !user.billing.first_name : false);
+  const [lastNameError, setLastNameError] = useState(route.params && route.params.edit ? !user.billing.last_name : false);
+  const [emailError, setEmailError] = useState(route.params && route.params.edit ? !user.billing.email : false);
+  const [address1Error, setAddress1Error] = useState(route.params && route.params.edit ? !user.billing.address_1 : false);
+  const [address2Error, setAddress2Error] = useState(route.params && route.params.edit ? !user.billing.address_2 : false);
+  const [cityError, setCityError] = useState(route.params && route.params.edit ? !user.billing.city : false);
+  const [postCodeError, setPostCodeError] = useState(route.params && route.params.edit ? !user.billing.postcode : false);
+  const [stateError, setStateError] = useState(route.params && route.params.edit ? !user.billing.state : false);
+  const [countryError, setCountryError] = useState(route.params && route.params.edit ? !user.billing.country : false);
+  const [phoneError, setPhoneError] = useState(route.params && route.params.edit ? !user.billing.phone : false);
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alert, showAlert] = useState(false)
 
   const isValidPostCode = (postCode) => {
     return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(postCode);
@@ -79,13 +81,15 @@ const AddAddress = (props) => {
         navigation.navigate('Checkout');
       })
       .catch((error) => {
-        Alert.alert('Error', 'The billing address you entered is not valid')
+        setAlertMessage('The billing address you entered is not valid')
+        showAlert(true)
       });
   };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
       <View style={styles.containerMatches}>
         <View style={styles.titleContainer}>
           <TouchableOpacity
@@ -97,9 +101,9 @@ const AddAddress = (props) => {
               style={{ width: 24, height: 24, borderRadius: 12 }}
             />
           </TouchableOpacity>
-          <Text style={styles.title}>Add New Address</Text>
+          <Text style={styles.title}>{route.params && route.params.edit ? "Edit Address" : "Add New Address"}</Text>
         </View>
-        <View style={{ height: height - 150 }}>
+        <View style={{ height: height - 120 }}>
           <View style={styles.accountBodyContainer}>
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -227,6 +231,7 @@ const AddAddress = (props) => {
                 }}
 
                 items={countryList}
+                placeholder={{}}
                 useNativeAndroidPickerStyle={false}
                 Icon={() => {
                   return <Chevron size={1} color="gray" />;
@@ -318,7 +323,7 @@ const AddAddress = (props) => {
           </View>
         </View>
         <View style={styles.bottom}>
-          <Button label="Add Address" onPress={handleSaveAddress} />
+          <Button label={route.params && route.params.edit ? "Edit Address" : "Add Address"} onPress={handleSaveAddress} />
         </View>
       </View>
     </KeyboardAvoidingView>

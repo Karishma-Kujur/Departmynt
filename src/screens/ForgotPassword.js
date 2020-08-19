@@ -1,10 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
   Dimensions,
   Text,
-  Alert,
   ScrollView,
   KeyboardAvoidingView,
   Platform
@@ -13,14 +12,17 @@ import styles from '../assets/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import TextInput from '../components/shared/TextInput';
 import Button from '../components/shared/Button';
-import {forgotPassword} from '../api/Login';
+import { forgotPassword } from '../api/Login';
+import CustomAlert from '../components/shared/CustomAlert';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const ForgotPassword = (props) => {
   const [spinner, setLaoder] = useState(false);
   const [email, setUserName] = useState('');
   const [userNameError, setUserNameError] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alert, showAlert] = useState(false)
   const validator = {
     email: {
       type: 'string',
@@ -36,7 +38,7 @@ const ForgotPassword = (props) => {
     }
   };
 
-  const redirectTo = () => props.navigation.navigate( 'Reset Password' ,{email});
+  const redirectTo = () => props.navigation.navigate('Reset Password', { email });
 
   const handleOnSubmit = () => {
     validateInput(email, setUserNameError);
@@ -46,31 +48,17 @@ const ForgotPassword = (props) => {
     }
 
     setLaoder(true);
-    forgotPassword({email})
+    forgotPassword({ email })
       .then((response) => {
         console.log(response);
         setLaoder(false);
-        Alert.alert(
-            "Alert",
-            `${response.message}`,
-            [
-              { text: "OK", onPress: () => redirectTo() }
-            ],
-            { cancelable: false }
-          );
-       
+        setAlertMessage(response.message)
+        showAlert(true)
       })
       .catch((err) => {
         setLaoder(false);
-        Alert.alert(
-            "Alert",
-            `${err.message}`,
-            [
-              { text: "OK", onPress: () => {} }
-            ],
-            { cancelable: false }
-          );
-       
+        setAlertMessage(err.message)
+        showAlert(true)
       });
   };
 
@@ -88,8 +76,9 @@ const ForgotPassword = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} 
-    behavior = {Platform.OS === 'ios' ? "padding" : "height"} enabled>
+    <KeyboardAvoidingView style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
       <View style={styles.containerMatches}>
         <Spinner visible={spinner} />
 

@@ -1,15 +1,18 @@
-import React, {useState, useRef} from 'react';
-import {View, Text, KeyboardAvoidingView, Platform, TextInput, Alert} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, KeyboardAvoidingView, Platform, TextInput } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import styles from '../assets/styles';
 import Button from '../components/shared/Button';
-import {resetPassword} from '../api/Login';
+import { resetPassword } from '../api/Login';
+import CustomAlert from '../components/shared/CustomAlert';
 
 const OtpScreen = (props) => {
   const [spinner, setLoader] = useState(false);
   const [otpValue, setOtpValue] = useState(['', '', '', '']);
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alert, showAlert] = useState(false)
   const otpElementRef = useRef([null, null, null, null]);
-  const {email, password} = props.route.params;
+  const { email, password } = props.route.params;
 
   const handleOnChange = (text, index) => {
     if (text.length === 1) {
@@ -44,30 +47,20 @@ const OtpScreen = (props) => {
 
     setLoader(true);
     let code = ''
-    otpValue.forEach(item => code+=item)
+    otpValue.forEach(item => code += item)
 
-    resetPassword({email:email.email, password, code :/* Number( */code/* ) */})
+    resetPassword({ email: email.email, password, code:/* Number( */code/* ) */ })
       .then((response) => {
         console.log(response);
         setLoader(false);
-        Alert.alert(
-          'Alert',
-          `${response.message}`,
-          [
-            {text: 'OK', onPress: () => redirectTo()},
-          ],
-          {cancelable: false},
-        );
+        setAlertMessage(response.message)
+        showAlert(true)
       })
       .catch((err) => {
         console.log(err);
         setLoader(false);
-        Alert.alert(
-          'Alert',
-          `Otp is incorrect,Please try again.`,
-          [{text: 'OK', onPress: () => {}}],
-          {cancelable: false},
-        );
+        setAlertMessage('Otp is incorrect,Please try again.')
+        showAlert(true)
       });
   };
 
@@ -86,7 +79,7 @@ const OtpScreen = (props) => {
         }}>
         <TextInput
           ref={(ref) => (otpElementRef.current[index] = ref)}
-          style={{textAlign: 'center', fontSize: 35}}
+          style={{ textAlign: 'center', fontSize: 35 }}
           onChangeText={(text) => handleOnChange(text, index)}
           value={item}
           maxLength={1}
@@ -96,19 +89,20 @@ const OtpScreen = (props) => {
   };
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} 
-    behavior={Platform.OS === 'ios' ? "padding" : "height"}  enabled>
+    <KeyboardAvoidingView style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
       <View style={styles.containerMatches}>
         <Spinner visible={spinner} />
         <View style={styles.top}>
           <Text style={styles.title}>Verify OTP</Text>
         </View>
-        <View style={{flex: 1, justifyContent: 'center'}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
             {renderOtpScreen()}
           </View>
         </View>
-        <View style={{...styles.formButton, flex: 0}}>
+        <View style={{ ...styles.formButton, flex: 0 }}>
           <Button label="Verify OTP" onPress={handleOnSubmit} />
         </View>
       </View>

@@ -12,8 +12,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  LayoutAnimation,
-  Alert,
+  LayoutAnimation
 } from 'react-native';
 import styles from '../assets/styles';
 import Avatar from '../assets/images/avatar.jpeg';
@@ -24,6 +23,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import * as Accounts from '../constants/Accounts';
 import * as UserAction from '../actions/UserAction';
 import * as UserApi from '../api/User';
+import CustomAlert from '../components/shared/CustomAlert';
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,6 +36,8 @@ const AccountScreen = (props) => {
   const [spinner, setLoader] = useState('');
   const [personalDetails, setPersonalDetails] = useState(user);
   const [address, setAddress] = useState(user.billing);
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alert, showAlert] = useState(false)
 
   const handleSavePersonalDetails = () => {
     if (editPersonalDetails) {
@@ -56,7 +58,8 @@ const AccountScreen = (props) => {
         })
         .catch((error) => {
           // setLoader(false)
-          Alert.alert('Error', 'Error occured while saving your details');
+          setAlertMessage('Error occured while saving your details')
+          showAlert(true)
         });
     }
     changeEditPersonalDetails(!editPersonalDetails);
@@ -88,7 +91,8 @@ const AccountScreen = (props) => {
           UserAction.setUser(userData);
         })
         .catch((error) => {
-          Alert.alert('Error', 'Error occured while saving your details');
+          setAlertMessage('Error occured while saving your details')
+          showAlert(true)
         });
     }
     changeEditAddress(!editAddress);
@@ -181,6 +185,7 @@ const AccountScreen = (props) => {
   return (
     <>
       <Spinner visible={spinner} />
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
       <View style={styles.titleContainer}>
         <TouchableOpacity
           onPress={() => {
