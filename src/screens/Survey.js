@@ -8,6 +8,7 @@ import Button from '../components/shared/Button'
 import styles from '../assets/styles';
 import SurveyItem from '../components/SurveyItem'
 import * as SurveyAction from '../actions/SurveyAction';
+import * as UserAction from '../actions/UserAction';
 import * as SurveyApi from '../api/Survey'
 import RadioButton from '../components/shared/RadioButton'
 import MultiSelect from '../components/shared/MultiSelect'
@@ -17,7 +18,7 @@ import _ from 'lodash'
 const { width, height } = Dimensions.get("window");
 
 const SurveyScreen = (props) => {
-    const { navigation, SurveyAction, questions, answeredQuestions, totalQuestions } = props
+    const { navigation, SurveyAction, questions, answeredQuestions, totalQuestions, user, UserAction } = props
     const [showTransition, changeShowTransition] = useState(answeredQuestions < (questions.length - 1) / 2)
     const [surveyCount, changeSurveyCount] = useState(answeredQuestions)
     const [selectedId, changeSelectedId] = useState(null)
@@ -99,6 +100,11 @@ const SurveyScreen = (props) => {
                 SurveyApi.submitAnswers(data)
                     .then((result) => {
                         setLoader(false)
+                        let userData = {
+                            ...user,
+                            rememberMe: true
+                        }
+                        UserAction.setUser(userData)
                         navigation.navigate('Home')
 
                     })
@@ -156,8 +162,8 @@ const SurveyScreen = (props) => {
     return (
         <View style={styles.containerMatches}>
             <Spinner
-                visible={spinner}
-            />
+                    visible={spinner}
+                />
             <View style={styles.top}>
                 <Text style={styles.centerTitle}>Survey</Text>
             </View>
@@ -243,17 +249,19 @@ const SurveyScreen = (props) => {
         </View>
     )
 }
-const mapStateToProps = ({ survey }) => {
+const mapStateToProps = ({ survey, user }) => {
     return {
         questions: survey.surveyQuestions || [],
         answeredQuestions: survey.answeredQuestions || 0,
-        totalQuestions: survey.totalQuestions || 0
+        totalQuestions: survey.totalQuestions || 0,
+        user
     };
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        SurveyAction: bindActionCreators(SurveyAction, dispatch)
+        SurveyAction: bindActionCreators(SurveyAction, dispatch),
+        UserAction: bindActionCreators(UserAction, dispatch)
     };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SurveyScreen)

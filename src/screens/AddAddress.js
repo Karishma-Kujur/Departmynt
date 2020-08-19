@@ -79,7 +79,8 @@ const AddAddress = (props) => {
         let userData = {
           ...result,
           userName: user.userName,
-          password: user.password
+          password: user.password,
+          rememberMe: user.rememberMe
         }
         UserAction.setUser(userData);
         navigation.navigate('Checkout');
@@ -253,14 +254,12 @@ const AddAddress = (props) => {
                   },
                   inputAndroid: {
                     fontSize: 16,
-                    paddingVertical: 2,
-                    paddingHorizontal: 5,
                     color: 'black',
-                    paddingRight: 20,
+                    borderWidth: 1,
                   },
                   iconContainer: {
-                    top: 10,
-                    right: 7,
+                    top: 20,
+                    right: 10,
                   },
                 }}
               />

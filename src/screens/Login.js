@@ -63,7 +63,8 @@ const LoginScreen = (props) => {
                 let userData = {
                     ...result,
                     userName: userName,
-                    password: password
+                    password: password,
+                    rememberMe: true
                 }
                 SurveyApi.getSurveyStatus(userData.id)
                     .then((answerResult) => {

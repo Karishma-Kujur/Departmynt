@@ -11,11 +11,11 @@ const { width, height } = Dimensions.get("window");
 const SplashScreen = (props) => {
     const { navigation, user } = props
 
-    // useEffect(() => {
-    //     if (user && user.userName && user.password) {
-    //         navigation.navigate('Home')
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (user && user.userName && user.password && user.rememberMe) {
+            navigation.navigate('Home')
+        }
+    }, [])
 
     const onSwipeLeft = (gestureState) => {
         navigation.navigate('Sign Up')

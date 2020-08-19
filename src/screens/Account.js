@@ -53,6 +53,7 @@ const AccountScreen = (props) => {
             ...result,
             userName: user.userName,
             password: user.password,
+            rememberMe: user.rememberMe
           };
           UserAction.setUser(userData);
         })
@@ -87,6 +88,7 @@ const AccountScreen = (props) => {
             ...result,
             userName: user.userName,
             password: user.password,
+            rememberMe: user.rememberMe
           };
           UserAction.setUser(userData);
         })
@@ -155,6 +157,7 @@ const AccountScreen = (props) => {
           ...result,
           userName: user.userName,
           password: user.password,
+          rememberMe: user.rememberMe
         };
         UserAction.setUser(userData);
         setLoader(false);

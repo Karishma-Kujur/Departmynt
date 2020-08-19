@@ -77,7 +77,8 @@ const HomeScreen = (props) => {
                 let userData = {
                     ...result,
                     userName: user.userName,
-                    password: user.password
+                    password: user.password,
+                    rememberMe: user.rememberMe
                 }
                 UserAction.setUser(userData)
 
