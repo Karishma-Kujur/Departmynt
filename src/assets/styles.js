@@ -309,9 +309,9 @@ export default StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'center',
 	},
-	title: { paddingBottom: 10, marginLeft: 20, fontSize: 22, color: DARK_GRAY, textAlign: "center" },
+	title: { marginLeft: 20, fontSize: 22, color: DARK_GRAY, textAlign: "center" },
 
-	centerTitle: { paddingBottom: 10, fontSize: 22, color: DARK_GRAY, textAlign: "center"},
+	centerTitle: { fontSize: 22, color: DARK_GRAY, textAlign: "center"},
 
 	icon: {
 		fontSize: 20,

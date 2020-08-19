@@ -56,7 +56,7 @@ const MatchesScreen = (props) => {
 
     const isFocused = useIsFocused()
     useEffect(() => {
-        if(isFocused)
+        if (isFocused)
             getProducts()
     }, [isFocused])
 
@@ -71,9 +71,7 @@ const MatchesScreen = (props) => {
 
     return (
         <>
-            <Spinner
-                visible={spinner}
-            />
+            <Spinner visible={spinner} />
             <View style={styles.titleContainer}>
                 <TouchableOpacity
                     onPress={() => {
@@ -81,8 +79,8 @@ const MatchesScreen = (props) => {
                     }}>
                     <Image source={Avatar} style={imageStyle} />
                 </TouchableOpacity>
-                <View style={{ height: 8, alignItems: 'center' }}>
-                    <Progress.Bar progress={progressStatus} width={width - 60} />
+                <View style={{ height: 8, width: width - 60, alignItems: 'center' }}>
+                    <Progress.Bar progress={progressStatus} width={width - 70} />
                 </View>
             </View>
             {products.length > 0 &&

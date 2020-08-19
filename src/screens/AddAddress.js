@@ -22,6 +22,7 @@ import styles from '../assets/styles';
 import RNPickerSelect from 'react-native-picker-select';
 import { formatList } from '../helpers'
 import CustomAlert from '../components/shared/CustomAlert';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const { width, height } = Dimensions.get('window');
 
@@ -40,6 +41,7 @@ const AddAddress = (props) => {
   const [phoneError, setPhoneError] = useState(route.params && route.params.edit ? !user.billing.phone : false);
   const [alertMessage, setAlertMessage] = useState('')
   const [alert, showAlert] = useState(false)
+  const [spinner, setLoader] = useState(false);
 
   const isValidPostCode = (postCode) => {
     return /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(postCode);
@@ -54,6 +56,7 @@ const AddAddress = (props) => {
   const countryList = formatList(csc.getAllCountries());
 
   const handleSaveAddress = () => {
+    setLoader(true)
     if (firstNameError || lastNameError || emailError || address1Error || cityError || postCodeError || stateError || countryError || phoneError)
       return null
     let data = {
@@ -72,6 +75,7 @@ const AddAddress = (props) => {
     };
     UserApi.updateUserDetails(user.id, data)
       .then((result) => {
+        setLoader(false)
         let userData = {
           ...result,
           userName: user.userName,
@@ -81,6 +85,7 @@ const AddAddress = (props) => {
         navigation.navigate('Checkout');
       })
       .catch((error) => {
+        setLoader(false)
         setAlertMessage('The billing address you entered is not valid')
         showAlert(true)
       });
@@ -89,6 +94,7 @@ const AddAddress = (props) => {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
+      <Spinner visible={spinner} />
       <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
       <View style={styles.containerMatches}>
         <View style={styles.titleContainer}>

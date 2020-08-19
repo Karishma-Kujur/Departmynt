@@ -157,12 +157,10 @@ const CardItem = ({
 
     return (
         <View style={styles.containerCardItem}>
-            <Spinner
-                visible={spinner}
-            />
+            <Spinner visible={spinner} />
             <CustomDialog modalVisible={dialog} message={dialogMessage} />
             <ScrollView>
-                <View style={{ height: fullHeight - 150 }}>
+                <View style={{ height: fullHeight - 120 }}>
                     <Image source={image ? {
                         uri: image,
                     } : NoImage}
