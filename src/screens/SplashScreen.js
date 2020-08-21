@@ -82,10 +82,13 @@ const styles = StyleSheet.create({
         flex: 6
     },
     textViewContainer: {
-        flex: 2
+        flex: 2.5,
+        justifyContent: 'flex-end',
+        width: '100%'
     },
     buttonViewContainer: {
-        flex: 2
+        flex: 2.5,
+        justifyContent: 'flex-end'
     },
     mainContainer: {
         width: '100%',
@@ -101,6 +104,8 @@ const styles = StyleSheet.create({
     imageStyle: {
         width: '100%',
         height: '100%'
+        // height: undefined,
+        // aspectRatio: 0.9,
     },
     titleContainer: {
         width: '100%',
@@ -135,28 +140,28 @@ const styles = StyleSheet.create({
     },
     icon1Container: {
         position: 'absolute',
-        top: height - 150,
-        left: width - 180,
+        top: height - height/4 + 20,
+        left: width - width/2 + 20,
         right: 0,
         bottom: 0,
         opacity: 0.8,
-        width: 500
+        width: width
     },
     icon2Container: {
         position: 'absolute',
-        top: 120,
-        left: -250,
+        top: height/7 - 20,
+        left: -width + width/3 + 10,
         right: 0,
         bottom: 0,
         height: height / 2,
     },
     iconStyle: {
-        width: 300,
+        width: width - 120,
         height: undefined,
         aspectRatio: 1.8,
     },
     icon2Style: {
-        width: 400,
+        width: width + 20,
         height: undefined,
         aspectRatio: 1,
     },
