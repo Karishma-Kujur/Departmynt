@@ -79,16 +79,16 @@ const styles = StyleSheet.create({
         flex: 1
     },
     imageViewContainer: {
-        flex: 6
+        flex: 5.5
     },
     textViewContainer: {
-        flex: 2.5,
+        flex: 2,
         justifyContent: 'flex-end',
         width: '100%'
     },
     buttonViewContainer: {
         flex: 2.5,
-        justifyContent: 'flex-end'
+        justifyContent: 'center'
     },
     mainContainer: {
         width: '100%',
