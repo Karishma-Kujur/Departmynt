@@ -75,7 +75,8 @@ const SurveyScreen = (props) => {
     const handleOnPressNext = () => {
         let resultObj = {}
         if (surveyQuestion.textInput) {
-            resultObj = setAnswer(textAnswer)
+            if(textAnswer !== '')
+                resultObj = setAnswer(textAnswer)
             setTextAnswer('')
         }
         else if (surveyQuestion.multiselect) {

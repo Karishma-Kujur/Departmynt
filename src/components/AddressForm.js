@@ -27,9 +27,6 @@ const AddressForm = (props) => {
   const [stateError, setStateError] = useState(!address.state);
   const [countryError, setCountryError] = useState(!address.country);
   const [phoneError, setPhoneError] = useState(!address.phone);
-  const [alertMessage, setAlertMessage] = useState('')
-  const [alert, showAlert] = useState(false)
-  const [spinner, setLoader] = useState(false);
 
   const countryList = formatList(csc.getAllCountries());
   return (
@@ -149,6 +146,7 @@ const AddressForm = (props) => {
             style={styles.accountTextInput}
             secureTextEntry={false}
             value={address.postcode}
+            keyboardType='numeric'
             onChangeText={(text) => {
               if (text === '') {
                 setPostCodeError(true);
@@ -158,6 +156,11 @@ const AddressForm = (props) => {
               changeAddress('postcode', text);
             }}
           />
+          {postCodeError && (
+                <Text style={styles.errorMessage}>
+                  *Please enter your postal code.
+                </Text>
+              )}
           <Text style={styles.accountTextConatiner}>State</Text>
           <TextInput
             style={styles.accountTextInput}
@@ -226,6 +229,7 @@ const AddressForm = (props) => {
             style={styles.accountTextInput}
             secureTextEntry={false}
             value={address.phone}
+            keyboardType='numeric'
             onChangeText={(text) => {
               if (text === '') {
                 setPhoneError(true);

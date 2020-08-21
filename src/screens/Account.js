@@ -40,6 +40,8 @@ const AccountScreen = (props) => {
   const [alert, showAlert] = useState(false)
 
   const handleSavePersonalDetails = () => {
+    if (!personalDetails.firstName || !personalDetails.lastName || !personalDetails.email) 
+      return false
     if (editPersonalDetails) {
       let data = {
         email: personalDetails.email,
@@ -70,7 +72,7 @@ const AccountScreen = (props) => {
     
     if (!address.first_name || !address.last_name || !address.email || !address.address_1 || !address.city || !address.postcode || !address.state || !address.country || !address.phone) 
     return false
-    
+
     if (editAddress) {
       let data = {
         billing: {
@@ -196,7 +198,8 @@ const AccountScreen = (props) => {
   return (
     <>
       <Spinner visible={spinner} />
-      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => {
+        showAlert(false)}} />
       <View style={styles.titleContainer}>
         <TouchableOpacity
           onPress={() => {

@@ -32,7 +32,7 @@ export default StyleSheet.create({
 		width: DIMENSION_WIDTH-100,
 		backgroundColor: 'rgba(33, 59, 59, 0.7)',
 		opacity: 1,
-		marginBottom: 40
+		paddingBottom: 40
     },
     containerMessage: {
 		alignItems: "center",
