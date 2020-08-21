@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Image, Dimensions, ImageBackground } from 'react-native';
-import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 import Button from '../components/shared/CustomButton'
 import Wallpaper from '../assets/images/screen.jpg'
 import Icon1 from '../assets/images/icon.png'
@@ -17,19 +16,8 @@ const SplashScreen = (props) => {
         }
     }, [])
 
-    const onSwipeLeft = (gestureState) => {
-        navigation.navigate('Sign Up')
-    }
-
-    const config = {
-        velocityThreshold: 0.3,
-        directionalOffsetThreshold: 80
-    };
-
     return (
-        <GestureRecognizer
-            onSwipeLeft={(state) => onSwipeLeft(state)}
-            config={config}
+        <View
             style={styles.container}
         >
             <View style={styles.icon1Container}>
@@ -73,7 +61,7 @@ const SplashScreen = (props) => {
                         label='Log In' />
                 </View>
             </View>
-        </GestureRecognizer>
+        </View>
     );
 }
 const mapStateToProps = ({ user }) => {

@@ -239,6 +239,7 @@ const CheckoutScreen = (props) => {
                 <Text>{user.billing.city}</Text>
                 <Text>{user.billing.postcode}</Text>
                 <Text>{user.billing.state}</Text>
+                <Text>{user.billing.country}</Text>
                 <Text style={{ marginTop: 10 }}>{user.billing.phone}</Text>
               </>
             )}

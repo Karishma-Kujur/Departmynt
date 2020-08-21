@@ -72,7 +72,7 @@ const ToteScreen = (props) => {
     }
 
     return (
-        <AppLayout spinner={spinner} title={"Tote"} openDrawer={() => { navigation.openDrawer() }}>
+        <AppLayout spinner={spinner} title={"Bag"} openDrawer={() => { navigation.openDrawer() }}>
             <ScrollView>
                 <FlatList
                     data={toteItems}

@@ -212,7 +212,7 @@ const AddAddress = (props) => {
                 value={address.postcode}
                 keyboardType='numeric'
                 onChangeText={(text) => {
-                  if (text === '' || !isValidPostCode(text)) {
+                  if (text === '') {
                     setPostCodeError(true);
                   } else if (postCodeError) {
                     setPostCodeError(false);
