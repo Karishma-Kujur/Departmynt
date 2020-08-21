@@ -31,26 +31,6 @@ const SurveyScreen = (props) => {
     })
     const surveyQuestion = (questions && questions.length > surveyCount) ? questions[surveyCount] : null
 
-    const getSurveyQuestions = () => {
-        setLoader(true)
-        SurveyAction.setSurveyQuestions([])
-        SurveyApi.getSurveyQuestions()
-            .then((result) => {
-                setLoader(false)
-                SurveyAction.setSurveyQuestions(result)
-            })
-            .catch((error) => {
-                setLoader(false)
-            })
-
-    }
-
-    // const isFocused = useIsFocused()
-    // useEffect(() => {
-    //     if(!questions || !questions.length)
-    //     getSurveyQuestions()
-    // }, [isFocused])
-
     useEffect(() => {
         if (questions.length > 0) {
             changeProgressStatus((answeredQuestions + 1) / totalQuestions)

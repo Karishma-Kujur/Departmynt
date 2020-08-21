@@ -11,6 +11,7 @@ const OtpScreen = (props) => {
   const [otpValue, setOtpValue] = useState(['', '', '', '']);
   const [alertMessage, setAlertMessage] = useState('')
   const [alert, showAlert] = useState(false)
+  const [success, setSuccess] = useState(false)
   const otpElementRef = useRef([null, null, null, null]);
   const { email, password } = props.route.params;
 
@@ -53,6 +54,7 @@ const OtpScreen = (props) => {
       .then((response) => {
         console.log(response);
         setLoader(false);
+        setSuccess(true)
         setAlertMessage(response.message)
         showAlert(true)
       })
@@ -91,7 +93,11 @@ const OtpScreen = (props) => {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
-      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => {
+        if(success)
+          props.navigation.navigate('Login');
+        showAlert(false)
+        }} />
       <View style={styles.containerMatches}>
         <Spinner visible={spinner} />
         <View style={styles.top}>

@@ -112,7 +112,7 @@ const SignUpScreen = (props) => {
               .catch((error) => {
                 setLoader(false);
                 setAlertMessage(
-                  'Some error has occured! Please contact the adminitrator or try again after sometime.',
+                  'Some error has occured! Please contact the administrator or try again after sometime.',
                 );
                 showAlert(true);
               });
@@ -120,7 +120,7 @@ const SignUpScreen = (props) => {
           .catch((error) => {
             setLoader(false);
             setAlertMessage(
-              'Some error has occured! Please contact the adminitrator or try again after sometime.',
+              'Some error has occured! Please contact the administrator or try again after sometime.',
             );
             showAlert(true);
           });
@@ -128,7 +128,7 @@ const SignUpScreen = (props) => {
       .catch((error) => {
         setLoader(false);
         setAlertMessage(
-          'Some error has occured! Please contact the adminitrator or try again after sometime.',
+          'Some error has occured! Please contact the administrator or try again after sometime.',
         );
         showAlert(true);
       });

@@ -23,6 +23,7 @@ const ForgotPassword = (props) => {
   const [userNameError, setUserNameError] = useState(false);
   const [alertMessage, setAlertMessage] = useState('')
   const [alert, showAlert] = useState(false)
+  const [success, setSuccess] = useState(false)
   const validator = {
     email: {
       type: 'string',
@@ -52,6 +53,7 @@ const ForgotPassword = (props) => {
       .then((response) => {
         console.log(response);
         setLaoder(false);
+        setSuccess(true)
         setAlertMessage(response.message)
         showAlert(true)
       })
@@ -78,7 +80,11 @@ const ForgotPassword = (props) => {
   return (
     <KeyboardAvoidingView style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
-      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
+      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => {
+        if(success)
+          props.navigation.navigate( 'Reset Password' ,{email})
+        showAlert(false)}
+       } />
       <View style={styles.containerMatches}>
         <Spinner visible={spinner} />
 

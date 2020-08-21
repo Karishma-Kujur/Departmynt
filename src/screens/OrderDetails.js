@@ -39,7 +39,7 @@ const OrderDetails = (props) => {
             })
             .catch((error) => {
                 setLoader(false)
-                setAlertMessage('Some error has occured! Please contact the adminitrator or try again after sometime.')
+                setAlertMessage('Some error has occured! Please contact the administrator or try again after sometime.')
                 showAlert(true)
             })
     }

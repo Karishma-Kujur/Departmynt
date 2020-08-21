@@ -83,13 +83,13 @@ const LoginScreen = (props) => {
                             })
                             .catch((error) => {
                                 setLoader(false)
-                                setAlertMessage('Some error has occured! Please contact the adminitrator or try after sometime.')
+                                setAlertMessage('Some error has occured! Please contact the administrator or try after sometime.')
                                 showAlert(true)
                             })
                     })
                     .catch((error) => {
                         setLoader(false)
-                        setAlertMessage('Some error has occured! Please contact the adminitrator or try after sometime.')
+                        setAlertMessage('Some error has occured! Please contact the administrator or try after sometime.')
                         showAlert(true)
                     })
             })
