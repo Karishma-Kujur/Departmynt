@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Dimensions,
@@ -7,8 +7,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import Button from '../components/shared/Button';
 import TextInput from '../components/shared/TextInput';
 import Link from '../components/shared/Link';
@@ -18,15 +18,15 @@ import * as UserAction from '../actions/UserAction';
 import * as LoginApi from '../api/Login';
 import * as SurveyApi from '../api/Survey';
 import * as SurveyAction from '../actions/SurveyAction';
-import { validateFormField } from '../helpers';
+import {validateFormField} from '../helpers';
 import Spinner from 'react-native-loading-spinner-overlay';
 import _ from 'lodash';
 import CustomAlert from '../components/shared/CustomAlert';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 const SignUpScreen = (props) => {
-  const { navigation, UserAction, SurveyAction } = props;
+  const {navigation, UserAction, SurveyAction} = props;
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -34,8 +34,8 @@ const SignUpScreen = (props) => {
   const [confirmPassword, setConfirmPassword] = useState(false);
   const [errorObject, updateErrorObject] = useState({});
   const [spinner, setLoader] = useState('');
-  const [alertMessage, setAlertMessage] = useState('')
-  const [alert, showAlert] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alert, showAlert] = useState(false);
 
   const validator = {
     firstName: {
@@ -111,20 +111,26 @@ const SignUpScreen = (props) => {
               })
               .catch((error) => {
                 setLoader(false);
-                setAlertMessage('Some error has occured! Please contact the adminitrator or try again after sometime.')
-                showAlert(true)
+                setAlertMessage(
+                  'Some error has occured! Please contact the adminitrator or try again after sometime.',
+                );
+                showAlert(true);
               });
           })
           .catch((error) => {
             setLoader(false);
-            setAlertMessage('Some error has occured! Please contact the adminitrator or try again after sometime.')
-            showAlert(true)
+            setAlertMessage(
+              'Some error has occured! Please contact the adminitrator or try again after sometime.',
+            );
+            showAlert(true);
           });
       })
       .catch((error) => {
         setLoader(false);
-        setAlertMessage('Some error has occured! Please contact the adminitrator or try again after sometime.')
-        showAlert(true)
+        setAlertMessage(
+          'Some error has occured! Please contact the adminitrator or try again after sometime.',
+        );
+        showAlert(true);
       });
   };
 
@@ -171,7 +177,7 @@ const SignUpScreen = (props) => {
     if (_.isEmpty(newError)) {
       handleSignUpApi();
     }
-    updateErrorObject({ ...newError });
+    updateErrorObject({...newError});
   };
 
   const onChangeText = (value, validatorObj) => {
@@ -182,67 +188,77 @@ const SignUpScreen = (props) => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1 }}
+      style={{flex: 1}}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       enabled>
-      <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => showAlert(false)} />
+      <CustomAlert
+        modalVisible={alert}
+        message={alertMessage}
+        onPressOK={() => showAlert(false)}
+      />
       <View style={styles.containerMatches}>
         <Spinner visible={spinner} />
         <View style={styles.top}>
           <Text style={styles.centerTitle}>Sign Up</Text>
         </View>
-        <ScrollView>
-          <TextInput
-            name="First Name"
-            onChangeText={(text) => onChangeText(text, validator.firstName)}
-            value={firstName}
-          />
-          {errorObject.firstName && (
-            <Text style={styles.errorMessage}>
-              *Please Enter your First Name
-            </Text>
-          )}
-          <TextInput
-            name="Last Name"
-            onChangeText={(text) => onChangeText(text, validator.lastName)}
-            value={lastName}
-          />
-          {errorObject.lastName && (
-            <Text style={styles.errorMessage}>
-              *Please Enter your Last Name
-            </Text>
-          )}
-          <TextInput
-            name="Email"
-            onChangeText={(text) => onChangeText(text, validator.email)}
-            value={email}
-          />
-          {errorObject.email && (
-            <Text style={styles.errorMessage}>*Please Enter your Email Id</Text>
-          )}
-          <TextInput
-            name="Password"
-            mode="password"
-            onChangeText={(text) => onChangeText(text, validator.password)}
-            value={password}
-          />
-          {errorObject.password && (
-            <Text style={styles.errorMessage}>*Please Enter your Password</Text>
-          )}
-          <TextInput
-            name="Confirm Password"
-            mode="password"
-            onChangeText={(text) =>
-              onChangeText(text, validator.confirmPassword)
-            }
-            value={confirmPassword}
-          />
-          {errorObject.confirmPassword && (
-            <Text style={styles.errorMessage}>
-              *Your entered password doesnot match
-            </Text>
-          )}
-        </ScrollView>
+        <View style={{height: height - 180}}>
+          <ScrollView>
+            <TextInput
+              name="First Name"
+              onChangeText={(text) => onChangeText(text, validator.firstName)}
+              value={firstName}
+            />
+            {errorObject.firstName && (
+              <Text style={styles.errorMessage}>
+                *Please Enter your First Name
+              </Text>
+            )}
+            <TextInput
+              name="Last Name"
+              onChangeText={(text) => onChangeText(text, validator.lastName)}
+              value={lastName}
+            />
+            {errorObject.lastName && (
+              <Text style={styles.errorMessage}>
+                *Please Enter your Last Name
+              </Text>
+            )}
+            <TextInput
+              name="Email"
+              onChangeText={(text) => onChangeText(text, validator.email)}
+              value={email}
+            />
+            {errorObject.email && (
+              <Text style={styles.errorMessage}>
+                *Please Enter your Email Id
+              </Text>
+            )}
+            <TextInput
+              name="Password"
+              mode="password"
+              onChangeText={(text) => onChangeText(text, validator.password)}
+              value={password}
+            />
+            {errorObject.password && (
+              <Text style={styles.errorMessage}>
+                *Please Enter your Password
+              </Text>
+            )}
+            <TextInput
+              name="Confirm Password"
+              mode="password"
+              onChangeText={(text) =>
+                onChangeText(text, validator.confirmPassword)
+              }
+              value={confirmPassword}
+            />
+            {errorObject.confirmPassword && (
+              <Text style={styles.errorMessage}>
+                {errorObject.confirmPassword.label}
+              </Text>
+            )}
+          </ScrollView>
+        </View>
         <View style={styles.formButton}>
           <Button label="Begin Survey" onPress={handleSignup} />
           <View style={styles.linkContainer}>

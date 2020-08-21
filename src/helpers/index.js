@@ -68,7 +68,7 @@ export const validateFormField = ( value, field, type, errorObject, extras ) => 
             if(!value.toString().length) {
                 errorObject[field] = {
                     error: true,
-                    label: 'required'
+                    label: '*required'
                 }
                 changeLabel = false
             } else if(extras && extras.regEx && !value.toString().match(extras.regEx)) {
@@ -110,8 +110,14 @@ export const validateFormField = ( value, field, type, errorObject, extras ) => 
         if(extras.passwordValue.toString() !== value.toString()){
             errorObject[field] = {
                 error: true,
-                label: 'passwor_not_match'
+                label: '*Your entered password doesnot match'
             }
         }
+    }
+    if(extras.confirmPassword && !value){
+            errorObject[field] = {
+                error: true,
+                label: '*Please Re Enter your Password'
+            }
     }
 }

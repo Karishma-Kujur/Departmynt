@@ -48,7 +48,7 @@ const AccountScreen = (props) => {
       };
       UserApi.updateUserDetails(user.id, data)
         .then((result) => {
-          // setLoader(false)
+          setLoader(false)
           let userData = {
             ...result,
             userName: user.userName,
@@ -58,7 +58,7 @@ const AccountScreen = (props) => {
           UserAction.setUser(userData);
         })
         .catch((error) => {
-          // setLoader(false)
+          setLoader(false)
           setAlertMessage('Error occured while saving your details')
           showAlert(true)
         });
@@ -67,21 +67,27 @@ const AccountScreen = (props) => {
   };
 
   const handleSaveAddress = () => {
+    
+    if (!address.first_name || !address.last_name || !address.email || !address.address_1 || !address.city || !address.postcode || !address.state || !address.country || !address.phone) 
+    return false
+    
     if (editAddress) {
       let data = {
-        billing: {},
+        billing: {
+          first_name : address.first_name,
+          last_name: address.last_name,
+          email: address.email,
+          address_1: address.address_1,
+          address_2: address.address_2 || "",
+          city: address.city,
+          postcode:  address.postcode,
+          state: address.state,
+          country: address.country,
+          phone: address.phone
+        },
       };
-      if (address.first_name) data.billing.first_name = address.first_name;
-      if (address.last_name) data.billing.last_name = address.last_name;
-      if (address.email) data.billing.email = address.email;
-      if (address.address_1) data.billing.address_1 = address.address_1;
-      if (address.address_2) data.billing.address_2 = address.address_2;
-      if (address.city) data.billing.city = address.city;
-      if (address.postcode) data.billing.postcode = address.postcode;
-      if (address.state) data.billing.state = address.state;
-      if (address.country) data.billing.country = address.country;
-      if (address.phone) data.billing.phone = address.phone;
 
+      setLoader(true)
       UserApi.updateUserDetails(user.id, data)
         .then((result) => {
           let userData = {
@@ -91,8 +97,10 @@ const AccountScreen = (props) => {
             rememberMe: user.rememberMe
           };
           UserAction.setUser(userData);
+          setLoader(false)
         })
         .catch((error) => {
+          setLoader(false)
           setAlertMessage('Error occured while saving your details')
           showAlert(true)
         });
