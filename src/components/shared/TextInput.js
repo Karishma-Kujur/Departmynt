@@ -1,15 +1,28 @@
 import React from 'react'
+import { compose } from "recompose";
 import { TextInput, View, StyleSheet } from 'react-native';
+import {
+    handleTextInput,
+    withNextInputAutoFocusForm,
+    withNextInputAutoFocusInput
+} from "react-native-formik"
+
+const MyInput = compose(
+    handleTextInput,
+    withNextInputAutoFocusInput
+)(TextInput);
 
 const TextInputComponent = (props) => {
-    const { onChangeText } = props
+    const { onChangeText, onBlur } = props
     return (
         <View style={styles.container}>
             <TextInput
+                type={props.type}
                 style={styles.textInput}
                 secureTextEntry={props.mode === "password" ? true : props.mode === "confirmpassword" ? true : false}
                 placeholder={props.name}
-                onChangeText={text => onChangeText(text)}
+                onChangeText={onChangeText}
+                onBlur={onBlur}
             />
         </View>
     )

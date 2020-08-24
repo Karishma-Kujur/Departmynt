@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Dimensions,
@@ -7,8 +7,10 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Formik } from "formik";
+import { withNextInputAutoFocusForm } from "react-native-formik";
 import Button from '../components/shared/Button';
 import TextInput from '../components/shared/TextInput';
 import Link from '../components/shared/Link';
@@ -18,75 +20,28 @@ import * as UserAction from '../actions/UserAction';
 import * as LoginApi from '../api/Login';
 import * as SurveyApi from '../api/Survey';
 import * as SurveyAction from '../actions/SurveyAction';
-import {validateFormField} from '../helpers';
 import Spinner from 'react-native-loading-spinner-overlay';
 import _ from 'lodash';
 import CustomAlert from '../components/shared/CustomAlert';
+import { validationSchema } from '../schema/signup';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const SignUpScreen = (props) => {
-  const {navigation, UserAction, SurveyAction} = props;
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState(false);
-  const [errorObject, updateErrorObject] = useState({});
+  const { navigation, UserAction, SurveyAction } = props;
   const [spinner, setLoader] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
   const [alert, showAlert] = useState(false);
 
-  const validator = {
-    firstName: {
-      type: 'string',
-      field: 'firstName',
-      onChange: setFirstName,
-      extras: {},
-    },
-    lastName: {
-      type: 'string',
-      field: 'lastName',
-      onChange: setLastName,
-      extras: {},
-    },
-    email: {
-      type: 'string',
-      field: 'email',
-      onChange: setEmail,
-      extras: {
-        email: true,
-      },
-    },
-    password: {
-      type: 'string',
-      field: 'password',
-      onChange: setPassword,
-      extras: {
-        password: true,
-        confirmPassword: true,
-        passwordValue: '',
-      },
-    },
-    confirmPassword: {
-      type: 'string',
-      field: 'confirmPassword',
-      onChange: setConfirmPassword,
-      extras: {
-        password: true,
-        confirmPassword: true,
-        passwordValue: '',
-      },
-    },
-  };
+  const Form = withNextInputAutoFocusForm(View);
 
-  const handleSignUpApi = () => {
+  const handleSignUpApi = (values) => {
     const data = {
-      email: email,
-      first_name: firstName,
-      last_name: lastName,
-      username: email,
-      password: password,
+      email: values.email,
+      first_name: values.firstName,
+      last_name: values.lastName,
+      username: values.email,
+      password: values.password,
     };
     setLoader(true);
     SignupAction.signupUser(data)
@@ -95,8 +50,8 @@ const SignUpScreen = (props) => {
           .then((userResult) => {
             let userData = {
               ...userResult,
-              userName: email,
-              password: password,
+              userName: values.email,
+              password: values.password,
             };
             UserAction.setUser(userData);
             SurveyApi.getSurveyQuestions()
@@ -134,61 +89,9 @@ const SignUpScreen = (props) => {
       });
   };
 
-  const handleSignup = () => {
-    const newError = {};
-    validateFormField(
-      email,
-      validator.email.field,
-      validator.email.type,
-      newError,
-      validator.email.extras,
-    );
-    validateFormField(
-      firstName,
-      validator.firstName.field,
-      validator.firstName.type,
-      newError,
-      validator.firstName.extras,
-    );
-    validateFormField(
-      lastName,
-      validator.lastName.field,
-      validator.lastName.type,
-      newError,
-      validator.lastName.extras,
-    );
-    validator.password.extras.passwordValue = confirmPassword;
-    validateFormField(
-      password,
-      validator.password.field,
-      validator.password.type,
-      newError,
-      validator.password.extras,
-    );
-    validator.confirmPassword.extras.passwordValue = password;
-    validateFormField(
-      confirmPassword,
-      validator.confirmPassword.field,
-      validator.confirmPassword.type,
-      newError,
-      validator.confirmPassword.extras,
-    );
-
-    if (_.isEmpty(newError)) {
-      handleSignUpApi();
-    }
-    updateErrorObject({...newError});
-  };
-
-  const onChangeText = (value, validatorObj) => {
-    if (validatorObj) {
-      validatorObj.onChange(value);
-    }
-  };
-
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       enabled>
       <CustomAlert
@@ -201,71 +104,85 @@ const SignUpScreen = (props) => {
         <View style={styles.top}>
           <Text style={styles.centerTitle}>Sign Up</Text>
         </View>
-        <View style={{height: height - 180}}>
-          <ScrollView>
-            <TextInput
-              name="First Name"
-              onChangeText={(text) => onChangeText(text, validator.firstName)}
-              value={firstName}
-            />
-            {errorObject.firstName && (
-              <Text style={styles.errorMessage}>
-                *Please Enter your First Name
-              </Text>
-            )}
-            <TextInput
-              name="Last Name"
-              onChangeText={(text) => onChangeText(text, validator.lastName)}
-              value={lastName}
-            />
-            {errorObject.lastName && (
-              <Text style={styles.errorMessage}>
-                *Please Enter your Last Name
-              </Text>
-            )}
-            <TextInput
-              name="Email"
-              onChangeText={(text) => onChangeText(text, validator.email)}
-              value={email}
-            />
-            {errorObject.email && (
-              <Text style={styles.errorMessage}>
-                *Please Enter your Email Id
-              </Text>
-            )}
-            <TextInput
-              name="Password"
-              mode="password"
-              onChangeText={(text) => onChangeText(text, validator.password)}
-              value={password}
-            />
-            {errorObject.password && (
-              <Text style={styles.errorMessage}>
-                *Please Enter your Password
-              </Text>
-            )}
-            <TextInput
-              name="Confirm Password"
-              mode="password"
-              onChangeText={(text) =>
-                onChangeText(text, validator.confirmPassword)
-              }
-              value={confirmPassword}
-            />
-            {errorObject.confirmPassword && (
-              <Text style={styles.errorMessage}>
-                {errorObject.confirmPassword.label}
-              </Text>
-            )}
-          </ScrollView>
-        </View>
-        <View style={styles.formButton}>
-          <Button label="Begin Survey" onPress={handleSignup} />
-          <View style={styles.linkContainer}>
-            <Text style={styles.label}>{'Existing User? '}</Text>
-            <Link label="Login" onPress={() => navigation.navigate('Login')} />
-          </View>
-        </View>
+        <Formik
+          initialValues={{
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+            confirmPassword: ''
+          }}
+          onSubmit={values => handleSignUpApi(values)}
+          validationSchema={validationSchema}
+          render={({ values, handleChange, errors, handleSubmit, touched, setFieldTouched }) => {
+            return (
+              <>
+                <View style={{ height: height - 180 }}>
+                  <ScrollView>
+                    <TextInput
+                      name="First Name"
+                      onChangeText={handleChange('firstName')}
+                      value={values.firstName}
+                      onBlur={() => setFieldTouched('firstName')}
+                    />
+                    {touched.firstName && errors.firstName && (
+                      <Text style={styles.errorMessage}>
+                        {errors.firstName}
+                      </Text>
+                    )}
+                    <TextInput
+                      name="Last Name"
+                      onChangeText={handleChange('lastName')}
+                      value={values.lastName}
+                      onBlur={() => setFieldTouched('lastName')}
+                    />
+                    {touched.lastName && errors.lastName && (
+                      <Text style={styles.errorMessage}>{errors.lastName}</Text>
+                    )}
+                    <TextInput
+                      name="Email"
+                      onChangeText={handleChange('email')}
+                      value={values.email}
+                      onBlur={() => setFieldTouched('email')}
+                    />
+                    {touched.email && errors.email && (
+                      <Text style={styles.errorMessage}>{errors.email}</Text>
+                    )}
+                    <TextInput
+                      name="Password"
+                      mode="password"
+                      onChangeText={handleChange('password')}
+                      value={values.password}
+                      onBlur={() => setFieldTouched('password')}
+                    />
+                    {touched.password && errors.password && (
+                      <Text style={styles.errorMessage}>{errors.password}</Text>
+                    )}
+                    <TextInput
+                      name="Confirm Password"
+                      mode="password"
+                      onChangeText={handleChange('confirmPassword')}
+                      value={values.confirmPassword}
+                      onBlur={() => setFieldTouched('confirmPassword')}
+                    />
+                    {touched.confirmPassword && errors.confirmPassword && (
+                      <Text style={styles.errorMessage}>
+                        {errors.confirmPassword}
+                      </Text>
+                    )}
+                  </ScrollView>
+                </View>
+                <View style={styles.formButton}>
+                  <Button label="Begin Survey" onPress={handleSubmit} />
+                  <View style={styles.linkContainer}>
+                    <Text style={styles.label}>{'Existing User? '}</Text>
+                    <Link label="Login" onPress={() => navigation.navigate('Login')} />
+                  </View>
+                </View>
+              </>
+            );
+          }}
+        />
       </View>
     </KeyboardAvoidingView>
   );

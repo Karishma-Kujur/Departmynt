@@ -2,11 +2,11 @@
 import React, { useState } from 'react'
 import { View, Dimensions, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import { connect } from 'react-redux';
+import { Formik } from "formik";
 import { bindActionCreators } from 'redux';
 import Button from '../components/shared/Button'
 import TextInput from '../components/shared/TextInput'
 import Link from '../components/shared/Link'
-import { validateFormField } from '../helpers'
 import * as LoginApi from '../api/Login';
 import * as SurveyApi from '../api/Survey'
 import * as SurveyAction from '../actions/SurveyAction'
@@ -15,55 +15,32 @@ import styles from '../assets/styles';
 import Spinner from 'react-native-loading-spinner-overlay';
 import _ from 'lodash'
 import CustomAlert from '../components/shared/CustomAlert';
+import { validationSchema } from '../schema/login'
+import {
+    withNextInputAutoFocusForm
+} from "react-native-formik";
 
 const { width, height } = Dimensions.get("window");
 
 const LoginScreen = (props) => {
     const { navigation, UserAction, SurveyAction } = props
-    const [userName, setUserName] = useState('')
-    const [password, setPassword] = useState('')
     const [spinner, setLoader] = useState('')
     const [alertMessage, setAlertMessage] = useState('')
     const [alert, showAlert] = useState(false)
-    const [errorObject, updateErrorObject] = useState({})
-    const validator = {
-        userName: {
-            type: 'string',
-            field: 'userName',
-            onChange: setUserName,
-            extras: {
-                email: true
-            }
-        },
-        password: {
-            type: 'string',
-            field: 'password',
-            onChange: setPassword,
-            extras: {
-            }
-        }
-    }
+    const Form = withNextInputAutoFocusForm(View);
 
-    const onChangeText = (value, validatorObj, onChange) => {
-        if (validatorObj) {
-            validatorObj.onChange(value)
-        } else {
-            onChange(value)
-        }
-    }
-
-    const loginApi = () => {
+    const loginApi = (values) => {
         const data = {
-            "username": userName,
-            "password": password
+            "username": values.email,
+            "password": values.password
         }
         setLoader(true)
         LoginApi.login(data)
             .then((result) => {
                 let userData = {
                     ...result,
-                    userName: userName,
-                    password: password,
+                    userName: values.email,
+                    password: values.password,
                     rememberMe: true
                 }
                 SurveyApi.getSurveyStatus(userData.id)
@@ -100,16 +77,6 @@ const LoginScreen = (props) => {
             })
     }
 
-    const handleOnSubmit = () => {
-        const newError = {}
-        validateFormField(userName, validator.userName.field, validator.userName.type, newError, validator.userName.extras);
-        validateFormField(password, validator.password.field, validator.password.type, newError, validator.password.extras);
-        if (_.isEmpty(newError)) {
-            loginApi()
-        }
-        updateErrorObject({ ...newError })
-    }
-
     return (
         <KeyboardAvoidingView style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? "padding" : "height"} enabled>
@@ -122,31 +89,46 @@ const LoginScreen = (props) => {
                 <View style={styles.top}>
                     <Text style={styles.centerTitle}>Login</Text>
                 </View>
-                <ScrollView>
-                    <TextInput
-                        name="Email"
-                        onChangeText={text => onChangeText(text, validator.userName)}
-                        value={userName}
-                    />
-                    {errorObject.userName && <Text style={styles.errorMessage}>*Please Enter a valid email Id</Text>}
-                    <TextInput
-                        name="Password"
-                        mode="password"
-                        onChangeText={text => onChangeText(text, validator.password)}
-                        value={password}
-                    />
-                    {errorObject.password && <Text style={styles.errorMessage}>*Please Enter your password</Text>}
-                    <View style={{ width: '100%', alignItems: 'flex-end', marginTop: 10 }}>
-                        <Link label="Forgot your password ?" onPress={() => navigation.navigate('Forgot Password')} />
-                    </View>
-                </ScrollView>
-                <View style={styles.formButton}>
-                    <Button label="Login" onPress={handleOnSubmit} />
-                    <View style={styles.linkContainer}>
-                        <Text style={styles.label}>{"Don’t have an account? "}</Text>
-                        <Link label="Sign Up" onPress={() => navigation.navigate('Sign Up')} />
-                    </View>
-                </View>
+                <Formik
+                    initialValues={{ email: '', password: '' }}
+                    onSubmit={values => loginApi(values)}
+                    validationSchema={validationSchema}
+                    render={({ values, handleChange, errors, handleSubmit, touched, setFieldTouched }) => {
+                        return (
+                            <>
+                                <ScrollView>
+                                    <TextInput
+                                        name="Email"
+                                        type="email"
+                                        onChangeText={handleChange('email')}
+                                        value={values.email}
+                                        onBlur={() => setFieldTouched('email')}
+                                    />
+                                    {touched.email && errors.email && <Text style={styles.errorMessage}>{errors.email}</Text>}
+                                    <TextInput
+                                        name="Password"
+                                        mode="password"
+                                        onChangeText={handleChange('password')}
+                                        value={values.password}
+                                        onBlur={() => setFieldTouched('password')}
+                                    />
+                                    {touched.password && errors.password && <Text style={styles.errorMessage}>{errors.password}</Text>}
+                                    <View style={{ width: '100%', alignItems: 'flex-end', marginTop: 10 }}>
+                                        <Link label="Forgot your password ?" onPress={() => navigation.navigate('Forgot Password')} />
+                                    </View>
+                                </ScrollView>
+                                <View style={styles.formButton}>
+                                    <Button label="Login" onPress={handleSubmit} />
+                                    <View style={styles.linkContainer}>
+                                        <Text style={styles.label}>{"Don’t have an account? "}</Text>
+                                        <Link label="Sign Up" onPress={() => navigation.navigate('Sign Up')} />
+                                    </View>
+                                </View>
+                            </>
+                        );
+                    }}
+                />
+
             </View>
         </KeyboardAvoidingView>
     )

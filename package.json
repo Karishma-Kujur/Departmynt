@@ -21,6 +21,7 @@
     "axios": "^0.19.2",
     "country-state-city": "^1.0.5",
     "crypto-js": "^4.0.0",
+    "formik": "^2.1.5",
     "globalize": "^1.5.0",
     "immutable": "^4.0.0-rc.12",
     "lodash": "^4.17.19",
@@ -36,6 +37,7 @@
     "react-native-deep-linking": "^2.2.0",
     "react-native-eject": "^0.1.2",
     "react-native-flash-message": "^0.1.15",
+    "react-native-formik": "^1.7.8",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-htmlview": "^0.15.0",
     "react-native-image-gallery": "^2.1.5",
@@ -64,13 +66,15 @@
     "react-widgets-globalize": "^5.0.21",
     "react-widgets-simple-number": "^4.1.24",
     "readable-stream": "1.0.33",
+    "recompose": "^0.30.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "rn-nodeify": "^10.2.0",
     "stream-browserify": "^1.0.0",
     "tipsi-stripe": "^7.5.3",
-    "vm-browserify": "0.0.4"
+    "vm-browserify": "0.0.4",
+    "yup": "^0.29.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
