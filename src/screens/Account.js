@@ -40,7 +40,7 @@ const AccountScreen = (props) => {
   const [alert, showAlert] = useState(false)
 
   const handleSavePersonalDetails = () => {
-    if (!personalDetails.firstName || !personalDetails.lastName || !personalDetails.email) 
+    if (editPersonalDetails && (!personalDetails.firstName || !personalDetails.lastName || !personalDetails.email))
       return false
     if (editPersonalDetails) {
       let data = {
@@ -69,20 +69,19 @@ const AccountScreen = (props) => {
   };
 
   const handleSaveAddress = () => {
-    
-    if (!address.first_name || !address.last_name || !address.email || !address.address_1 || !address.city || !address.postcode || !address.state || !address.country || !address.phone) 
-    return false
+    if (editAddress && (!address.first_name || !address.last_name || !address.email || !address.address_1 || !address.city || !address.postcode || !address.state || !address.country || !address.phone))
+      return false
 
     if (editAddress) {
       let data = {
         billing: {
-          first_name : address.first_name,
+          first_name: address.first_name,
           last_name: address.last_name,
           email: address.email,
           address_1: address.address_1,
           address_2: address.address_2 || "",
           city: address.city,
-          postcode:  address.postcode,
+          postcode: address.postcode,
           state: address.state,
           country: address.country,
           phone: address.phone
@@ -199,7 +198,8 @@ const AccountScreen = (props) => {
     <>
       <Spinner visible={spinner} />
       <CustomAlert modalVisible={alert} message={alertMessage} onPressOK={() => {
-        showAlert(false)}} />
+        showAlert(false)
+      }} />
       <View style={styles.titleContainer}>
         <TouchableOpacity
           onPress={() => {
