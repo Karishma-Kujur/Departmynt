@@ -16,9 +16,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import _ from 'lodash'
 import CustomAlert from '../components/shared/CustomAlert';
 import { validationSchema } from '../schema/login'
-import {
-    withNextInputAutoFocusForm
-} from "react-native-formik";
+import { withNextInputAutoFocusForm } from "react-native-formik";
 
 const { width, height } = Dimensions.get("window");
 
@@ -72,7 +70,7 @@ const LoginScreen = (props) => {
             })
             .catch((error) => {
                 setLoader(false)
-                setAlertMessage('Please enter valid user name and password!')
+                setAlertMessage(error)
                 showAlert(true)
             })
     }

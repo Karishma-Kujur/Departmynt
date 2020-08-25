@@ -61,7 +61,7 @@ const AccountScreen = (props) => {
         })
         .catch((error) => {
           setLoader(false)
-          setAlertMessage('Error occured while saving your details')
+          setAlertMessage(error)
           showAlert(true)
         });
     }
@@ -102,7 +102,7 @@ const AccountScreen = (props) => {
         })
         .catch((error) => {
           setLoader(false)
-          setAlertMessage('Error occured while saving your details')
+          setAlertMessage(error)
           showAlert(true)
         });
     }
@@ -172,7 +172,9 @@ const AccountScreen = (props) => {
         setLoader(false);
       })
       .catch((error) => {
-        setLoader(false);
+        setLoader(false)
+        setAlertMessage(error)
+        showAlert(true)
       });
   };
 

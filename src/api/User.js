@@ -9,8 +9,7 @@ export function getUserDetails(userId) {
         axios.get(url).then(response => {
             resolve(getUserFromResult(response.data))
         }).catch(err => {
-            console.log(err);
-            reject(err)
+            reject(err.response.data.message)
         })
     });
 }
@@ -21,8 +20,7 @@ export function updateUserDetails(userId, data) {
         axios.put(url, data).then(response => {
             resolve(getUserFromResult(response.data))
         }).catch(err => {
-            console.log(err);
-            reject(err)
+            reject(err.response.data.message)
         })
     });
 }

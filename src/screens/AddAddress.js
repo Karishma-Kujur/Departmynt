@@ -82,7 +82,7 @@ const AddAddress = (props) => {
       })
       .catch((error) => {
         setLoader(false)
-        setAlertMessage('The billing address you entered is not valid')
+        setAlertMessage(error)
         showAlert(true)
       });
   };
@@ -217,7 +217,7 @@ const AddAddress = (props) => {
                             borderWidth: 1,
                           },
                           iconContainer: {
-                            top: 20,
+                            top: 10,
                             right: 10,
                           },
                         }}

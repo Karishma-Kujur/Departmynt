@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import axios from 'axios';
-
 import Constants from '../appConfig/Constants';
+import { getFormattedError } from '../helpers';
 
 export function login(data) {
     return new Promise((resolve, reject) => {
@@ -9,8 +10,7 @@ export function login(data) {
             .then(response => {
                 resolve(getUserData(response.data))
             }).catch(err => {
-                console.log(err);
-                reject(err)
+                reject(getFormattedError(err.response.data))
             })
     });
 }
@@ -41,7 +41,7 @@ const getUserData = (result) => {
 export function forgotPassword(data) {
     return new Promise((resolve, reject) => {
         const url = `${Constants.URL.wc}/bdpwr/v1/reset-password`
-        axios.post(url, data,{ headers: { 'content-type': 'application/json' } })
+        axios.post(url, data, { headers: { 'content-type': 'application/json' } })
             .then(response => {
                 resolve(response.data)
             }).catch(err => {
@@ -54,7 +54,7 @@ export function forgotPassword(data) {
 export function resetPassword(data) {
     return new Promise((resolve, reject) => {
         const url = `${Constants.URL.wc}/bdpwr/v1/set-password`
-        axios.post(url, data,{ headers: { 'content-type': 'application/json' } })
+        axios.post(url, data, { headers: { 'content-type': 'application/json' } })
             .then(response => {
                 resolve(response.data)
             }).catch(err => {

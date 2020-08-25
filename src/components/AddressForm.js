@@ -231,7 +231,7 @@ const AddressForm = (props) => {
             value={address.phone}
             keyboardType='numeric'
             onChangeText={(text) => {
-              if (text === '') {
+              if (text === '' || isNaN(text)) {
                 setPhoneError(true);
               } else if (phoneError) {
                 setPhoneError(false);

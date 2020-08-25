@@ -74,17 +74,13 @@ const SignUpScreen = (props) => {
           })
           .catch((error) => {
             setLoader(false);
-            setAlertMessage(
-              'Some error has occured! Please contact the administrator or try again after sometime.',
-            );
+            setAlertMessage(error);
             showAlert(true);
           });
       })
       .catch((error) => {
         setLoader(false);
-        setAlertMessage(
-          'Some error has occured! Please contact the administrator or try again after sometime.',
-        );
+        setAlertMessage(error);
         showAlert(true);
       });
   };

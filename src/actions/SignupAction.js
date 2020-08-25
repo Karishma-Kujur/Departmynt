@@ -10,7 +10,7 @@ export function signupUser(data) {
                 resolve(response)
             }).catch(err => {
                 console.log(err);
-                reject(err)
+                reject(err.response.data.message)
             })
     });
 }
