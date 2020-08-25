@@ -94,7 +94,7 @@ const FavoritesScreen = (props) => {
       <View style={styles.bottom}>
         <Button
           label="View Tote"
-          onPress={() => navigation.navigate('View Tote')}
+          onPress={() => navigation.navigate('View Bag')}
         />
       </View>
     </AppLayout>

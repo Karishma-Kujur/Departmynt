@@ -4,13 +4,13 @@ import { bindActionCreators } from 'redux';
 import { useIsFocused } from '@react-navigation/native'
 import { View, StyleSheet, Dimensions, Text, Animated, TouchableOpacity, Image } from 'react-native'
 import * as Progress from 'react-native-progress'
-import CardStack, { Card } from 'react-native-card-stack-swiper'
 import CardItem from './CardItem'
 import Avatar from '../assets/images/avatar.jpeg'
 import styles from '../assets/styles';
 import * as ProductAction from '../actions/ProductAction';
 import * as ProductApi from '../api/Products'
 import Spinner from 'react-native-loading-spinner-overlay';
+import Swiper from 'react-native-deck-swiper'
 
 const { width, height } = Dimensions.get("window");
 
@@ -63,14 +63,13 @@ const MatchesScreen = (props) => {
     useEffect(() => {
         if (products.length > 0) {
             changeProgressStatus(1 / products.length)
-            let value = products.length <= 2 ? 1 : 2
-            changeCount(value)
+            changeCount(1)
         }
     }, [products])
 
 
     return (
-        <>
+        <View style={{ backgroundColor: 'white' }}>
             <Spinner visible={spinner} />
             <View style={styles.titleContainer}>
                 <TouchableOpacity
@@ -84,36 +83,48 @@ const MatchesScreen = (props) => {
                 </View>
             </View>
             {products.length > 0 &&
-                <CardStack
-                    loop={true}
-                    verticalSwipe={false}
-                    onSwipedLeft={() => {
-                        changeProgressStatus(count / products.length)
-                        let value = products.length <= count ? 1 : count + 1
-                        changeCount(value)
-                    }}
-                    onSwipedRight={() => {
-                        changeProgressStatus(count / products.length)
-                        let value = products.length <= count ? 1 : count + 1
-                        changeCount(value)
-                    }}
-                    renderNoMoreCards={() => null}
-                    ref={swiper => (this.swiper = swiper)}>
-                    {products.map((item, index) => (
-                        <Card key={index}>
+                <Swiper
+                    cards={products}
+                    renderCard={(card) => {
+                        return (
                             <CardItem
-                                images={item.images}
-                                name={item.name}
-                                price={item.price}
-                                productId={item.id}
-                                attributes={item.attributes}
+                                images={card.images}
+                                name={card.name}
+                                price={card.price}
+                                productId={card.id}
+                                attributes={card.attributes}
                                 user={user}
                                 handleRefresh={handleRefreshMatches}
                             />
-                        </Card>))}
-                </CardStack>
+                        )
+                    }}
+                    onSwipedLeft={(index) => {
+                        let value = products.length <= count ? 1 : count + 1
+                        changeProgressStatus(value / products.length)
+                        console.log(value)
+                        changeCount(value)
+                    }}
+                    onSwipedRight={(index) => {
+                        let value = count <= 1 ? products.length : count - 1
+                        changeProgressStatus(value / products.length)
+                        console.log(value)
+                        changeCount(value)
+                    }}
+                    onSwiped={(cardIndex) => { console.log(cardIndex) }}
+                    onSwipedAll={() => { console.log('onSwipedAll') }}
+                    goBackToPreviousCardOnSwipeRight={true}
+                    cardIndex={0}
+                    infinite={true}
+                    verticalSwipe={false}
+                    useViewOverflow={false}
+                    backgroundColor={'white'}
+                    cardVerticalMargin={0}
+                    cardHorizontalMargin={0}
+                    marginTop={50}
+                >
+                </Swiper>
             }
-        </>
+        </View>
     )
 }
 

@@ -38,24 +38,37 @@ const SurveyScreen = (props) => {
     }, [answeredQuestions, totalQuestions])
 
     const handleOnPressSave = () => {
-        setLoader(true)
-        let data = { ...answers }
-        data.results = JSON.stringify(data.results)
-        SurveyApi.submitAnswers(data)
-            .then((result) => {
-                setLoader(false)
-                navigation.navigate('Log Off')
+        let resultObj = {}
+        if (surveyQuestion.textInput) {
+            if (textAnswer !== '')
+                resultObj = setAnswer(textAnswer)
+            setTextAnswer('')
+        }
+        else if (surveyQuestion.multiselect) {
+            resultObj = setAnswer(selectedId)
+        }
+        resultObj = !_.isEmpty(resultObj) ? resultObj : answers;
+        let answer = resultObj.results.find((element) => element.id === surveyQuestion.id)
+        if ((surveyQuestion.required && answer) || !surveyQuestion.required) {
+            setLoader(true)
+            let data = { ...resultObj }
+            data.results = JSON.stringify(data.results)
+            SurveyApi.submitAnswers(data)
+                .then((result) => {
+                    setLoader(false)
+                    navigation.navigate('Log Off')
 
-            })
-            .catch((error) => {
-                setLoader(false)
-            })
+                })
+                .catch((error) => {
+                    setLoader(false)
+                })
+        }
     }
 
     const handleOnPressNext = () => {
         let resultObj = {}
         if (surveyQuestion.textInput) {
-            if(textAnswer !== '')
+            if (textAnswer !== '')
                 resultObj = setAnswer(textAnswer)
             setTextAnswer('')
         }
@@ -143,8 +156,8 @@ const SurveyScreen = (props) => {
     return (
         <View style={styles.containerMatches}>
             <Spinner
-                    visible={spinner}
-                />
+                visible={spinner}
+            />
             <View style={styles.top}>
                 <Text style={styles.centerTitle}>Survey</Text>
             </View>

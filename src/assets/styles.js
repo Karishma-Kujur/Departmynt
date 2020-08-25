@@ -26,7 +26,7 @@ export default StyleSheet.create({
 	},
 	// COMPONENT - CARD ITEM
 	containerCardItem: {
-		backgroundColor: WHITE,
+		backgroundColor: 'white',
 		borderRadius: 8,
 		alignItems: 'center',
 		justifyContent: 'center',

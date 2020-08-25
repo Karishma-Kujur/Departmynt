@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { BackHandler } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Menu from './src/navigators/Menu';
 import { Provider } from 'react-redux';
@@ -17,19 +18,39 @@ const linking = {
   }
 };
 
-class App extends React.Component {
-  render() {
-    console.disableYellowBox = true;
-    return (
-      <NavigationContainer linking={linking}>
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <Menu />
-          </PersistGate>
-        </Provider>
-      </NavigationContainer>
+const App = () => {
+  console.disableYellowBox = true;
+
+  useEffect(() => {
+    const backAction = () => {
+      // Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      //   {
+      //     text: "Cancel",
+      //     onPress: () => null,
+      //     style: "cancel"
+      //   },
+      //   { text: "YES", onPress: () => BackHandler.exitApp() }
+      // ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
     );
-  }
+
+    return () => backHandler.remove();
+  }, []);
+
+  return (
+    <NavigationContainer linking={linking}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Menu />
+        </PersistGate>
+      </Provider>
+    </NavigationContainer>
+  );
 }
 
 export default App;
