@@ -37,6 +37,15 @@ export const formatList = (list) => {
     })
   }
 
+  export const validateEmail = (text) => {
+    let pattern = /^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/;
+    if (pattern.test(text)) {
+        return false;
+    } else {
+        return true;
+    }
+  }
+
 export const validateFormField = ( value, field, type, errorObject, extras ) => {
     if(!field || !type){
         return

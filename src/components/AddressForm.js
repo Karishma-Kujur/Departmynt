@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
-import csc from 'country-state-city'
-import RadioButton from '../components/shared/RadioButton';
+import csc from 'country-state-city';
 import styles from '../assets/styles';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Chevron } from 'react-native-shapes';
 import RNPickerSelect from 'react-native-picker-select';
-import { formatList } from '../helpers'
-
-const defaultAddress = [
-  {
-    id: 1,
-    answer: 'Use as Default',
-  },
-];
+import { formatList, validateEmail } from '../helpers'
 
 const AddressForm = (props) => {
   const { changeAddress, address } = props;
@@ -78,7 +70,7 @@ const AddressForm = (props) => {
             secureTextEntry={false}
             value={address.email}
             onChangeText={(text) => {
-              if (text === '') {
+              if (text === '' || validateEmail(text)) {
                 setEmailError(true);
               } else if (emailError) {
                 setEmailError(false);
@@ -208,14 +200,12 @@ const AddressForm = (props) => {
               },
               inputAndroid: {
                 fontSize: 16,
-                paddingVertical: 2,
-                paddingHorizontal: 5,
                 color: 'black',
-                paddingRight: 20,
+                borderWidth: 1,
               },
               iconContainer: {
                 top: 10,
-                right: 7,
+                right: 10,
               },
             }}
           />
