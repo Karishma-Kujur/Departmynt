@@ -101,18 +101,15 @@ const MatchesScreen = (props) => {
                     onSwipedLeft={(index) => {
                         let value = products.length <= count ? 1 : count + 1
                         changeProgressStatus(value / products.length)
-                        console.log(value)
                         changeCount(value)
                     }}
                     onSwipedRight={(index) => {
                         let value = count <= 1 ? products.length : count - 1
                         changeProgressStatus(value / products.length)
-                        console.log(value)
                         changeCount(value)
                     }}
-                    onSwiped={(cardIndex) => { console.log(cardIndex) }}
-                    onSwipedAll={() => { console.log('onSwipedAll') }}
                     goBackToPreviousCardOnSwipeRight={true}
+                    swipeAnimationDuration={100}
                     cardIndex={0}
                     infinite={true}
                     verticalSwipe={false}
@@ -121,6 +118,7 @@ const MatchesScreen = (props) => {
                     cardVerticalMargin={0}
                     cardHorizontalMargin={0}
                     marginTop={50}
+                    showSecondCard={true}
                 >
                 </Swiper>
             }
