@@ -151,6 +151,7 @@ const CheckoutScreen = (props) => {
         data.line_items.push({
           product_id: item.id,
           quantity: item.quantity,
+          variation_id: item.variation_id
         });
       });
       ProductApi.placeOder(data)

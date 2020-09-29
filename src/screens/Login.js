@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import { View, Dimensions, Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import { connect } from 'react-redux';
@@ -46,7 +45,7 @@ const LoginScreen = (props) => {
                         SurveyApi.getSurveyQuestions()
                             .then((questionResult) => {
                                 setLoader(false)
-                                if (answerResult && answerResult.length === questionResult.length) {
+                                if (answerResult && answerResult.length >= questionResult.length) {
                                     UserAction.setUser(userData)
                                     navigation.navigate('Home')
                                 }

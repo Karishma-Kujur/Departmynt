@@ -37,8 +37,7 @@ export function getProducts(productIds) {
         axios.get(url).then(response => {
             resolve(getProjectsFromResult(response.data))
         }).catch(err => {
-            console.log(err);
-            reject(err)
+            reject(err.response.data.message)
         })
     });
 }

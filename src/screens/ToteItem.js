@@ -22,6 +22,8 @@ const ToteItem = ({
   user,
   attributes,
   toteEdited,
+  size,
+  color,
   stockQuantity
 }) => {
   const [selectedQuantity, changeQuantity] = useState(quantity);
@@ -73,10 +75,10 @@ const ToteItem = ({
       attributes.forEach((element) => {
         if (element.name === 'size') {
           setSizes(element.options);
-          changeSize(element.options[0].value);
+          changeSize(size ? size.toUpperCase() : element.options[0].value);
         } else if (element.name === 'color') {
           setColors(element.options);
-          changeColor(element.options[0].value);
+          changeColor(color ? color : element.options[0].value);
         }
       });
     }
@@ -85,19 +87,45 @@ const ToteItem = ({
     }
   }, [attributes, stockQuantity]);
 
-  const handleEditToteProduct = () => {
-    if (selectedQuantity === quantity) return;
+  const getVariantId = async (size, color) => {
+    return ToteApi.getVariants(productId)
+      .then((result) => {
+        let variationId = null;
+        result.forEach((variation) => {
+          if (
+            size &&
+            color &&
+            size.toLowerCase() === variation.size &&
+            color.toLowerCase() === variation.color
+          )
+            variationId = variation.variationId;
+          else if (size && size.toLowerCase() === variation.size)
+            variationId = variation.variationId;
+          else if (color && color.toLowerCase() === variation.color)
+            variationId = variation.variationId;
+        });
+        return variationId;
+      })
+      .catch((error) => {
+        console.log(error);
+        return null;
+      });
+  };
+
+  const handleEditToteProduct = async (newQuantity, size, color) => {
     setLoader(true)
+    let variantId = await getVariantId(size, color);
     const data = {
       userId: user.id,
       productId: productId,
-      quantity: selectedQuantity,
+      quantity: newQuantity,
+      variation_id: variantId
     };
-    if (selectedQuantity === '0') {
+    if (newQuantity === '0') {
       ToteApi.removeToteItem(data)
         .then((result) => {
           setLoader(false)
-          changeQuantity(selectedQuantity);
+          changeQuantity(newQuantity);
           toteEdited();
         })
         .catch((error) => { });
@@ -105,7 +133,7 @@ const ToteItem = ({
       ToteApi.editTote(data)
         .then((result) => {
           setLoader(false)
-          changeQuantity(selectedQuantity);
+          changeQuantity(newQuantity);
           toteEdited();
         })
         .catch((error) => {
@@ -205,7 +233,12 @@ const ToteItem = ({
                 <View>
                   <RNPickerSelect
                     value={selectedSize}
-                    onValueChange={(value) => changeSize(value)}
+                    onValueChange={(value) => {
+                      changeSize(value)
+                      if (Platform.OS === 'android')
+                        handleEditToteProduct(selectedQuantity, value, selectedColor)
+                    }}
+                    onDonePress={(value) => {handleEditToteProduct(selectedQuantity, value, selectedColor)}}
                     items={sizes}
                     useNativeAndroidPickerStyle={false}
                     placeholder={{}}
@@ -245,7 +278,12 @@ const ToteItem = ({
                 <View>
                   <RNPickerSelect
                     value={selectedColor}
-                    onValueChange={(value) => changeColor(value)}
+                    onValueChange={(value) => {
+                      changeColor(value)
+                      if (Platform.OS === 'android')
+                        handleEditToteProduct(selectedQuantity, selectedSize, value)
+                    }}
+                    onDonePress={(value) => {handleEditToteProduct(selectedQuantity, selectedSize, value)}}
                     items={colors}
                     placeholder={{}}
                     useNativeAndroidPickerStyle={false}
@@ -288,9 +326,9 @@ const ToteItem = ({
                     onValueChange={(value) => {
                       changeQuantity(value)
                       if (Platform.OS === 'android')
-                        handleEditToteProduct(value)
+                        handleEditToteProduct(value, selectedSize, selectedColor)
                     }}
-                    onDonePress={handleEditToteProduct}
+                    onDonePress={(value) => {handleEditToteProduct(value, selectedSize, selectedColor)}}
                     items={quantities}
                     useNativeAndroidPickerStyle={false}
                     placeholder={{}}
