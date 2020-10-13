@@ -67,11 +67,12 @@ const OrderHistory = (props) => {
                         renderItem={({ item }) => (
                             <OrderedItem
                                 id={item.id}
-                                orderNumber={item.orderKey}
+                                order_key={item.order_key}
                                 price={item.total}
                                 status={item.status}
                                 list={item.list}
                                 currency={item.currency}
+                                navigation={navigation}
                                 currencySymbol={item.currencySymbol}
                                 setTrackOrder={() => setTrackOrder(true)}
                             />

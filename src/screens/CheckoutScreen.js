@@ -272,8 +272,6 @@ const CheckoutScreen = (props) => {
           </View>
         }
         visible={showWarning}
-        /*  height={200}
-    width={300} */
         footer={
           <DialogFooter>
             <DialogButton text="OK" onPress={() => setShowWarning(false)} />

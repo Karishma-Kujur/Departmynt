@@ -186,7 +186,7 @@ const getOrderHistoryFromResult = (result) => {
             currency: element.currency,
             currencySymbol: element.currency_symbol,
             list: element.line_items,
-            orderKey: element.order_key
+            order_key: element.order_key
         })
     })
     return orderHistory;
