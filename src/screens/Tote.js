@@ -28,19 +28,20 @@ const ToteScreen = (props) => {
   const [selectAddress, showSelectAddress] = useState(false);
   const [price, setPrice] = useState(0);
   const [total, setTotal] = useState(0);
-
   const getToteByProductId = (data, variations) => {
     const toteItems = [];
     data.forEach((element) => {
       let item = products.find(
         (product) => product.id === Number(element.product_id),
       );
-      let variation = variations.find((variant) => element.variation_id === variant.variationId.toString())
+      let variation = variations.find(
+        (variant) => element.variation_id === variant.variationId.toString(),
+      );
       if (item)
         toteItems.push({
           ...element,
           ...item,
-          ...variation
+          ...variation,
         });
     });
     return toteItems;
@@ -83,7 +84,7 @@ const ToteScreen = (props) => {
   useEffect(() => {
     let totalPrice = 0;
     toteItems.forEach((item) => {
-      totalPrice = totalPrice + Number(item.price) * Number(item.quantity);
+      totalPrice = totalPrice + Number(item.price_with_tax) * Number(item.quantity);     
     });
     setPrice(totalPrice);
     setTotal(totalPrice);
@@ -114,7 +115,7 @@ const ToteScreen = (props) => {
               productId={item.product_id}
               image={item.images && item.images[0]}
               name={item.name}
-              price={item.price}
+              price={item.price_with_tax}
               size={item.size}
               color={item.color}
               quantity={item.quantity}
@@ -127,36 +128,45 @@ const ToteScreen = (props) => {
         />
 
         <View style={{padding: 10}}>
+        
           {toteItems.length ? (
             <>
-              <Text
+            <Text
                 style={{fontSize: 20, fontWeight: 'bold', marginBottom: 10}}>
                 Price Details:
               </Text>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text style={{fontSize: 16, marginBottom: 10}}>
-                  {'Price (' + toteItems.length + ' items)'}
-                </Text>
-                <Text style={{fontSize: 16, marginBottom: 10}}>
-                  {'$ ' + price}
-                </Text>
-              </View>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
-                <Text style={{fontSize: 16, marginBottom: 10}}>
-                  {'Delivery Fee'}
-                </Text>
-                <Text style={{fontSize: 16, marginBottom: 10}}>0.00</Text>
-              </View>
+              <View style={{width:'100%',borderWidth:.5,borderColor:'black',marginBottom:10}} />
+              <FlatList
+                data={toteItems}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => {
+                  let totalIndivisualPrice=(item.price_with_tax*item.quantity);
+                  return(
+                  <View
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                    }}>
+                    <View style={{width:'60%'}}>
+                      <Text style={{fontSize: 16, marginBottom: 10}}>
+                        {item.name}
+                      </Text>
+                    </View>
+                    <View style={{width:'20%'}}>
+                      <Text style={{fontSize: 16, textAlign:'right',marginBottom: 10}}>
+                        {item.quantity} * {item.price_with_tax}
+                      </Text>
+                    </View>
+                    <View style={{width:'20%'}}>
+                    <Text style={{fontSize: 16, marginBottom: 10,textAlign:'right'}}>
+                      {'$ ' + totalIndivisualPrice}
+                    </Text>
+                    </View>
+                  </View>
+                )}
+                  }
+              />
               <View
                 style={{
                   display: 'flex',
