@@ -41,3 +41,12 @@ export function editTote(data) {
             })
     });
 }
+
+export function setShippingCharges(data) {
+    return (dispatch) => {
+        dispatch({
+            type: types.SET_SHIPPING_CHARGES,
+            shippingCharges: data
+        })
+    };
+}

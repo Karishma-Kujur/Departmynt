@@ -1,10 +1,25 @@
 import * as types from '../constants/ActionTypes';
-import InitialState from './InitialState';
+import { Record } from 'immutable'
 
-export default function (state = InitialState.tote, action) {
+
+const ToteRecords = Record({
+	list: [],
+	shippingCharges: 0,
+})
+const initialState = new ToteRecords()
+
+export default function (state = initialState, action) {
 	switch (action.type) {
 		case types.GET_TOTES_SUCCESS:
-			return action.tote;
+			return {
+				...state,
+				list: action.tote
+			};
+		case types.SET_SHIPPING_CHARGES:
+			return {
+				...state,
+				shippingCharges: action.shippingCharges
+			};
 		default:
 			return state;
 	}

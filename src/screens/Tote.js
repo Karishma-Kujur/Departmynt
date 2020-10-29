@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {useIsFocused} from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { useIsFocused } from '@react-navigation/native';
 import {
   View,
   Dimensions,
@@ -19,15 +19,18 @@ import * as ToteAction from '../actions/ToteAction';
 import * as ToteApi from '../api/Tote';
 import AppLayout from '../components/shared/AppLayout';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const ToteScreen = (props) => {
-  const {navigation, ToteAction, toteItems, user, products} = props;
+  const { navigation, ToteAction, toteItems, user, products } = props;
   const [spinner, setLoader] = useState('');
   const [addAddress, setAddAddress] = useState(false);
   const [selectAddress, showSelectAddress] = useState(false);
   const [price, setPrice] = useState(0);
   const [total, setTotal] = useState(0);
+  const [totalPriceExTax, setTotalPriceExTax] = useState(0);
+  const [totalTax, setTotalTax] = useState(0);
+  const [shippingCharge, setShipppingCharge] = useState(0);
   const getToteByProductId = (data, variations) => {
     const toteItems = [];
     data.forEach((element) => {
@@ -83,18 +86,42 @@ const ToteScreen = (props) => {
 
   useEffect(() => {
     let totalPrice = 0;
+    let totalPriceExTax = 0;
+    let totalTax = 0;
     toteItems.forEach((item) => {
-      totalPrice = totalPrice + Number(item.price_with_tax) * Number(item.quantity);     
+      totalPrice = totalPrice + Number(item.price_with_tax) * Number(item.quantity);
+      totalPriceExTax = totalPriceExTax + Number(item.price) * Number(item.quantity);
+      totalTax = totalTax + Number((item.price_with_tax) - (item.price)) * Number(item.quantity);
     });
     setPrice(totalPrice);
     setTotal(totalPrice);
-  }, [toteItems]);
+    setTotalPriceExTax(totalPriceExTax);
+    setTotalTax(totalTax);
+    calculateTax(totalPriceExTax)
+  }, [toteItems, calculateTax]);
+
+  const calculateTax = (price) => {
+    if (price <= 15) {
+      setShipppingCharge(3.75)
+
+    }
+    else if (price > 15 && price <= 50) {
+      setShipppingCharge(5)
+
+    }
+    else {
+      setShipppingCharge(8)
+
+    }
+
+  }
 
   const handleRefreshTote = () => {
     getTotes();
   };
 
   const handleProceedToShipping = () => {
+    ToteAction.setShippingCharges(shippingCharge);
     navigation.navigate('Checkout');
   };
 
@@ -109,7 +136,7 @@ const ToteScreen = (props) => {
         <FlatList
           data={toteItems}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <ToteItem
               id={item.id}
               productId={item.product_id}
@@ -127,80 +154,126 @@ const ToteScreen = (props) => {
           )}
         />
 
-        <View style={{padding: 10}}>
-        
+        <View style={{ padding: 10 }}>
+
           {toteItems.length ? (
             <>
-            <Text
-                style={{fontSize: 20, fontWeight: 'bold', marginBottom: 10}}>
+              <Text
+                style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>
                 Price Details:
               </Text>
-              <View style={{width:'100%',borderWidth:.5,borderColor:'black',marginBottom:10}} />
+              <View style={{ width: '100%', borderWidth: .5, borderColor: 'black', marginBottom: 10, }} />
               <FlatList
                 data={toteItems}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({item}) => {
-                  let totalIndivisualPrice=(item.price_with_tax*item.quantity);
-                  return(
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}>
-                    <View style={{width:'60%'}}>
-                      <Text style={{fontSize: 16, marginBottom: 10}}>
-                        {item.name}
-                      </Text>
+                renderItem={({ item }) => {
+                  let totalIndivisualPrice = (item.price * item.quantity);
+                  return (
+                    <View>
+                      <View
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}>
+                        <View style={{ width: '60%' }}>
+                          <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                            {item.name}
+                          </Text>
+                        </View>
+                        <View style={{ width: '19%' }}>
+                          <Text style={{ fontSize: 16, textAlign: 'right', marginBottom: 10 }}>
+                            {item.quantity} * {item.price}
+                          </Text>
+                        </View>
+                        <View style={{ width: '20%' }}>
+                          <Text style={{ fontSize: 16, marginBottom: 10, textAlign: 'right' }}>
+                            {'$ ' + totalIndivisualPrice}
+                          </Text>
+                        </View>
+                      </View>
+
+
                     </View>
-                    <View style={{width:'20%'}}>
-                      <Text style={{fontSize: 16, textAlign:'right',marginBottom: 10}}>
-                        {item.quantity} * {item.price_with_tax}
-                      </Text>
-                    </View>
-                    <View style={{width:'20%'}}>
-                    <Text style={{fontSize: 16, marginBottom: 10,textAlign:'right'}}>
-                      {'$ ' + totalIndivisualPrice}
-                    </Text>
-                    </View>
-                  </View>
-                )}
-                  }
+                  )
+                }
+                }
               />
+              <View style={{ borderColor: 'black', borderWidth: .5 }} />
+
               <View
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                 }}>
-                <Text style={{fontSize: 16, marginBottom: 10}}>
-                  {'Total Amount'}
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'Total Price'}
                 </Text>
-                <Text style={{fontSize: 16, marginBottom: 10}}>
-                  {'$ ' + total}
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'$ ' + totalPriceExTax}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'Tax Price'}
+                </Text>
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'$ ' + totalTax.toFixed(2)}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'Shipping Charge'}
+                </Text>
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'$ ' + shippingCharge}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'Grand Total'}
+                </Text>
+                <Text style={{ fontSize: 16, marginBottom: 10 }}>
+                  {'$ ' + (total + shippingCharge)}
                 </Text>
               </View>
             </>
           ) : (
-            <View
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: height / 3,
-              }}>
-              <Text
+              <View
                 style={{
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  width: '100%',
-                  textAlign: 'center',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: height / 3,
                 }}>
-                {' '}
-                {spinner ? '' : 'No items available in your cart'}
-              </Text>
-            </View>
-          )}
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                    width: '100%',
+                    textAlign: 'center',
+                  }}>
+                  {' '}
+                  {spinner ? '' : 'No items available in your cart'}
+                </Text>
+              </View>
+            )}
         </View>
       </ScrollView>
       <View style={styles.bottom}>
@@ -210,20 +283,20 @@ const ToteScreen = (props) => {
             onPress={handleProceedToShipping}
           />
         ) : (
-          <Button
-            label="Shop Now"
-            onPress={() => navigation.navigate('View Rack')}
-          />
-        )}
+            <Button
+              label="Shop Now"
+              onPress={() => navigation.navigate('View Rack')}
+            />
+          )}
       </View>
     </AppLayout>
   );
 };
 
-const mapStateToProps = ({products, tote, user}) => {
+const mapStateToProps = ({ products, tote, user }) => {
   return {
     products: products.list,
-    toteItems: tote,
+    toteItems: tote.list,
     user,
   };
 };

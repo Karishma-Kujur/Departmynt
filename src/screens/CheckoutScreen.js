@@ -34,7 +34,7 @@ import CustomAlert from '../components/shared/CustomAlert';
 const { width, height } = Dimensions.get('window');
 
 const CheckoutScreen = (props) => {
-  const { navigation, tote, user, PaymentAction } = props;
+  const { navigation, tote, user, PaymentAction, shippingCharge } = props;
   const [spinner, setLoader] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
   const [alertMessage, setAlertMessage] = useState('')
@@ -146,6 +146,13 @@ const CheckoutScreen = (props) => {
           country: user.billing.country,
         },
         line_items: [],
+        shipping_lines: [
+          {
+            method_id: "flat_rate",
+            method_title: "",
+            total: shippingCharge.toString()
+          }
+        ]
       };
       tote.forEach((item) => {
         data.line_items.push({
@@ -282,7 +289,8 @@ const CheckoutScreen = (props) => {
 };
 const mapStateToProps = ({ tote, user, payment }) => {
   return {
-    tote,
+    tote: tote.list,
+    shippingCharge: tote.shippingCharges,
     user,
   };
 };

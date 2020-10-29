@@ -200,7 +200,7 @@ const AddAddress = (props) => {
                         placeholder={{}}
                         useNativeAndroidPickerStyle={false}
                         Icon={() => {
-                          return <Chevron size={1} color="gray" />;
+                          return <Chevron size={1} color="grey" />;
                         }}
                         style={{
                           inputIOS: {
