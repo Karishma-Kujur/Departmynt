@@ -296,7 +296,7 @@ const ToteScreen = (props) => {
 const mapStateToProps = ({ products, tote, user }) => {
   return {
     products: products.list,
-    toteItems: tote.list,
+    toteItems: tote.list || [],
     user,
   };
 };
