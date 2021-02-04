@@ -119,6 +119,9 @@ const SignUpScreen = (props) => {
                       name="First Name"
                       onChangeText={handleChange('firstName')}
                       value={values.firstName}
+                      inputStyle={{
+                        color: 'black',
+                      }}
                       onBlur={() => setFieldTouched('firstName')}
                     />
                     {touched.firstName && errors.firstName && (
@@ -130,6 +133,9 @@ const SignUpScreen = (props) => {
                       name="Last Name"
                       onChangeText={handleChange('lastName')}
                       value={values.lastName}
+                      inputStyle={{
+                        color: 'black',
+                      }}
                       onBlur={() => setFieldTouched('lastName')}
                     />
                     {touched.lastName && errors.lastName && (
@@ -139,6 +145,9 @@ const SignUpScreen = (props) => {
                       name="Email"
                       onChangeText={handleChange('email')}
                       value={values.email}
+                      inputStyle={{
+                        color: 'black',
+                      }}
                       onBlur={() => setFieldTouched('email')}
                     />
                     {touched.email && errors.email && (
@@ -149,6 +158,9 @@ const SignUpScreen = (props) => {
                       mode="password"
                       onChangeText={handleChange('password')}
                       value={values.password}
+                      inputStyle={{
+                        color: 'black',
+                      }}
                       onBlur={() => setFieldTouched('password')}
                     />
                     {touched.password && errors.password && (
@@ -159,6 +171,9 @@ const SignUpScreen = (props) => {
                       mode="password"
                       onChangeText={handleChange('confirmPassword')}
                       value={values.confirmPassword}
+                      inputStyle={{
+                        color: 'black',
+                      }}
                       onBlur={() => setFieldTouched('confirmPassword')}
                     />
                     {touched.confirmPassword && errors.confirmPassword && (
