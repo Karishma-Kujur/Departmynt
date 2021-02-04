@@ -18,7 +18,7 @@ const TextInputComponent = (props) => {
         <View style={styles.container}>
             <TextInput
                 type={props.type}
-                style={styles.textInput}
+                style={[styles.textInput,props.inputStyle ? props.inputStyle:{}]}
                 secureTextEntry={props.mode === "password" ? true : props.mode === "confirmpassword" ? true : false}
                 placeholder={props.name}
                 onChangeText={onChangeText}
